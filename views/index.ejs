@@ -1,11 +1,46 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Sightings</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <main>
+      <section id="plant-sightings">      
+        <h1>Plant Sightings</h1>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptates, fugiat magnam, 
+          ipsum adipisci molestias impedit tempora sit voluptatem, et minima harum id inventore temporibus 
+          vero iusto? Libero architecto culpa nobis.</p>
+        <div class="search-bar">
+          <!-- Search form -->
+          <form action="/search" method="get">
+            <input type="text" placeholder="Search" name="query" class="search-input">
+            <button type="submit" class="search-button">Search</button>
+          </form>
+        </div>
+
+        <!-- Container for plant sighting cards (placeholders for the example) -->
+        <div class="plant-cards-container">
+          <!-- Placeholder content -->
+          <div class="plant-card">
+            <img src="/images/default_image.jpg">
+          </div>
+
+          <div class="plant-card">
+            <img src="images/default_image.jpg">            
+          </div>
+          <!-- More plant cards... -->
+        </div>
+
+        <div class="add-plant-button">
+          <button onclick="location.href='/add-plant'">+</button>
+        </div>      
+      </section>
+    </main>
+    
+    <script src="/script.js"></script>
+    
   </body>
 </html>

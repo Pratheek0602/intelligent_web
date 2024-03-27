@@ -1,8 +1,87 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  text-align: center; /* Center text by default */
 }
 
-a {
-  color: #00B7FF;
+#plant-sightings {
+  padding: 20px;
 }
+
+h1, p {
+  margin: 0 0 20px; /* Remove default margins and add bottom margin */
+}
+
+.search-bar {
+  position: relative;
+  margin: 20px auto; /* Center search bar */
+  max-width: 500px; /* Set a max-width for larger screens */
+  /* box-shadow: 0 4px 8px rgba(0,0,0,0.1); Add shadow to search bar */
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  box-sizing: border-box;
+  border: 1px solid #ccc; /* Add a border to the input */
+  border-radius: 20px; /* Round the edges */
+}
+
+.search-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 11px 20px;
+  background-color: #f90;
+  border: none;
+  font-size: 1em;
+  cursor: pointer;
+  border-radius: 0 20px 20px 0; /* Round the right edges */
+}
+
+.search-button:hover {
+  background-color: #e80;
+}
+
+.plant-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Center the cards */
+  gap: 70px;
+  
+}
+
+.plant-card {
+  background-color: #f0f0f0;
+  
+  border-radius: 5px;
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Add shadow to plant cards */
+}
+
+.add-plant-button button {
+  background-color: #f90;
+  border: none;
+  border-radius: 50%;
+  width: 60px; /* Slightly increase the size */
+  height: 60px;
+  font-size: 2em;
+  color: white;
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Add shadow to add button */
+}
+
+.add-plant-button button:hover {
+  background-color: #e80;
+}
+
