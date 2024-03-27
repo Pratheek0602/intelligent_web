@@ -105,11 +105,31 @@ h2 {
 }
 
 .plant-card {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
-  padding: 7px;
-  transition: transform 0.3s, box-shadow 0.3s;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  width: 150px; /* Adjust width as needed */
+  height: auto; /* Adjust height as needed */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 20px; /* Add some space below the card */
+}
+
+.plant-card img {
+  width: 100%; /* Image will fill the width of .plant-card */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 5px; /* Round corners to match the card */
+}
+
+figcaption {
+  margin-top: 8px; /* Spacing between the image and the caption */
+  text-align: center; /* Centers the caption text */
+  width: 100%; /* Ensures the caption width matches the card */
+  font-size: 0.9em; /* Adjust font size as needed */
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .plant-card:hover {
