@@ -22,8 +22,13 @@ h1 {
 
 h2 {
   color: #ffffff;
-  font-size: 2.5rem;
+  font-size: 2.1rem;
   margin-top: 0;
+}
+
+h3 {
+  color: #333;
+  font-size: 1.4rem;
 }
 
 .description {
@@ -96,39 +101,69 @@ h2 {
   border-radius: 10px; 
 }
 
+/* Sorting */
+.sorting-buttons {
+  display: flex;
+  justify-content: left; 
+  margin-bottom: 1rem; 
+  gap: 24px; 
+  padding-bottom: 20px;
+}
+
+.sorting-buttons button {
+  padding: 6px 10px; 
+  font-size: 0.9rem; 
+  border: none; 
+  border-radius: 5px; 
+  cursor: pointer; 
+  background-color: #4CAF50; 
+  color: white; 
+  transition: background-color 0.3s; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+}
+
+.sorting-buttons button:hover {
+  background-color: #367c39; 
+}
+
+.sorting-buttons button:active {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); 
+}
+
 .plant-cards-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 3rem;
-  padding-top: 2rem;
-  padding-bottom: 5rem;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+  gap: 3rem; 
+  padding-top: 1rem;
+  padding-bottom: 3rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .plant-card {
   background-color: #f0f0f0;
   border-radius: 5px;
-  width: 150px; /* Adjust width as needed */
-  height: auto; /* Adjust height as needed */
+  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 15px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  margin-bottom: 20px; /* Add some space below the card */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 .plant-card img {
-  width: 100%; /* Image will fill the width of .plant-card */
-  height: auto; /* Maintain aspect ratio */
-  border-radius: 5px; /* Round corners to match the card */
+  width: 100%; 
+  height: auto; 
+  border-radius: 5px;
+  margin-bottom: 0.5rem; 
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 figcaption {
-  margin-top: 8px; /* Spacing between the image and the caption */
-  text-align: center; /* Centers the caption text */
-  width: 100%; /* Ensures the caption width matches the card */
-  font-size: 0.9em; /* Adjust font size as needed */
+  margin-top: 12px; 
+  text-align: center; 
+  width: 100%; 
+  font-size: 0.9em; 
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -171,5 +206,11 @@ figcaption {
 
   .how-it-works .image {
     margin-top: 20px;
+  }
+}
+/* Media Query for smaller screens */
+@media (max-width: 600px) {
+  .plant-cards-container {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
   }
 }
