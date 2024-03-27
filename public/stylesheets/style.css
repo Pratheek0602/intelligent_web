@@ -1,87 +1,109 @@
 body, html {
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
-  text-align: center; /* Center text by default */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f7f7f7;
+  text-align: center;
 }
 
-#plant-sightings {
+.container {
+  max-width: 1200px;
+  margin: auto;
   padding: 20px;
 }
 
-h1, p {
-  margin: 0 0 20px; /* Remove default margins and add bottom margin */
+h1 {
+  color: #333;
+  font-size: 2.5rem;
+  margin-top: 0;
+
 }
 
-.search-bar {
-  position: relative;
-  margin: 20px auto; /* Center search bar */
-  max-width: 500px; /* Set a max-width for larger screens */
-  /* box-shadow: 0 4px 8px rgba(0,0,0,0.1); Add shadow to search bar */
+.description {
+  color: #666;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  text-align: left;
 }
 
-.search-input {
-  width: 100%;
+.search-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+#search {
+  flex: 1;
   padding: 10px;
-  font-size: 1em;
-  box-sizing: border-box;
-  border: 1px solid #ccc; /* Add a border to the input */
-  border-radius: 20px; /* Round the edges */
-}
-
-.search-button {
-  position: absolute;
-  right: 0;
-  top: 0;
-  padding: 11px 20px;
-  background-color: #f90;
   border: none;
-  font-size: 1em;
-  cursor: pointer;
-  border-radius: 0 20px 20px 0; /* Round the right edges */
+  border-radius: 50px 0 0 50px;
+  font-size: 1rem;
 }
 
-.search-button:hover {
-  background-color: #e80;
+#search-button {
+  padding: 12.5px 20px;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+  border-radius: 0 50px 50px 0;
+  transition: background-color 0.3s;
+}
+
+#search-button:hover {
+  background-color: #45a049;
+}
+
+.how-it-works {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
+  height: 150px; /* Adjust as needed */
+  background: #e7e7e7; /* Placeholder color */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .plant-cards-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center; /* Center the cards */
-  gap: 70px;
-  
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  padding-bottom: 3rem;
 }
 
 .plant-card {
-  background-color: #f0f0f0;
-  
-  border-radius: 5px;
-  width: 150px;
-  height: 150px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #ccc;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Add shadow to plant cards */
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 7px;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.add-plant-button button {
-  background-color: #f90;
+.plant-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+#add-plant-button {
+  background-color: #4cd035;
   border: none;
   border-radius: 50%;
-  width: 60px; /* Slightly increase the size */
+  width: 60px;
   height: 60px;
-  font-size: 2em;
+  font-size: 2.5rem;
   color: white;
   position: fixed;
-  right: 20px;
-  bottom: 20px;
+  right: 30px;
+  bottom: 30px;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Add shadow to add button */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: background-color 0.3s;
 }
 
-.add-plant-button button:hover {
-  background-color: #e80;
+#add-plant-button:hover {
+  background-color: #40a726;
 }
+
 

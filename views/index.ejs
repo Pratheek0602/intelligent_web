@@ -8,18 +8,22 @@
   </head>
   <body>
     <main>
-      <section id="plant-sightings">      
+      <section id="plant-sightings" class="container">      
         <h1>Plant Sightings</h1>
-        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptates, fugiat magnam, 
+        <p class="description">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptates, fugiat magnam, 
           ipsum adipisci molestias impedit tempora sit voluptatem, et minima harum id inventore temporibus 
           vero iusto? Libero architecto culpa nobis.</p>
-        <div class="search-bar">
-          <!-- Search form -->
-          <form action="/search" method="get">
-            <input type="text" placeholder="Search" name="query" class="search-input">
-            <button type="submit" class="search-button">Search</button>
-          </form>
-        </div>
+          <div class="search-container">
+            <input type="text" id="search" placeholder="Search for plants..." name="query">
+            <button id="search-button">Search</button>
+          </div>
+        
+          <div class="how-it-works">
+            <p class="description">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptates, fugiat magnam, 
+              ipsum adipisci molestias impedit tempora sit voluptatem, et minima harum id inventore temporibus 
+              vero iusto? Libero architecto culpa nobis.</p>
+            <!-- This section can include a description or slideshow explaining the process -->
+          </div>
 
         <!-- Container for plant sighting cards (placeholders for the example) -->
         <div class="plant-cards-container">
@@ -31,12 +35,44 @@
           <div class="plant-card">
             <img src="images/default_image.jpg">            
           </div>
+
+          <div class="plant-card">
+            <img src="images/default_image.jpg">            
+          </div>
+
+          <div class="plant-card">
+            <img src="images/default_image.jpg">            
+          </div>
+
+          <div class="plant-card">
+            <img src="images/default_image.jpg">            
+          </div>
+
+          <div class="plant-card">
+            <img src="images/default_image.jpg">            
+          </div>
+
+          <div class="plant-card">
+            <img src="images/default_image.jpg">            
+          </div>
+
+          <div class="plant-card">
+            <img src="images/default_image.jpg">            
+          </div>
+
+          <div class="plant-card">
+            <img src="images/default_image.jpg">            
+          </div>
+
+          <div class="plant-card">
+            <img src="images/default_image.jpg">            
+          </div>
+
+          
           <!-- More plant cards... -->
         </div>
 
-        <div class="add-plant-button">
-          <button onclick="location.href='/add-plant'">+</button>
-        </div>      
+        <button id="add-plant-button" onclick="location.href='/add-plant'">+</button>    
       </section>
     </main>
     
