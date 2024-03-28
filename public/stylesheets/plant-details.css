@@ -29,6 +29,16 @@ body, html {
     border: none;
     border-radius: 10px 10px 10px 10px;
     cursor: pointer;
+    transition: background-color 0.3s;     
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .edit-button:hover{
+    background-color: #3d8f41;
+  }
+
+  .edit-button button:active{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);  
   }
   
   .details-container {
@@ -39,11 +49,11 @@ body, html {
   }
   
   .sighting-image {
-    flex: 1; /* Allows the image container to grow and take up 50% of the space */
-    max-width: 50%; /* Limits the size to no more than 50% */
-    margin-right: 20px; /* Provides some spacing between the image and the details */
+    flex: 1; 
+    max-width: 50%; 
+    margin-right: 20px; 
     border-radius: 5px;
-    height: auto; /* Ensures the height scales with the width */
+    height: auto; 
   }
   
   .sighting-details {
