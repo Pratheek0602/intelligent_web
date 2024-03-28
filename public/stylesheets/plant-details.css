@@ -1,0 +1,93 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #ecf0f1;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+  
+  .heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .edit-button {
+    padding: 20px 30px;
+    background-color: #4CAF50;
+    margin-right: 2rem;
+    color: white;
+    border: none;
+    border-radius: 10px 10px 10px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;     
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .edit-button:hover{
+    background-color: #3d8f41;
+  }
+
+  .edit-button button:active{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);  
+  }
+  
+  .details-container {
+    display: flex;
+    justify-content: start;
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
+  
+  .sighting-image {
+    flex: 1; 
+    max-width: 50%; 
+    margin-right: 20px; 
+    border-radius: 5px;
+    height: auto; 
+  }
+  
+  .sighting-details {
+    flex: 1; /* Allows the details container to grow and take up the remaining space */
+  }
+  
+  .chat-interface {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 20px; /* Adds space between the details and the chat interface */
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .details-container {
+      flex-direction: column;
+    }
+    
+    .sighting-image {
+      max-width: 100%;
+      margin: 0 auto 20px; /* Centers the image and adds spacing below it on smaller screens */
+    }
+  
+    .heading {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .edit-button {
+      margin-top: 10px;
+    }
+  }
+  
+  
+  
