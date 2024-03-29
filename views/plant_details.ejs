@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Plant Details</title>
-  <link rel="stylesheet" href="/stylesheets/plant-details.css">
+  <link rel="stylesheet" href="/stylesheets/plant-details.css">  
 </head>
 <body>
   <div class="container1">
@@ -40,7 +40,7 @@
 
   <div class="container2">
     <div class="chat">
-      <div class="screen join-screen">
+      <div class="screen join-screen active">
         <div class="form">
           <h2>Join Chatroom</h2>
           <div class="form-input">
@@ -56,14 +56,14 @@
           </div>
         </div>
       </div>
-      <div class="screen chat-screen active">
+      <div class="screen chat-screen ">
         <div class = "header">
           <div class="logo">Chatroom</div>
           <button id="exit-chat">Exit</button>
         </div>
-        <div class="messages">
+        <div id ="message-container" class="messages">
           <!-- Dummy messages -->
-          <div class="message my-message">
+          <!-- <div class="message my-message">
             <div>
               <div class="name-chat">You</div>
               <div class="text-chat">Hi</div>
@@ -75,17 +75,18 @@
               <div class="name-chat">Abc</div>
               <div class="text-chat">Hi</div>
             </div>
+          </div> -->
+        </div>
+        <form id="message-container">
+          <div class="typebox">
+            <input type="text",id="message-input">
+            <button id="send-message">Send</button>
           </div>
-        </div>
-        <div class="typebox">
-          <input type="text",id="message-input">
-          <button id="send-message">Send</button>
-        </div>
+        </form>
       </div>
     </div>
-  </div>
-
-  
-  <script src="/path/to/your/javascript.js"></script>
+  </div>  
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+  <script src="/javascripts/chat.js"></script>
 </body>
 </html>

@@ -242,7 +242,7 @@ body, html {
     
     .sighting-image {
       max-width: 100%;
-      margin: 0 auto 20px; /* Centers the image and adds spacing below it on smaller screens */
+      margin: 0 auto 20px; 
     }
   
     .heading {
