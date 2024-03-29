@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="/stylesheets/plant-details.css">
 </head>
 <body>
-  <div class="container">
+  <div class="container1">
     <div class="heading">
         <h1>Sighting details for [Plant Name]</h1>
         <button class="edit-button">Update Sighting</button>
@@ -33,11 +33,61 @@
         <p>Identification Status: In Progress/Completed</p>      
         </div>
     </div>
-    <div class="chat-interface">
+    <!-- <div class="chat-interface">
         <h2>Chat for [Plant Name]</h2>
-        <!-- Chat messages and input here -->
+    </div> -->
+  </div>  
+
+  <div class="container2">
+    <div class="chat">
+      <div class="screen join-screen active">
+        <div class="form">
+          <h2>Join Chatroom</h2>
+          <div class="form-input">
+            <label>Username</label>
+            <input type="text" id="username">            
+          </div>
+          <div class="form-input">
+            <label>Plant ID</label>
+            <input type="text" id="plant_id">            
+          </div>
+          <div class="form-input">
+            <button id="join-user"><b>Join</b></button>
+          </div>
+        </div>
+      </div>
+      <div class="screen chat-screen">
+        <div class = "header">
+          <div class="logo">Chatroom</div>
+          <button id="exit-chat">Exit</button>
+        </div>
+        <div class="messages">
+          <!-- Dummy messages -->
+          <div class="message my-message">
+            <div>
+              <div class="name">You</div>
+              <div class="text">Hi</div>
+            </div>
+          </div>
+          <div class="update">
+            Abc is joined the conversation
+          </div>
+          <div class="message other-message">
+            <div>
+              <div class="name">You</div>
+              <div class="text">Hi</div>
+            </div>
+          </div>
+        </div>
+        <div class="typebox">
+          <input type="text",id="message-input">
+          <button id="send-message">Send</button>
+        </div>
+      </div>
     </div>
-  </div>     
-    <script src="/path/to/your/javascript.js"></script>
+  </div>
+
+  
+  <script src="/path/to/your/javascript.js"></script>
 </body>
 </html>
