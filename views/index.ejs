@@ -1,98 +1,57 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plant Sightings</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body onload="checkCredentials(<%= correct_submission %>)">
-    <main>
-      <section id="plant-sightings" class="container">      
-        <h1>Plant Sightings</h1>
-        
-          <div class="how-it-works">
-            <div class="content">
-              <h2>How It Works</h2>
-              <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                Eligendi itaque soluta, culpa corporis vitae ullam voluptatum velit qui 
-                voluptates sequi possimus nostrum ratione at nam, ad voluptatibus magnam quo sed.</p>
-            </div>
-            <div class="image">
-              <img src="/images/plant-image.jpg" alt="Plant Image"> 
-            </div>
-          </div>
 
-        <!-- Sorting buttons -->
-        <div class="sorting-buttons">
-          <h3>Sort By: </h3>
-          <button id="sort-date-asc">Date/Time Ascending</button>
-          <button id="sort-date-desc">Date/Time Descending</button>
-          <button id="sort-distance">Distance (closest to furthest)</button>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plant Sightings</title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body onload="checkCredentials(<%= correct_submission %>)">
+  <main>
+    <section id="plant-sightings" class="container">
+      <h1>Plant Sightings</h1>
+
+      <div class="how-it-works">
+        <div class="content">
+          <h2>How It Works</h2>
+          <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Eligendi itaque soluta, culpa corporis vitae ullam voluptatum velit qui
+            voluptates sequi possimus nostrum ratione at nam, ad voluptatibus magnam quo sed.</p>
         </div>
+        <div class="image">
+          <img src="/images/plant-image.jpg" alt="Plant Image">
+        </div>
+      </div>
 
-        <!-- Container for plant sighting cards  -->
-        <div class="plant-cards-container">
-          <!-- Placeholder content -->
+      <!-- Sorting buttons -->
+      <div class="sorting-buttons">
+        <h3>Sort By: </h3>
+        <button id="sort-date-asc">Date/Time Ascending</button>
+        <button id="sort-date-desc">Date/Time Descending</button>
+        <button id="sort-distance">Distance (closest to furthest)</button>
+      </div>
+
+      <!-- Container for plant sighting cards  -->
+      <div class="plant-cards-container">
+        <!-- Placeholder content -->
+        <% for (let i=0; i < 5; i++) { %>
           <div class="plant-card">
             <img src="/images/default_image.jpg">
             <figcaption>Plant Name</figcaption>
           </div>
+          <% } %>
 
-          <div class="plant-card">
-            <img src="images/default_image.jpg">    
-            <figcaption>Plant Name</figcaption>        
-          </div>
+            <!-- More plant cards... -->
+      </div>
 
-          <div class="plant-card">
-            <img src="images/default_image.jpg">    
-            <figcaption>Plant Name</figcaption>        
-          </div>
+      <button id="add-plant-button" onclick="location.href='/add-plant'">+</button>
+    </section>
+  </main>
 
-          <div class="plant-card">
-            <img src="images/default_image.jpg"> 
-            <figcaption>Plant Name</figcaption>           
-          </div>
+  <script src="/script.js"></script>
 
-          <div class="plant-card">
-            <img src="images/default_image.jpg"> 
-            <figcaption>Plant Name</figcaption>           
-          </div>
+</body>
 
-          <div class="plant-card">
-            <img src="images/default_image.jpg">     
-            <figcaption>Plant Name</figcaption>       
-          </div>
-
-          <div class="plant-card">
-            <img src="images/default_image.jpg">  
-            <figcaption>Plant Name</figcaption>          
-          </div>
-
-          <div class="plant-card">
-            <img src="images/default_image.jpg">    
-            <figcaption>Plant Name</figcaption>        
-          </div>
-
-          <div class="plant-card">
-            <img src="images/default_image.jpg">  
-            <figcaption>Plant Name</figcaption>          
-          </div>
-
-          <div class="plant-card">
-            <img src="images/default_image.jpg"> 
-            <figcaption>Plant Name</figcaption>           
-          </div>
-
-          
-          <!-- More plant cards... -->
-        </div>
-
-        <button id="add-plant-button" onclick="location.href='/add-plant'">+</button>    
-      </section>
-    </main>
-    
-    <script src="/script.js"></script>
-    
-  </body>
 </html>
