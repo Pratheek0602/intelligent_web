@@ -10,8 +10,8 @@ exports.init = function(io) {
             socket.broadcast.emit("update", username + " left the conversation");
         });
 
-        socket.on("chat", function(message) {
-            socket.broadcast.emit("chat", message);
+        socket.on("chat:send", function(message) {
+            socket.broadcast.emit("chat:receive", message);
         });
     });
 

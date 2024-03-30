@@ -186,6 +186,8 @@ body, html {
     padding: 10px;
     background-color: #dcf8c6;
     padding-top: 17px;
+    overflow: auto; 
+    max-height: 300px; 
   }
 
 
@@ -238,7 +240,7 @@ body, html {
     font-size: 13px;
     padding-bottom: 4px;
     font-weight: bold;
-    color: #5761f6;
+    color: #3f84d4;
   }
   
   .receive_message {

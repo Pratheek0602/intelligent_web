@@ -18,17 +18,32 @@
         chat.querySelector(".chat-screen").classList.add("active");
     });
 
-        form.addEventListener("submit", (e) => {
+    form.addEventListener("submit", (e) => {
         e.preventDefault();
+        if (input.value.trim() === "") {
+            return; // Don't send empty messages
+        }
         messages.innerHTML += `          
         <div class="sent_message_container" >
             <div class="name" >You</div>
             <div class="sent_message" >${input.value}</div>
         </div>
         `;
-        socket.emit("chat", { name: userName, message: input.value });
+        socket.emit("chat:send", { name: uname, message: input.value });
         input.value = "";
+        messages.scrollTop = messages.scrollHeight - messages.clientHeight;
     });
+
+    socket.on("chat:receive", (message) => {
+        messages.innerHTML += `          
+        <div class="receive_message_container" >
+            <p class="receiver_name" >${message.name}</p>
+            <p class="sent_message" >${message.message}</p>
+        </div>
+        `;
+    });
+
+
 
     // chat.querySelector(".chat-screen #send-message").addEventListener("click", function() {
     //     let message = chat.querySelector(".chat-screen #message-input").value;
