@@ -39,7 +39,7 @@
   </div>  
 
   <div class="container2">
-    <div class="chat">
+    <div class="chat-box">
       <div class="screen join-screen active">
         <div class="form">
           <h2>Join Chatroom</h2>
@@ -56,37 +56,28 @@
           </div>
         </div>
       </div>
-      <div class="screen chat-screen ">
+      <div class="screen chat-screen">
         <div class = "header">
           <div class="logo">Chatroom</div>
           <button id="exit-chat">Exit</button>
         </div>
-        <div id ="message-container" class="messages">
-          <!-- Dummy messages -->
-          <!-- <div class="message my-message">
-            <div>
-              <div class="name-chat">You</div>
-              <div class="text-chat">Hi</div>
-            </div>
-          </div>
-          <div class="update">Abc is joined the conversation</div>
-          <div class="message other-message">
-            <div>
-              <div class="name-chat">Abc</div>
-              <div class="text-chat">Hi</div>
-            </div>
-          </div> -->
-        </div>
-        <form id="message-container">
-          <div class="typebox">
+        <div class="messages_container">
+          <div class="messages" id="messages"></div>
+          <!-- <div class="typebox">
             <input type="text",id="message-input">
             <button id="send-message">Send</button>
-          </div>
-        </form>
+          </div> -->
+
+          <form class="input_container" id="form">
+              <input class="input" id="input" placeholder="Write a message..." />
+              <button class="btn" type="submit" >Send</button>
+          </form>
+        </div>
+
       </div>
     </div>
   </div>  
-  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
   <script src="/javascripts/chat.js"></script>
 </body>
 </html>
