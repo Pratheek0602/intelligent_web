@@ -7,6 +7,7 @@
     const form = document.getElementById("form");
     const input = document.getElementById("input");
 
+
     chat.querySelector(".join-screen #join-user").addEventListener("click", function() {
         let username = chat.querySelector(".join-screen #username").value;
         if (username.length == 0) {
@@ -16,6 +17,13 @@
         uname = username;
         chat.querySelector(".join-screen").classList.remove("active");
         chat.querySelector(".chat-screen").classList.add("active");
+    });
+
+    socket.on("global:message", (message) => {
+        messages.innerHTML += `
+        <p class="join_message" >${message}</p>
+        `;
+        messages.scrollTop = messages.scrollHeight - messages.clientHeight;
     });
 
     form.addEventListener("submit", (e) => {
