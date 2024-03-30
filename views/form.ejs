@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title><%= title %></title>
+    <title>
+        <%= title %>
+    </title>
     <link rel='stylesheet' href='/stylesheets/form.css' />
 </head>
+
 <body onload="checkCredentials(<%= correct_submission %>)">
     <h2> Add plant </h2>
     <div class="container">
-        <form action="/add_plant" method="POST">
+        <form action="/add-plant" method="POST">
             <label for="date_time_seen">Date/Time Seen:</label>
             <input type="datetime-local" id="date_time_seen" name="date_time_seen" required>
             <br> <br>
@@ -16,7 +20,7 @@
 
             <label for="description">Description:</label>
             <textarea name="description" rows="5" cols="20">
-        </textarea>
+            </textarea>
 
             <label for="plant_size"><b>Plant Size:</b></label>
             <label for="plant_height">Height (cm):</label>
@@ -28,14 +32,14 @@
 
             <label for="plant_characteristics"><b>Plant Characteristics:</b></label>
             <div>
-                <label class="checkbox-label" for="flowers">Flowers: 
-                <input type="checkbox" id="flowers" name="flowers" value="Flowers"></label>
+                <label class="checkbox-label" for="flowers">Flowers:
+                    <input type="checkbox" id="flowers" name="flowers" value="Flowers"></label>
                 <label class="checkbox-label" for="leaves">Leaves:
-                <input type="checkbox" id="leaves" name="leaves" value="Leaves"></label>
+                    <input type="checkbox" id="leaves" name="leaves" value="Leaves"></label>
                 <label class="checkbox-label" for="thorns">Thorns:
-                <input type="checkbox" id="thorns" name="thorns" value="Thorns"></label>
+                    <input type="checkbox" id="thorns" name="thorns" value="Thorns"></label>
             </div>
-            
+
             <br>
             <label for="sun_exposure">Sun Exposure:</label>
             <select id="sun_exposure" name="sun_exposure">
@@ -44,7 +48,7 @@
                 <option value="full_shade">Full Shade</option>
             </select>
             <br><br>
-        
+
             <div>
                 <label id="flowers_colour_label" for="flowers_colour">Flowers Colour:</label>
                 <input type="color" id="flowers_colour" name="flowers_colour" required>
@@ -71,7 +75,8 @@
 </body>
 <script>
     function checkCredentials(isSubmissionValid) {
-        if (!isSubmissionValid){alert('Invalid Submission! Please check your submission.')}
+        if (!isSubmissionValid) {alert('Invalid Submission! Please check your submission.')}
     }
 </script>
+
 </html>
