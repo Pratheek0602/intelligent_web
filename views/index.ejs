@@ -8,7 +8,7 @@
   <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
 
-<body onload="checkCredentials(<%= correct_submission %>)">
+<body onload="checkCredentials(correct_submission)">
   <main>
     <section id="plant-sightings" class="container">
       <h1>Plant Sightings</h1>
@@ -36,12 +36,18 @@
       <!-- Container for plant sighting cards  -->
       <div class="plant-cards-container" onclick="location.href='/plant'">
         <!-- Placeholder content -->
-        <% for (let i=0; i < 5; i++) { %>
+        <% plants.forEach(plant => { %>
+          <div class="plant-card">
+            <img src="/images/default_image.jpg">
+            <figcaption><%= plant.identification.name %></figcaption>
+          </div>
+        <% }); %>
+        <!-- <% for (let i=0; i < 5; i++) { %>
           <div class="plant-card">
             <img src="/images/default_image.jpg">
             <figcaption>Plant Name</figcaption>
           </div>
-          <% } %>
+          <% } %> -->
 
             <!-- More plant cards... -->
       </div>
