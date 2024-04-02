@@ -47,18 +47,16 @@ router.post('/add-plant', async function(req, res, next) {
       characteristics: {
         flowers: req.body.flowers === "Flowers",
         leaves: req.body.leaves === "Leaves",
-        fruits: "lol",
+        fruits: req.body.fruits === "Fruits",
         thorns: req.body.thorns === "Thorns",
-        seeds:"lol",
-        sun: "lol",
+        seeds: req.body.seeds === "Seeds",
       },
       identification: {
         name: req.body.identification_name,
         status: "lol"//req.body.identification_name,
       },
-      // sunExposure: req.body.sun_exposure,
+      sunExposure: req.body.sun_exposure,
       // flowersColour: req.body.flowers_colour,
-      // identificationName: req.body.identification_name,
       photo: "lol",
       // Handling for file upload will be required here for `photo`
       user: req.body.user_nickname
@@ -66,10 +64,9 @@ router.post('/add-plant', async function(req, res, next) {
 
     // Save the new plant to the database
     await newPlant.save();
-
-    // Redirect or render a success message/page
     res.redirect('/'); // Redirect to the home page or to a success page
-  } catch (error) {
+  } 
+  catch (error) {
     console.error("Failed to save the plant:", error);
     // Respond with an error page or message
     // res.render('index', { title: 'Express', correct_submission: 'false', errorMessage: 'Failed to add the plant.' });

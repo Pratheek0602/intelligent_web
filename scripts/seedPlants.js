@@ -11,12 +11,13 @@ const plantsData = [
     description: "Tall tree with lots of green leaves.",
     size: { height: 20, spread: 5 },
     characteristics: {
-      flowers: "None",
-      leaves: "Green and large",
-      fruits: "None",
-      seeds: "Small, brown",
-      sun: "Full sun"
+      flowers: false,
+      leaves: true,
+      fruits: false,
+      thorns: false,
+      seeds: true,
     },
+    sunExposure: "Full Sun",
     identification: {
       name: "Oak Tree",
       status: "Completed"
@@ -30,12 +31,13 @@ const plantsData = [
     description: "Small shrub with vibrant flowers.",
     size: { height: 3, spread: 4 },
     characteristics: {
-      flowers: "Red and yellow",
-      leaves: "Small and green",
-      fruits: "Berries",
-      seeds: "Tiny, black",
-      sun: "Partial shade"
+      flowers: true,
+      leaves: true,
+      fruits: true,
+      thorns: false,
+      seeds: true,
     },
+    sunExposure: "Full Sun",
     identification: {
       name: "Flowering Quince",
       status: "In Progress"
@@ -49,12 +51,13 @@ const plantsData = [
     description: "Potted plant with trailing vines.",
     size: { height: 1, spread: 2 },
     characteristics: {
-      flowers: "Rarely flowers",
-      leaves: "Variegated, green and white",
-      fruits: "None",
-      seeds: "Not applicable",
-      sun: "Indirect light"
+      flowers: true,
+      leaves: true,
+      fruits: false,
+      thorns: false,
+      seeds: false,
     },
+    sunExposure: "Full Sun",
     identification: {
       name: "Spider Plant",
       status: "Completed"
@@ -68,12 +71,13 @@ const plantsData = [
     description: "Large fern with lush fronds.",
     size: { height: 5, spread: 5 },
     characteristics: {
-      flowers: "None",
-      leaves: "Deep green, feathery",
-      fruits: "None",
-      seeds: "Spores on undersides of fronds",
-      sun: "Shade"
+      flowers: false,
+      leaves: true,
+      fruits: false,
+      thorns: false,
+      seeds: true,
     },
+    sunExposure: "Partial Sun",
     identification: {
       name: "Boston Fern",
       status: "Completed"

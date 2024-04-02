@@ -11,12 +11,13 @@ let PlantSchema = new Schema({
     spread: { type: Number, required: true },
   },
   characteristics: {
-    flowers: { type: String, required: true },
-    leaves: { type: String, required: true },
-    fruits: { type: String, required: true },
-    seeds: { type: String, required: true },
-    sun: { type: String, required: true },
+    flowers: { type: Boolean, required: true },
+    leaves: { type: Boolean, required: true },
+    fruits: { type: Boolean, required: true },
+    thorns: { type: Boolean, required: true },
+    seeds: { type: Boolean, required: true },
   },
+  sunExposure : { type: String, required: true },
   identification: {
     name: { type: String, required: true },
     status: { type: String, required: true },
