@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const Plant = require('../models/plant'); // Adjust path as necessary
-const db = 'mongodb://locahost:27017//users';
+const Plant = require('../models/plants'); // Adjust path as necessary
+const db = 'mongodb://localhost:27017/users';
 
 const plantsData = [
   {
