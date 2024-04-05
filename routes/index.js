@@ -37,5 +37,19 @@ router.post('/add-plant', function(req, res, next) {
   }
 });
 
+router.get('/update-plant', function(req, res, next) {
+  res.render('update_plant');
+});
+
+router.post('/update-plant', function(req, res, next) {
+  let plant_name = req.body.plant_name;
+  console.log("Plant name - ", plant_name);
+
+  let plant_status = req.body.plant_status;
+  console.log("Plant status -", plant_status)
+
+  // do something with the new values - update the DB record
+});
+
 
 module.exports = router;
