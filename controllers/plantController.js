@@ -50,6 +50,21 @@ exports.getAllPlants = function() {
   });
 };
 
+
+exports.getSelectedPlant = function(plantID) {
+  // Execute query to find all plant records without any sorting or filtering
+  return plantModel.find({id: plantID}).then(plant => {
+    console.log(plant);
+
+    //return plant;
+    return JSON.stringify(plant);
+  }).catch(err => {
+    console.error(err);
+    return [];
+  });
+};
+
+
 // READ AND SORT BY DATA
 async function getSortedPlants(req, res) {
   try {
