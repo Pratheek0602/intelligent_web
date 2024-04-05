@@ -52,7 +52,7 @@ exports.getAllPlants = function() {
 
 
 exports.getSelectedPlant = function(plantID) {
-  // Execute query to find all plant records without any sorting or filtering
+  // Execute query to find the plant record matching the plantID
   return plantModel.find({id: plantID}).then(plant => {
     console.log(plant);
 
