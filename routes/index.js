@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const Plant = require('../models/plants'); 
+const Plant = require('../models/plants');
 
 /* GET home page. */
 router.get('/', async function(req, res, next) {
@@ -57,7 +57,7 @@ router.post('/add-plant', async function(req, res, next) {
       },
       sunExposure: req.body.sun_exposure,
       // flowersColour: req.body.flowers_colour,
-      photo: "lol",
+      photo: req.body.base64Image,
       // Handling for file upload will be required here for `photo`
       user: req.body.user_nickname
     });
@@ -65,7 +65,7 @@ router.post('/add-plant', async function(req, res, next) {
     // Save the new plant to the database
     await newPlant.save();
     res.redirect('/'); // Redirect to the home page or to a success page
-  } 
+  }
   catch (error) {
     console.error("Failed to save the plant:", error);
     // Respond with an error page or message
