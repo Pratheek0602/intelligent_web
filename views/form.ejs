@@ -11,7 +11,7 @@
 <body onload="checkCredentials(correct_submission)">
     <h2> Add plant </h2>
     <div class="container">
-        <form action="/add-plant" method="POST">
+        <form action="/add-plant" id="add_plant" method="POST">
             <label for="date_time_seen">Date/Time Seen:</label>
             <input type="datetime-local" id="date_time_seen" name="date_time_seen" required>
             <br> <br>
@@ -82,5 +82,7 @@
         if (!isSubmissionValid) {alert('Invalid Submission! Please check your submission.')}
     }
 </script>
+
+<script src="javascripts/formSubmission.js"></script>
 
 </html>
