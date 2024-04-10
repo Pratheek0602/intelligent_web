@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 const mongoDB = 'mongodb://localhost:27017/com3504_21';
 let connection;
 

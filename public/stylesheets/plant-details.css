@@ -109,7 +109,6 @@ body, html {
     background: #7fda7a;
     cursor: pointer;
     outline: none;
-    border: none;
   }
 
   .chat-box {
@@ -121,9 +120,10 @@ body, html {
     flex-direction: column; 
     border-radius: 20px 20px 0 0;
     overflow: hidden; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background: #fff; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    background: #f3ffea; 
 }
+
 
   .chat-box > .screen {
     display: none;
@@ -278,7 +278,7 @@ body, html {
 
   
   /* Responsive adjustments */
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     .details-container {
       flex-direction: column;
     }
