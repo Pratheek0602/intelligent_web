@@ -41,14 +41,27 @@ exports.create = function(userData) {
 exports.getAllPlants = function() {
   // Execute query to find all plant records without any sorting or filtering
   return plantModel.find({}).then(plants => {
-    console.log(plants); 
-
     return plants;
   }).catch(err => {
-    console.error(err); 
-    return []; 
+    console.error(err);
+    return [];
   });
 };
+
+
+exports.getSelectedPlant = function(plantID) {
+  // Execute query to find the plant record matching the plantID
+  return plantModel.find({ _id: plantID }).then(plant => {
+    console.log(plant);
+
+    //return plant;
+    return plant;
+  }).catch(err => {
+    console.error(err);
+    return [];
+  });
+};
+
 
 // READ AND SORT BY DATA
 async function getSortedPlants(req, res) {
@@ -87,7 +100,7 @@ exports.updatePlantIdentification = async (req, res) => {
     const plantId = req.params.id;
 
     // Assuming the user's nickname is stored in req.user.nickname
-    const userNickname = req.user.nickname; 
+    const userNickname = req.user.nickname;
 
     // Extract the identification updates from the request body
     const { name, status } = req.body;
