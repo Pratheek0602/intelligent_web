@@ -12,9 +12,9 @@ router.get('/', function(req, res, next) {
 // GET plant details page
 router.get('/plant', function(req, res, next) {
   //let plant = plantController.getSelectedPlant
-  let result = getSelectedPlant(plantID); // using const definition means
-                                                      // syntax is not:
-                                                      // plantController.getSelectedPlant(plantID)
+  let plant_id = req.query.id;
+  let result = getSelectedPlant(plant_id);
+
   result.then(plant => {
     let data = JSON.parse(plant);
     console.log(data.length);
