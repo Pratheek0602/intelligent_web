@@ -43,43 +43,33 @@ router.get('/add-plant', function(req, res, next) {
 // });
 
 router.post('/add-plant', async function(req, res, next) {
-  try {
-    // Constructing the plant object from request body
-    let newPlant = new Plant({
-      date: req.body.date_time_seen,
-      location: req.body.location,
-      description: req.body.description,
-      size: {
-        height: req.body.plant_height,
-        spread: req.body.plant_spread
-      },
-      characteristics: {
-        flowers: req.body.flowers === "Flowers",
-        leaves: req.body.leaves === "Leaves",
-        fruits: req.body.fruits === "Fruits",
-        thorns: req.body.thorns === "Thorns",
-        seeds: req.body.seeds === "Seeds",
-      },
-      identification: {
-        name: req.body.identification_name,
-        status: "lol"//req.body.identification_name,
-      },
-      sunExposure: req.body.sun_exposure,
-      // flowersColour: req.body.flowers_colour,
-      photo: req.body.base64Image,
-      // Handling for file upload will be required here for `photo`
-      user: req.body.user_nickname
-    });
+  await create({
+    date: req.body.date_time_seen,
+    location: req.body.location,
+    description: req.body.description,
+    size: {
+      height: req.body.plant_height,
+      spread: req.body.plant_spread
+    },
+    characteristics: {
+      flowers: req.body.flowers === "Flowers",
+      leaves: req.body.leaves === "Leaves",
+      fruits: req.body.fruits === "Fruits",
+      thorns: req.body.thorns === "Thorns",
+      seeds: req.body.seeds === "Seeds",
+    },
+    identification: {
+      name: req.body.identification_name,
+      status: "lol"//req.body.identification_name,
+    },
+    sunExposure: req.body.sun_exposure,
+    // flowersColour: req.body.flowers_colour,
+    photo: req.body.base64Image,
+    // Handling for file upload will be required here for `photo`
+    user: req.body.user_nickname
+  });
 
-    // Save the new plant to the database
-    await newPlant.save();
-    res.redirect('/'); // Redirect to the home page or to a success page
-  }
-  catch (error) {
-    console.error("Failed to save the plant:", error);
-    // Respond with an error page or message
-    // res.render('index', { title: 'Express', correct_submission: 'false', errorMessage: 'Failed to add the plant.' });
-  }
+  res.redirect('/');
 });
 
 router.get('/update-plant', function(req, res, next) {

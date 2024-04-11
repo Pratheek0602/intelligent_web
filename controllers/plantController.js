@@ -7,22 +7,23 @@ exports.create = function(userData) {
     location: userData.location,
     description: userData.description,
     size: {
-      height: userData.height,
-      spread: userData.spread,
+      height: userData.size.height,
+      spread: userData.size.spread,
     },
     characteristics: {
-      flowers: userData.flowers,
-      leaves: userData.leaves,
-      fruits: userData.fruits,
-      seeds: userData.seeds,
-      sun: userData.sun,
+      flowers: userData.characteristics.flowers,
+      leaves: userData.characteristics.leaves,
+      fruits: userData.characteristics.fruits,
+      seeds: userData.characteristics.seeds,
+      thorns: userData.characteristics.thorns,
     },
     identification: {
-      name: userData.name,
-      status: userData.status,
+      name: userData.identification.name,
+      status: userData.identification.status,
     },
+    sunExposure: userData.sunExposure,
     photo: userData.photo, // TODO: Will need function to convert image file to base64 string
-    user: userData.username,
+    user: userData.user,
   });
 
   return plant.save().then(plant => {
