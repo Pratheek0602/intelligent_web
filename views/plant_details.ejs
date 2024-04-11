@@ -9,32 +9,33 @@
 <body>
   <div class="container">
     <div class="heading">
-        <h1>Sighting details for [Plant Name]</h1>
-        <button class="edit-button">Update Sighting</button>
+        <h1>Sighting details for <%= data.identification.name %> </h1>
+        <button class="edit-button" onclick="location.href='/update-plant'">Update Sighting</button>
+        // update button should only be visible to original user
     </div>
     <div class="details-container">
         <img src="images/default_image.jpg" class="sighting-image"> 
         
         <div class="sighting-details">
-        <p>Added by: Username</p>
-        <p>Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <p>Date/Time Seen: XX/XX/XXXX XX:XX</p>
-        <p>Location: [Latitude, Longitude]</p>
+        <p>Added by: <%= data.user %></p>
+        <p>Description: <%= data.description %></p>
+        <p>Date/Time Seen: <%= data.date %></p>
+        <p>Location: <%= data.location %></p>
         <h4>Plant Size</h4>
-        <p>Hight:XX, Spread:XX</p>        
+        <p>Height:<%= data.size.height %>, Spread:<%= data.size.spread %></p>
         <h4>Plant Characteristics</h4>
-        <p>Does the plant have flowers? Yes/No </p>
-        <p>Does the plant have leaves? Yes/No </p>
-        <p>Does the plant have fruits or seeds? Yes/No </p>
-        <p>What is the sun exposure in that area? full sun/partial shade/full shade </p>
-        <p>what is the colour of the flowers?</p>
-        <p>Does the plant have flowers? Yes/No </p> 
+        <p>Does the plant have flowers? <%= data.characteristics.flowers %> </p>
+        <p>Does the plant have leaves? <%= data.characteristics.leaves %> </p>
+        <p>Does the plant have fruits? <%= data.characteristics.fruits %> </p>
+        <p>Does the plant have seeds? <%= data.characteristics.seeds %></p>
+        <p>What is the sun exposure in that area? <%= data.characteristics.sun %> </p>
+        <p>what is the colour of the flowers? <%= data.characteristics.flowers %></p>
         <h4>Status</h4>     
-        <p>Identification Status: In Progress/Completed</p>      
+        <p>Identification Status: <%= data.identification.status %></p>
         </div>
     </div>
     <div class="chat-interface">
-        <h2>Chat for [Plant Name]</h2>
+        <h2>Chat for <%= data.identification.name %></h2>
         <!-- Chat messages and input here -->
     </div>
   </div>     

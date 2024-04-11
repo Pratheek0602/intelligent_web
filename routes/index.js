@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-const Plant = require('../models/plants');
+// Import the controller functions
+const {create, getAllPlants, getSelectedPlant, getSortedPlants, updatePlantIdentification } = require('../controllers/plantController');
+
 
 /* GET home page. */
 router.get('/', async function(req, res, next) {
@@ -15,7 +17,15 @@ router.get('/', async function(req, res, next) {
 
 // GET plant details page
 router.get('/plant', function(req, res, next) {
-  res.render('plant_details', { title: 'Plant Details' });
+  //let plant = plantController.getSelectedPlant
+  let plant_id = req.query.id;
+  let result = getSelectedPlant(plant_id);
+
+  result.then(plant => {
+    let data = JSON.parse(plant);
+    console.log(data.length);
+    res.render('plant_details', { title: 'Plant Details', data: data });
+  })
 });
 
 router.get('/add-plant', function(req, res, next) {
@@ -72,5 +82,20 @@ router.post('/add-plant', async function(req, res, next) {
     // res.render('index', { title: 'Express', correct_submission: 'false', errorMessage: 'Failed to add the plant.' });
   }
 });
+
+router.get('/update-plant', function(req, res, next) {
+  res.render('update_plant');
+});
+
+router.post('/update-plant', function(req, res, next) {
+  let plant_name = req.body.plant_name;
+  console.log("Plant name - ", plant_name);
+
+  let plant_status = req.body.plant_status;
+  console.log("Plant status -", plant_status)
+
+  // do something with the new values - update the DB record
+});
+
 
 module.exports = router;
