@@ -8,10 +8,10 @@
     <link rel='stylesheet' href='/stylesheets/form.css' />
 </head>
 
-<body onload="checkCredentials(<%= correct_submission %>)">
+<body onload="checkCredentials(correct_submission)">
     <h2> Add plant </h2>
     <div class="container">
-        <form action="/add-plant" method="POST">
+        <form action="/add-plant" id="add_plant" method="POST">
             <label for="date_time_seen">Date/Time Seen:</label>
             <input type="datetime-local" id="date_time_seen" name="date_time_seen" required>
             <br> <br>
@@ -36,8 +36,12 @@
                     <input type="checkbox" id="flowers" name="flowers" value="Flowers"></label>
                 <label class="checkbox-label" for="leaves">Leaves:
                     <input type="checkbox" id="leaves" name="leaves" value="Leaves"></label>
+                <label class="checkbox-label" for="fruits">Fruits:
+                    <input type="checkbox" id="fruits" name="fruits" value="Fruits"></label>
                 <label class="checkbox-label" for="thorns">Thorns:
                     <input type="checkbox" id="thorns" name="thorns" value="Thorns"></label>
+                <label class="checkbox-label" for="seeds">Seeds:
+                    <input type="checkbox" id="seeds" name="seeds" value="Seeds"></label>
             </div>
 
             <br>
@@ -78,5 +82,7 @@
         if (!isSubmissionValid) {alert('Invalid Submission! Please check your submission.')}
     }
 </script>
+
+<script src="javascripts/formSubmission.js"></script>
 
 </html>
