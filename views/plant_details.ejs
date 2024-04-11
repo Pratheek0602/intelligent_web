@@ -5,11 +5,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Plant Details</title>
-  <link rel="stylesheet" href="/stylesheets/plant-details.css">
+  <link rel="stylesheet" href="/stylesheets/plant-details.css">  
 </head>
 
 <body>
-  <div class="container">
+  <div class="container1">
     <div class="heading">
       <h1>Sighting details for <%= data.identification.name %>
       </h1>
@@ -48,13 +48,47 @@
         </p>
       </div>
     </div>
-    <div class="chat-interface">
-      <h2>Chat for <%= data.identification.name %>
-      </h2>
-      <!-- Chat messages and input here -->
+
+    <!-- <div class="chat-interface">
+        <h2>Chat for [Plant Name]</h2>
+    </div> -->
+  </div>  
+
+  <div class="container2">
+    <div class="chat-box">
+      <div class="screen join-screen active">
+        <div class="form">
+          <h2>Join Chatroom</h2>
+          <div class="form-input">
+            <label>Username</label>
+            <input type="text" id="username">            
+          </div>
+          <div class="form-input">
+            <label>Plant ID</label>
+            <input type="text" id="plant_id">            
+          </div>
+          <div class="form-input">
+            <button id="join-user"><b>Join</b></button>
+          </div>
+        </div>
+      </div>
+      <div class="screen chat-screen">
+        <div class="header">
+            <div class="logo">Chatroom</div>
+            <button id="exit-chat">Exit</button>
+        </div>
+        <div class="chat-body">
+            <div class="messages" id="messages"></div>
+            <form class="input_container" id="form">
+                <input class="input" id="input" placeholder="Write a message..." />
+                <button class="btn" type="submit">Send</button>
+            </form>
+        </div>
     </div>
-  </div>
-  <script src="/path/to/your/javascript.js"></script>
+  </div>  
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/javascripts/chat.js"></script>
+
 </body>
 
 </html>

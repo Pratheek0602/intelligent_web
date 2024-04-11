@@ -8,8 +8,8 @@ mongoose.Promise = global.Promise;
 
 mongoose.connect(mongoDB).then(result => {
   connection = result.connection;
-  console.log("Connection successful");
+  console.log("MongoDB's connection successful");
 }).catch(err => {
-  console.log("Connection failed", err);
+  console.log("MongoDB's connection failed", err);
 });
 
