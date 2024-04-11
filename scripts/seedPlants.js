@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
-const Plant = require('../models/plant'); // Adjust path as necessary
-const db = 'mongodb://locahost:27017//users';
+const Plant = require('../models/plants'); // Adjust path as necessary
+const db = 'mongodb://localhost:27017/com3504_21';
+
+// node ./scripts/seedPlants.js
 
 const plantsData = [
   {
@@ -9,12 +11,13 @@ const plantsData = [
     description: "Tall tree with lots of green leaves.",
     size: { height: 20, spread: 5 },
     characteristics: {
-      flowers: "None",
-      leaves: "Green and large",
-      fruits: "None",
-      seeds: "Small, brown",
-      sun: "Full sun"
+      flowers: false,
+      leaves: true,
+      fruits: false,
+      thorns: false,
+      seeds: true,
     },
+    sunExposure: "Full Sun",
     identification: {
       name: "Oak Tree",
       status: "Completed"
@@ -22,9 +25,70 @@ const plantsData = [
     photo: "base64String", // Placeholder, replace with actual base64 string
     user: "JohnDoe",
   },
-
-  // Add more plant later
+  {
+    date: new Date(),
+    location: "Backyard",
+    description: "Small shrub with vibrant flowers.",
+    size: { height: 3, spread: 4 },
+    characteristics: {
+      flowers: true,
+      leaves: true,
+      fruits: true,
+      thorns: false,
+      seeds: true,
+    },
+    sunExposure: "Full Sun",
+    identification: {
+      name: "Flowering Quince",
+      status: "In Progress"
+    },
+    photo: "base64String", // Placeholder, replace with actual base64 string
+    user: "AliceB",
+  },
+  {
+    date: new Date(),
+    location: "Window sill",
+    description: "Potted plant with trailing vines.",
+    size: { height: 1, spread: 2 },
+    characteristics: {
+      flowers: true,
+      leaves: true,
+      fruits: false,
+      thorns: false,
+      seeds: false,
+    },
+    sunExposure: "Full Sun",
+    identification: {
+      name: "Spider Plant",
+      status: "Completed"
+    },
+    photo: "base64String", // Placeholder, replace with actual base64 string
+    user: "CharlieGreen",
+  },
+  {
+    date: new Date(),
+    location: "Conservatory",
+    description: "Large fern with lush fronds.",
+    size: { height: 5, spread: 5 },
+    characteristics: {
+      flowers: false,
+      leaves: true,
+      fruits: false,
+      thorns: false,
+      seeds: true,
+    },
+    sunExposure: "Partial Sun",
+    identification: {
+      name: "Boston Fern",
+      status: "Completed"
+    },
+    photo: "base64String", // Placeholder, replace with actual base64 string
+    user: "DannyF",
+  }
 ];
+
+// Add more plant data later
+
 
 mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
