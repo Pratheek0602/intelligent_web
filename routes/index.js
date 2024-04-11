@@ -2,13 +2,13 @@ var express = require('express');
 var router = express.Router();
 
 // Import the controller functions
-const {create, getAllPlants, getSelectedPlant, getSortedPlants, updatePlantIdentification } = require('../controllers/plantController');
+const { create, getAllPlants, getSelectedPlant, getSortedPlants, updatePlantIdentification } = require('../controllers/plantController');
 
 
 /* GET home page. */
 router.get('/', async function(req, res, next) {
   try {
-    const plants = await Plant.find(); // Fetch all plants
+    const plants = await getAllPlants(); // Fetch all plants
     res.render('index', { title: 'Plant Sightings', correct_submission: 'true', plants }); // Render the 'plants.ejs' view with plants data
   } catch (error) {
     res.status(500).send(error.message);
@@ -20,11 +20,10 @@ router.get('/plant', function(req, res, next) {
   //let plant = plantController.getSelectedPlant
   let plant_id = req.query.id;
   let result = getSelectedPlant(plant_id);
+  console.log(result[0])
 
   result.then(plant => {
-    let data = JSON.parse(plant);
-    console.log(data.length);
-    res.render('plant_details', { title: 'Plant Details', data: data });
+    res.render('plant_details', { title: 'Plant Details', data: plant[0] });
   })
 });
 

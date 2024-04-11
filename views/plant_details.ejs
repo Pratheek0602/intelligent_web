@@ -1,44 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Plant Details</title>
   <link rel="stylesheet" href="/stylesheets/plant-details.css">
 </head>
+
 <body>
   <div class="container">
     <div class="heading">
-        <h1>Sighting details for <%= data.identification.name %> </h1>
-        <button class="edit-button" onclick="location.href='/update-plant'">Update Sighting</button>
-        // update button should only be visible to original user
+      <h1>Sighting details for <%= data.identification.name %>
+      </h1>
+      <button class="edit-button" onclick="location.href='/update-plant'">Update Sighting</button>
     </div>
     <div class="details-container">
-        <img src="images/default_image.jpg" class="sighting-image"> 
-        
-        <div class="sighting-details">
-        <p>Added by: <%= data.user %></p>
-        <p>Description: <%= data.description %></p>
-        <p>Date/Time Seen: <%= data.date %></p>
-        <p>Location: <%= data.location %></p>
+      <img src="images/default_image.jpg" class="sighting-image">
+
+      <div class="sighting-details">
+        <p>Added by: <%= data.user %>
+        </p>
+        <p>Description: <%= data.description %>
+        </p>
+        <p>Date/Time Seen: <%= data.date %>
+        </p>
+        <p>Location: <%= data.location %>
+        </p>
         <h4>Plant Size</h4>
-        <p>Height:<%= data.size.height %>, Spread:<%= data.size.spread %></p>
+        <p>Height:<%= data.size.height %>, Spread:<%= data.size.spread %>
+        </p>
         <h4>Plant Characteristics</h4>
-        <p>Does the plant have flowers? <%= data.characteristics.flowers %> </p>
-        <p>Does the plant have leaves? <%= data.characteristics.leaves %> </p>
-        <p>Does the plant have fruits? <%= data.characteristics.fruits %> </p>
-        <p>Does the plant have seeds? <%= data.characteristics.seeds %></p>
-        <p>What is the sun exposure in that area? <%= data.characteristics.sun %> </p>
-        <p>what is the colour of the flowers? <%= data.characteristics.flowers %></p>
-        <h4>Status</h4>     
-        <p>Identification Status: <%= data.identification.status %></p>
-        </div>
+        <p>Does the plant have flowers? <%= data.characteristics.flowers %>
+        </p>
+        <p>Does the plant have leaves? <%= data.characteristics.leaves %>
+        </p>
+        <p>Does the plant have fruits? <%= data.characteristics.fruits %>
+        </p>
+        <p>Does the plant have seeds? <%= data.characteristics.seeds %>
+        </p>
+        <p>What is the sun exposure in that area? <%= data.characteristics.sun %>
+        </p>
+        <p>what is the colour of the flowers? <%= data.characteristics.flowers %>
+        </p>
+        <h4>Status</h4>
+        <p>Identification Status: <%= data.identification.status %>
+        </p>
+      </div>
     </div>
     <div class="chat-interface">
-        <h2>Chat for <%= data.identification.name %></h2>
-        <!-- Chat messages and input here -->
+      <h2>Chat for <%= data.identification.name %>
+      </h2>
+      <!-- Chat messages and input here -->
     </div>
-  </div>     
-    <script src="/path/to/your/javascript.js"></script>
+  </div>
+  <script src="/path/to/your/javascript.js"></script>
 </body>
+
 </html>

@@ -34,10 +34,10 @@
       </div>
 
       <!-- Container for plant sighting cards  -->
-      <div class="plant-cards-container" onclick="location.href='/plant'">
+      <div class="plant-cards-container">
         <!-- Placeholder content -->
         <% plants.forEach(plant=> { %>
-          <div class="plant-card">
+          <div class="plant-card" onclick="location.href='/plant?id=<%= plant._id %>'">
             <% if(plant.photo) { %>
               <img src=<%=plant.photo %>>
               <% } else { %>
