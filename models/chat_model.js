@@ -6,12 +6,6 @@ const msgSchema = new mongoose.Schema({
         required: true
     },
 
-    // plantId: {
-    //     type: mongoose.Schema.Types.ObjectId, 
-    //     required: true,
-    //     ref: 'plants' 
-    // },
-
     plantID: {
         type: String, 
         required: true

@@ -36,12 +36,6 @@
         if (input.value.trim() === "") {
             return; 
         }
-        messages.innerHTML += `          
-        <div class="sent_message_container" >
-            <div class="name" >You</div>
-            <div class="sent_message" >${input.value}</div>
-        </div>
-        `;
         socket.emit("chat:send", { name: uname, plantId: plant_id, message: input.value });
         input.value = "";
         messages.scrollTop = messages.scrollHeight - messages.clientHeight;
@@ -76,9 +70,10 @@
 
     function appendMessages(sender, message) {
         // Check if the message is already present
-        if (messages.innerHTML.includes(message)) {
-            return;
-        }
+        // if (messages.innerHTML.includes(message)) {
+        //     return;
+        // }
+
         let messageElement;
         if (sender === uname) {
           messageElement = `
