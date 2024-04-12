@@ -3,13 +3,8 @@ const rooms = {};
 const Plant = require('../models/plants'); 
 
 exports.init = function(io) {
-
     io.on('connection', function (socket) {      
         try {
-            // chatMsg.find().then(result => {
-            //     socket.emit("output-messages",result)
-            // })
-
             socket.on("joinPlantChat", async (plantId) => {
                 const plant = await Plant.findById(plantId);
                 if (plant && plant.chatMessages) {
@@ -24,31 +19,14 @@ exports.init = function(io) {
                 }
             });
 
-            // socket.on("newuser", (name) => {
-            //     !users.some((user) => user.name === name) &&
-            //         users.push({ name, sockeId: socket.id });
-            //     io.emit("global:message", `${name} just joined !`);
-            // });
-
-            socket.on("exituser", (username) => {
-                // Find the user and remove them from the array
-                const index = users.findIndex(user => user.name === username);
-                if (index !== -1) {
-                    const user = users.splice(index, 1)[0];
-
-                    // Remove the client from the room
-                    for (const [roomId, clientIds] of Object.entries(rooms)) {
-                        const clientIndex = clientIds.indexOf(socket.id);
-                        if (clientIndex !== -1) {
-                        clientIds.splice(clientIndex, 1);
-                        break;
-                        }
-                    }
-
-                    // io.emit("global:message", `${user.name} just left!`);
-                }
+            socket.on("newuser", (name, plantId) => {
+              // Add the socket to the plant room
+              socket.join(plantId);
+  
+              // Broadcast to others in the room that a new user has joined
+              socket.to(plantId).emit("global:message", `${name} just joined the chat!`);
             });
-
+  
             socket.on("chat:send", async (data) => {
                 const { name, plantId, message } = data;
               
@@ -81,8 +59,6 @@ exports.init = function(io) {
                   console.error('Error saving chat message:', error);
                 }
               });
-
-
             
         } catch (e) {
         }

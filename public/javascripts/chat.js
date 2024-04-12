@@ -18,18 +18,18 @@
             return alert("Please enter your username!")
         }
         socket.emit("joinPlantChat", plant_id);
-        socket.emit("newuser", username);
+        socket.emit("newuser", username, plant_id);
         uname = username;
         chat.querySelector(".join-screen").classList.remove("active");
         chat.querySelector(".chat-screen").classList.add("active");
     });
 
-    // socket.on("global:message", (message) => {
-    //     messages.innerHTML += `
-    //     <p class="join_message" >${message}</p>
-    //     `;
-    //     messages.scrollTop = messages.scrollHeight - messages.clientHeight;
-    // });
+    socket.on("global:message", (message) => {
+        messages.innerHTML += `
+        <p class="join_message" >${message}</p>
+        `;
+        messages.scrollTop = messages.scrollHeight - messages.clientHeight;
+    });
 
     form.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -50,23 +50,17 @@
     });
 
     socket.on("output-messages", (data) => {
-        console.log(data);
-        if (data.length) {
+      console.log(data);
+      if (data.length) {
+          // Clear the current messages before appending to avoid duplication
+          messages.innerHTML = '';
           data.forEach((message) => {
-            // Check if the sender is the current user
-            const senderName = message.sender === uname ? "You" : message.sender;
-            appendMessages(senderName, message.message);
+              // Check if the sender is the current user
+              const senderName = message.sender === uname ? "You" : message.sender;
+              appendMessages(senderName, message.message);
           });
-        }
-    });
-
-    document.getElementById('exit-chat').addEventListener('click', function() {
-        socket.emit('exituser', uname); // Emit an event when a user wants to leave
-        chat.querySelector('.join-screen').classList.add('active');
-        chat.querySelector('.chat-screen').classList.remove('active');
-        messages.scrollTop = messages.scrollHeight - messages.clientHeight;
-    });
-
+      }
+  });
 
     function appendMessages(sender, message) {
 
