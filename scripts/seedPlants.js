@@ -22,7 +22,7 @@ const plantsData = [
       name: "Oak Tree",
       status: "Completed"
     },
-    photo: "base64String", // Placeholder, replace with actual base64 string
+    photo: "/images/default_image.jpg", // Placeholder, replace with actual base64 string
     user: "JohnDoe",
   },
   {
@@ -42,7 +42,7 @@ const plantsData = [
       name: "Flowering Quince",
       status: "In Progress"
     },
-    photo: "base64String", // Placeholder, replace with actual base64 string
+    photo: "/images/default_image.jpg", // Placeholder, replace with actual base64 string
     user: "AliceB",
   },
   {
@@ -62,7 +62,7 @@ const plantsData = [
       name: "Spider Plant",
       status: "Completed"
     },
-    photo: "base64String", // Placeholder, replace with actual base64 string
+    photo: "/images/default_image.jpg", // Placeholder, replace with actual base64 string
     user: "CharlieGreen",
   },
   {
@@ -82,7 +82,7 @@ const plantsData = [
       name: "Boston Fern",
       status: "Completed"
     },
-    photo: "base64String", // Placeholder, replace with actual base64 string
+    photo: "/images/default_image.jpg", // Placeholder, replace with actual base64 string
     user: "DannyF",
   }
 ];
