@@ -5,11 +5,11 @@ const msgSchema = new mongoose.Schema({
         type: String, 
         required: true
     },
-    // This is for when we have the plant model database setup
+
     // plantId: {
-    //     type: mongoose.Schema.Types.ObjectId, // Assuming you have a Plant model
+    //     type: mongoose.Schema.Types.ObjectId, 
     //     required: true,
-    //     ref: 'Plant' // This assumes your plant model is named 'Plant'
+    //     ref: 'plants' 
     // },
 
     plantID: {

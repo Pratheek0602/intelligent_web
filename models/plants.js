@@ -2,6 +2,18 @@ let mongoose = require('mongoose');
 
 let Schema = mongoose.Schema;
 
+const messageSchema = new Schema({
+  sender: {
+      type: String,
+      required: true
+  },
+  message: {
+      type: String,
+      required: true
+  }
+}, { timestamps: true });
+
+
 let PlantSchema = new Schema({
   date: { type: Date, required: true },
   location: { type: String, required: true },
@@ -24,12 +36,12 @@ let PlantSchema = new Schema({
   },
   photo: { type: String, required: true },
   user: { type: String, required: true },
+  chatMessages: [messageSchema] 
 });
 
 PlantSchema.set('toObject', { getters: true, virtuals: true });
 
 // let Plant = mongoose.model('plants', PlantSchema);
-// module.exports = Plant;
 module.exports = mongoose.model('plants', PlantSchema);
 
 
