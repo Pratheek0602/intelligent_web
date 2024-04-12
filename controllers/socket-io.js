@@ -24,11 +24,11 @@ exports.init = function(io) {
                 }
             });
 
-            socket.on("newuser", (name) => {
-                !users.some((user) => user.name === name) &&
-                    users.push({ name, sockeId: socket.id });
-                io.emit("global:message", `${name} just joined !`);
-            });
+            // socket.on("newuser", (name) => {
+            //     !users.some((user) => user.name === name) &&
+            //         users.push({ name, sockeId: socket.id });
+            //     io.emit("global:message", `${name} just joined !`);
+            // });
 
             socket.on("exituser", (username) => {
                 // Find the user and remove them from the array
@@ -45,7 +45,7 @@ exports.init = function(io) {
                         }
                     }
 
-                    io.emit("global:message", `${user.name} just left!`);
+                    // io.emit("global:message", `${user.name} just left!`);
                 }
             });
 

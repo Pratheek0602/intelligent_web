@@ -24,12 +24,12 @@
         chat.querySelector(".chat-screen").classList.add("active");
     });
 
-    socket.on("global:message", (message) => {
-        messages.innerHTML += `
-        <p class="join_message" >${message}</p>
-        `;
-        messages.scrollTop = messages.scrollHeight - messages.clientHeight;
-    });
+    // socket.on("global:message", (message) => {
+    //     messages.innerHTML += `
+    //     <p class="join_message" >${message}</p>
+    //     `;
+    //     messages.scrollTop = messages.scrollHeight - messages.clientHeight;
+    // });
 
     form.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -69,10 +69,6 @@
 
 
     function appendMessages(sender, message) {
-        // Check if the message is already present
-        // if (messages.innerHTML.includes(message)) {
-        //     return;
-        // }
 
         let messageElement;
         if (sender === uname) {
