@@ -4,18 +4,13 @@ const handleUpgrade = (ev) => {
     console.log("Upgraded object store");
 };
 
-// TODO: Very janky way of doing this need to figure out a better method
-// watch some videos on indexedDB
-// In actual version will place the username view code in the index view and just hide if username is found
-// Maybe just include it in every page actually as a public view?
-
 const handleSuccess = () => {
     const usernameIDB = requestIDB.result;
     const transaction = usernameIDB.transaction(["user"], "readwrite");
     const usernameStore = transaction.objectStore("user")
-    const getRequest = usernameStore.getAll()
+    const getRequest = usernameStore.get("username")
     getRequest.addEventListener("success", () => {
-        res = getRequest.result[0];
+        res = getRequest.result;
         if (res === undefined) {
             if (location.pathname == '/login') {
                 const usernameForm = document.getElementById("usernameForm");
