@@ -1,4 +1,5 @@
-importScripts('/javascripts/idb-utility.js');
+
+// import { addMessageToSync, getAllMessagesToSync } from './idb-utility.js'; 
 
 // Use the install event to pre-cache all initial resources.
 self.addEventListener('install', event => {
@@ -14,10 +15,10 @@ self.addEventListener('install', event => {
                 '/stylesheets/style.css',
                 '/javascripts/chat.js', 
                 '/javascripts/idb-utility.js',
-                '/controllers/socket.io.js', 
-                '/views/plant_details.ejs'
-                // '/images/app-icon.png', // Any icons or images used in the UI
-                // '/manifest.json' // Web app manifest
+                // '../controllers/socket.io.js', 
+                // '../views/plant_details.ejs',
+                // '../images/app-icon.png', // Any icons or images used in the UI
+                // '../manifest.json' // Web app manifest
             ]);
             console.log('Service Worker: App Shell Cached');
         } catch (error) {
@@ -49,11 +50,11 @@ self.addEventListener('fetch', event => {
 });
 
 
-
 self.addEventListener('sync', event => {
-    if (event.tag === 'sync-chat-messages') {
+    if (event.tag === 'messages') {
         event.waitUntil(syncChatMessages());
     }
+    
 });
 
 // Function to handle the synchronization of chat messages
@@ -90,41 +91,92 @@ self.addEventListener('sync', event => {
 //     }
 // }
 
+// async function syncChatMessages() {
+//     console.log("Syncing todos");
+//     openChatIDB().then()
+//     const db = await openChatIDB();
+//     const transaction = db.transaction('messages', 'readwrite');
+//     const store = transaction.objectStore('messages');
+//     const getAllMessages = store.getAll();
+
+//     getAllMessages.onsuccess = () => {
+//         const messages = getAllMessages.result;
+//         messages.forEach(message => {
+//             fetch('/api/chat/send', {
+//                 method: 'POST',
+//                 headers: {'Content-Type': 'application/json'},
+//                 body: JSON.stringify(message)
+//             }).then(response => {
+//                 deleteSyncedMessage()
+//                 // if (response.ok) {
+//                     // If the message is successfully sent, delete it from the store
+//                     store.delete(message.id).onsuccess = () => {
+//                         console.log(`Message with id ${message.id} sent and deleted from IDB.`);
+//                     };
+//                 // }
+//             }).catch(error => {
+//                 console.error('Failed to send message:', error);
+//             });
+//         });
+//     };
+
+//     getAllMessages.onerror = (error) => {
+//         console.error('Failed to retrieve stored messages:', error);
+//     };
+
+//     // Ensure the transaction completes
+//     transaction.oncomplete = () => {
+//         console.log('All pending messages have been processed.');
+//     };
+//     transaction.onerror = (error) => {
+//         console.error('Transaction failed:', error);
+//     };
+// }
+
 async function syncChatMessages() {
-    const db = await openChatIDB();
-    const transaction = db.transaction('messages', 'readwrite');
-    const store = transaction.objectStore('messages');
-    const getAllMessages = store.getAll();
+    console.log("Hhihihihihihihihihi");
+    try {
+        const db = await openChatIDB();
+        const transaction = db.transaction('messages', 'readwrite');
+        const store = transaction.objectStore('messages');
+        const getAllMessages = store.getAll();
 
-    getAllMessages.onsuccess = () => {
-        const messages = getAllMessages.result;
-        messages.forEach(message => {
-            fetch('/api/chat/send', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(message)
-            }).then(response => {
-                if (response.ok) {
-                    // If the message is successfully sent, delete it from the store
-                    store.delete(message.id).onsuccess = () => {
+        getAllMessages.onsuccess = async () => {
+            const messages = getAllMessages.result;
+            for (const message of messages) {
+                try {
+                    const response = await fetch('/api/chat/send', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify(message)
+                    });
+                    if (response.ok) {
+                        // If the message is successfully sent, delete it from the store
+                        await deleteSyncedMessage(db, message.id);
                         console.log(`Message with id ${message.id} sent and deleted from IDB.`);
-                    };
+                        // Optional: Notify the user a message was synced
+                        self.registration.showNotification('Message Synced', {
+                            body: 'Your chat message was synced successfully!'
+                        });
+                    }
+                } catch (error) {
+                    console.error('Failed to send message:', error);
                 }
-            }).catch(error => {
-                console.error('Failed to send message:', error);
-            });
-        });
-    };
+            }
+        };
 
-    getAllMessages.onerror = (error) => {
-        console.error('Failed to retrieve stored messages:', error);
-    };
+        getAllMessages.onerror = (error) => {
+            console.error('Failed to retrieve stored messages:', error);
+        };
 
-    // Ensure the transaction completes
-    transaction.oncomplete = () => {
-        console.log('All pending messages have been processed.');
-    };
-    transaction.onerror = (error) => {
-        console.error('Transaction failed:', error);
-    };
+        // Ensure the transaction completes
+        transaction.oncomplete = () => {
+            console.log('All pending messages have been processed.');
+        };
+        transaction.onerror = (error) => {
+            console.error('Transaction failed:', error);
+        };
+    } catch (error) {
+        console.error('Failed to open IndexedDB or sync messages:', error);
+    }
 }

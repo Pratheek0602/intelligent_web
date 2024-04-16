@@ -86,22 +86,40 @@ export function getAllMessagesToSync(){
 
 // Function to delete a message from the sync store in IndexedDB
 
+// const deleteSyncedMessage = (messageIDB, messageId) => {
+//     return new Promise((resolve, reject) => {
+//         const transaction = messageIDB.transaction(['messages'], 'readwrite');
+//         const store = transaction.objectStore('messages');
+//         const deleteRequest = store.delete(messageId);
+
+//         deleteRequest.onsuccess = () => {
+//             console.log(`Message with id ${messageId} deleted successfully.`);
+//             resolve();
+//         };
+
+//         deleteRequest.onerror = (event) => {
+//             console.error(`Error deleting message with id ${messageId}:`, event.target.error);
+//             reject(event.target.error);
+//         };
+//     });
+// };
+
 const deleteSyncedMessage = (messageIDB, messageId) => {
-    return new Promise((resolve, reject) => {
-        const transaction = messageIDB.transaction(['messages'], 'readwrite');
-        const store = transaction.objectStore('messages');
-        const deleteRequest = store.delete(messageId);
+  return new Promise((resolve, reject) => {
+      const transaction = messageIDB.transaction(['messages'], 'readwrite');
+      const store = transaction.objectStore('messages');
+      const deleteRequest = store.delete(messageId);
 
-        deleteRequest.onsuccess = () => {
-            console.log(`Message with id ${messageId} deleted successfully.`);
-            resolve();
-        };
+      deleteRequest.onsuccess = () => {
+          console.log(`Message with id ${messageId} deleted successfully.`);
+          resolve();
+      };
 
-        deleteRequest.onerror = (event) => {
-            console.error(`Error deleting message with id ${messageId}:`, event.target.error);
-            reject(event.target.error);
-        };
-    });
+      deleteRequest.onerror = (event) => {
+          console.error(`Error deleting message with id ${messageId}:`, event.target.error);
+          reject(event.target.error);
+      };
+  });
 };
 
 
