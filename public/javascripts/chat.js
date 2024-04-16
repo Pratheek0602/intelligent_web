@@ -1,8 +1,14 @@
+{/* <script src="./idb-utility.js" type="module"></script>
+import { addMessageToSync, getAllMessagesToSync } from './idb-utility.js'; */}
+
+import { addMessageToSync, getAllMessagesToSync } from './idb-utility.js'; 
 (function() {
+  // import idb-utility.js;
+  
     const chat = document.querySelector(".chat-box");
     const socket = io();
     let uname;
-    plant_id = document.getElementById('plant_id').value;
+    var plant_id = document.getElementById('plant_id').value;
 
     console.log(plant_id); // Now should output the plant_id or null
     
@@ -36,10 +42,37 @@
         if (input.value.trim() === "") {
             return; 
         }
-        socket.emit("chat:send", { name: uname, plantId: plant_id, message: input.value });
+        const messageData = { name: uname, plantId: plant_id, message: input.value };
+
+        if (!navigator.onLine) {
+          // The browser is offline, store the message in IndexedDB
+          addMessageToSync(messageData);
+          // syncChatMessages(messageData);
+        } else {
+          // The browser is online, emit the message via socket
+          socket.emit('chat:send', messageData);
+        }
         input.value = "";
         messages.scrollTop = messages.scrollHeight - messages.clientHeight;
     });
+
+    // Define the syncMessages function here
+    function syncMessages() {
+      getAllMessagesToSync().then((messagesToSync) => {
+          messagesToSync.forEach((messageData) => {
+              // Logic to send messages to the server
+              socket.emit('chat:send', messageData);
+
+              // Optionally, delete the message from the store after it's been sent
+              // deleteMessageFromSyncStore(messageData.id);
+          });
+      }).catch((error) => {
+          console.error('Error getting messages to sync:', error);
+      });
+    }
+    // Register the event listener for coming back online
+    window.addEventListener('online', syncMessages);
+
 
     socket.on("chat:receiver", (data) => {
         if (data && data.name && data.message) {
@@ -59,8 +92,8 @@
               const senderName = message.sender === uname ? "You" : message.sender;
               appendMessages(senderName, message.message);
           });
-      }
-  });
+        }
+    });
 
     function appendMessages(sender, message) {
 
@@ -82,6 +115,9 @@
         }
         messages.innerHTML += messageElement;
     }
+    
+  
+
 
 })(); 
 

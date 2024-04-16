@@ -58,6 +58,8 @@ exports.init = function(io) {
                 } catch (error) {
                   console.error('Error saving chat message:', error);
                 }
+
+                // callback({ success: true });
               });
             
         } catch (e) {
