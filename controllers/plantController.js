@@ -95,6 +95,8 @@ async function getSortedPlants(req, res) {
 }
 
 // UPDATE DATA
+// change to a normal function with args:(plant_name, plant_status, plant_id)
+// async function necessary?
 exports.updatePlantIdentification = async (req, res) => {
   try {
     // Extract the plant ID from the route parameter
@@ -102,12 +104,14 @@ exports.updatePlantIdentification = async (req, res) => {
 
     // Assuming the user's nickname is stored in req.user.nickname
     const userNickname = req.user.nickname;
+    // verify plant.user in advance so that the update button is only displayed
+    // if the user has permission to update the plant details
 
     // Extract the identification updates from the request body
     const { name, status } = req.body;
 
     // First, find the plant record to ensure it exists and to check the user's permission
-    const plant = await plantModel.findById(plantId);
+    const plant = await plantModel.find({ _id: plantId });
 
     if (!plant) {
       return res.status(404).json({ message: "Plant record not found." });
