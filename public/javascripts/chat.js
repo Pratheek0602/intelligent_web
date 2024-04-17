@@ -1,4 +1,5 @@
-import { addMessageToSync, getAllMessagesToSync } from './idb-utility.js'; 
+import { addMessageToSync, getAllMessagesToSync, deleteSyncedMessage } from './idb-utility.js'; 
+// import { syncChatMessages, openChatIDB, deleteSyncedMessage } from './sw.js';
 // (function() {
 //   // import idb-utility.js;
   
@@ -124,10 +125,12 @@ import { addMessageToSync, getAllMessagesToSync } from './idb-utility.js';
 (function() {
   // Check if service workers are supported
   if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('../sw.js')
-          .then((reg) => console.log('Service Worker registered', reg))
-          .catch((err) => console.error('Service Worker registration failed', err));
-  }
+    navigator.serviceWorker.register('/sw.js').then(registration => {
+        console.log('Service Worker registered with scope:', registration.scope);
+    }).catch(error => {
+        console.error('Service Worker registration failed:', error);
+    });
+}
 
   const chat = document.querySelector(".chat-box");
   const socket = io();
@@ -165,24 +168,19 @@ import { addMessageToSync, getAllMessagesToSync } from './idb-utility.js';
       const messageData = { name: uname, plantId: plant_id, message: input.value };
 
       if (!navigator.onLine) {
-        // The browser is offline, store the message in IndexedDB
-        // addMessageToSync(messageData);
-        console.log("GOING HERE");
-        // chat.js:171 Uncaught TypeError: Cannot read properties of undefined (reading 'then')
-    // at HTMLFormElement.<anonymous> (chat.js:171:38)
         addMessageToSync(messageData).then(() => {
-          // Register a sync event with a tag
-          navigator.serviceWorker.ready.then(registration => {
-              return registration.sync.register('messages');
-          }).then(() => {
-              console.log('Sync event registered');
-          }).catch(err => {
-              console.error('Error registering sync', err);
-          });
-      });
+            navigator.serviceWorker.ready.then(registration => {
+                return registration.sync.register('messages');
+            }).then(() => {
+                console.log('Sync event registered');
+            }).catch(err => {
+                console.error('Error registering sync', err);
+            });
+        }).catch(err => {
+            console.error('Error adding message to sync', err);
+        });
       } else {
-        // The browser is online, emit the message via socket
-        socket.emit('chat:send', messageData);
+          socket.emit('chat:send', messageData);
       }
       input.value = "";
       messages.scrollTop = messages.scrollHeight - messages.clientHeight;
@@ -191,13 +189,61 @@ import { addMessageToSync, getAllMessagesToSync } from './idb-utility.js';
   function syncMessages() {
     getAllMessagesToSync().then((messagesToSync) => {
         messagesToSync.forEach((messageData) => {
-            socket.emit('chat:send', messageData);
+            socket.emit('chat:send', messageData, (acknowledgement) => {
+                if (acknowledgement && acknowledgement.success) {
+                    // If the server acknowledges the message, delete it from IndexedDB
+                    deleteSyncedMessage(messageData.id)
+                    .then(() => console.log('Message deleted successfully from IDB', messageData.id))
+                    .catch((error) => console.error('Failed to delete message from IDB', messageData.id, error));
+                }
+            });
         });
     }).catch((error) => {
         console.error('Error getting messages to sync:', error);
     });
   }
-  window.addEventListener('online', syncMessages);
+  window.addEventListener('online', syncChatMessages);
+
+  function syncChatMessages() {
+    if ('serviceWorker' in navigator && 'SyncManager' in window) {
+      navigator.serviceWorker.ready.then(registration => {
+        return registration.sync.register('messages');
+      }).then(() => {
+        console.log('Sync event registered');
+      }).catch(err => {
+        console.error('Error registering sync', err);
+      });
+    } else {
+      console.error('Service worker or SyncManager not supported');
+    }
+  }
+  
+  navigator.serviceWorker.addEventListener('message', (event) => {
+    if (event.data.type === 'sync-messages') {
+      sendStoredMessages(event.data.messages);
+    }
+  });
+  
+  async function sendStoredMessages(messages) {
+    for (const message of messages) {
+      try {
+        const response = await fetch('/api/chat/send', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(message)
+        });
+  
+        if (response.ok) {
+          // Delete the message from IndexedDB
+          await deleteSyncedMessage(message.id);
+        } else {
+          console.error('Failed to send message:', message);
+        }
+      } catch (error) {
+        console.error('Error sending message:', error);
+      }
+    }
+  }
 
   socket.on("chat:receiver", (data) => {
       if (data && data.name && data.message) {
