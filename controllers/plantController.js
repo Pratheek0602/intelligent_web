@@ -95,43 +95,35 @@ async function getSortedPlants(req, res) {
 }
 
 // UPDATE DATA
-// change to a normal function with args:(plant_name, plant_status, plant_id)
-// async function necessary?
 exports.updatePlantIdentification = async (req, res) => {
   try {
     // Extract the plant ID from the route parameter
-    const plantId = req.params.id;
+    const plantId = req.body.plant_id;
+    console.log(plantId)
 
-    // Assuming the user's nickname is stored in req.user.nickname
-    const userNickname = req.user.nickname;
-    // verify plant.user in advance so that the update button is only displayed
-    // if the user has permission to update the plant details
+    const plant_name = req.body.plant_name;
 
-    // Extract the identification updates from the request body
-    const { name, status } = req.body;
+    const plant_status = req.body.plant_status;
 
     // First, find the plant record to ensure it exists and to check the user's permission
     const plant = await plantModel.find({ _id: plantId });
+    console.log(plant)
 
     if (!plant) {
       return res.status(404).json({ message: "Plant record not found." });
     }
 
-    // Check if the user's nickname matches the plant record's nickname
-    if (plant.user !== userNickname) {
-      return res.status(403).json({ message: "You do not have permission to update this record." });
-    }
-
     // Update the identification section of the plant record
-    plant.identification.name = name || plant.identification.name;
-    plant.identification.status = status || plant.identification.status;
+    plant[0].identification.name = plant_name;
+    // console.log("hi");
+    // console.log(plant.identification);
+    plant[0].identification.status = plant_status;
 
-    await plant.save();
+    await plant[0].save();
 
-    // Respond with the updated record
-    res.status(200).json(plant);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    //res.status(500).json({ message: error.message });
+    console.log(error)
   }
 }
 
