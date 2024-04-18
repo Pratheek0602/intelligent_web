@@ -66,7 +66,9 @@ router.post('/add-plant', async function(req, res, next) {
 });
 
 router.get('/update-plant', function(req, res, next) {
-  res.render('update_plant');
+  let plant_id = req.query.id;
+  //plant_id.then(plantID => {
+  res.render('update_plant', { plantID: plant_id });
 });
 
 router.post('/update-plant', function(req, res, next) {
@@ -76,7 +78,13 @@ router.post('/update-plant', function(req, res, next) {
   let plant_status = req.body.plant_status;
   console.log("Plant status -", plant_status)
 
+  let plant_id = req.body.plant_id;
+
   // do something with the new values - update the DB record
+
+  updatePlantIdentification(req, res) // pass arguments
+
+  res.redirect(`/plant?id=${plant_id}`);
 });
 
 

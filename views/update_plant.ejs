@@ -21,9 +21,13 @@
                 <option value="in_progress">In-Progress</option>
                 <option value="completed">Completed</option>
             </select>
-
-
             <br>
+
+            // hide
+            <label for="plant_id"> Plant ID: </label>
+            <input type="text" id="plant_id" name="plant_id" value="<%= plantID %>" disabled>
+            <br>
+
             <div style="text-align: center;">
                 <input type="submit" value="Submit">
                 <input type="reset" value="Reset">
