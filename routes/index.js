@@ -20,7 +20,7 @@ router.get('/plant', function(req, res, next) {
   //let plant = plantController.getSelectedPlant
   let plant_id = req.query.id;
   let result = getSelectedPlant(plant_id);
-  console.log(result[0])
+  // console.log(result[0])
 
   result.then(plant => {
     res.render('plant_details', { title: 'Plant Details', data: plant[0] });

@@ -153,10 +153,7 @@ body, html {
     color: #eee;
     font-weight: 600;
   }
-  #exit-chat{
-    color: #ffffff;
-    background-color: red;
-  }
+
   .chat-screen .header button {
     padding: 5px 10px;
     border: 1px solid #eee;

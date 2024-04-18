@@ -64,8 +64,7 @@
             <input type="text" id="username">            
           </div>
           <div class="form-input">
-            <label>Plant ID</label>
-            <input type="text" id="plant_id">            
+            <input type="hidden" id="plant_id" value="<%= data._id %>">           
           </div>
           <div class="form-input">
             <button id="join-user"><b>Join</b></button>
@@ -75,14 +74,25 @@
       <div class="screen chat-screen">
         <div class="header">
             <div class="logo">Chatroom</div>
-            <button id="exit-chat">Exit</button>
         </div>
         <div class="chat-body">
             <div class="messages" id="messages"></div>
-            <form class="input_container" id="form">
-                <input class="input" id="input" placeholder="Write a message..." />
-                <button class="btn" type="submit">Send</button>
-            </form>
+            <% if (data.identification.status !== 'Completed') { %>
+              <form class="input_container" id="form">
+                  <input class="input" id="input" placeholder="Write a message..." />
+                  <button class="btn" type="submit">Send</button>
+              </form>
+          <% } else { %>
+              <form class="input_container" id="form">
+                  <!-- The inputs here are commented out, but you can uncomment or add new inputs if needed -->
+                  <!-- <label class="input" >Messages Disabled</label> -->
+                  <label for="disabledField" ></label>
+                  <input class="input" id="input" value="Messages diabled" disabled style="background-color: #cfcfcf; color: #000000;"><br>
+
+                  <!-- <textarea class="input" id="input" placeholder="Messages Disabled..."> -->
+                  <!-- <button class="btn" type="submit">Send</button> --> 
+              </form>
+          <% } %>
         </div>
     </div>
   </div>  
