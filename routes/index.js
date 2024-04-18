@@ -15,6 +15,10 @@ router.get('/', async function(req, res, next) {
   }
 });
 
+router.get('/login', async function(req, res, next) {
+  res.render('username')
+})
+
 // GET plant details page
 router.get('/plant', function(req, res, next) {
   //let plant = plantController.getSelectedPlant
@@ -30,17 +34,6 @@ router.get('/plant', function(req, res, next) {
 router.get('/add-plant', function(req, res, next) {
   res.render('form', { title: 'Plant Details', correct_submission: 'true' });
 });
-
-// router.post('/add-plant', function(req, res, next) {
-//   let location = req.body.location;
-//   console.log("Location - ", location);
-
-//   if (location === 'Test') {
-//     res.redirect('/');
-//   } else {
-//     res.render('index', { title: 'Express', correct_submission: 'false' });
-//   }
-// });
 
 router.post('/add-plant', async function(req, res, next) {
   await create({
