@@ -89,9 +89,9 @@ router.post('/update-plant', function(req, res, next) {
 
   // do something with the new values - update the DB record
 
-  updatePlantIdentification() // pass arguments
+  updatePlantIdentification(req, res) // pass arguments
 
-  res.redirect('/plant')
+  res.redirect(`/plant?id=${plant_id}`);
 });
 
 
