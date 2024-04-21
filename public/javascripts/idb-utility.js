@@ -2,6 +2,7 @@ function openChatIDB() {
   console.log("OPEN IDB")
     return new Promise((resolve, reject) => {
         const request = indexedDB.open('chat-messages', 1);
+
         request.onupgradeneeded = function(event) {
             const db = event.target.result;
             if (!db.objectStoreNames.contains('messages')) {
