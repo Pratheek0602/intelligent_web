@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plant Details</title>
     <link rel="stylesheet" href="/stylesheets/form.css">
 </head>
+
 <body>
     <h2> Update Plant </h2>
     <div class="container">
@@ -21,9 +23,13 @@
                 <option value="in_progress">In-Progress</option>
                 <option value="completed">Completed</option>
             </select>
-
-
             <br>
+
+            // hide
+            <label for="plant_id"> Plant ID: </label>
+            <input type="text" id="plant_id" name="plant_id" value="<%= plantID %>">
+            <br>
+
             <div style="text-align: center;">
                 <input type="submit" value="Submit">
                 <input type="reset" value="Reset">
@@ -31,4 +37,5 @@
         </form>
     </div>
 </body>
+
 </html>

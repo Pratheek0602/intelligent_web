@@ -15,6 +15,10 @@ router.get('/', async function(req, res, next) {
   }
 });
 
+router.get('/login', async function(req, res, next) {
+  res.render('username')
+})
+
 // GET plant details page
 router.get('/plant', function(req, res, next) {
   //let plant = plantController.getSelectedPlant
@@ -30,17 +34,6 @@ router.get('/plant', function(req, res, next) {
 router.get('/add-plant', function(req, res, next) {
   res.render('form', { title: 'Plant Details', correct_submission: 'true' });
 });
-
-// router.post('/add-plant', function(req, res, next) {
-//   let location = req.body.location;
-//   console.log("Location - ", location);
-
-//   if (location === 'Test') {
-//     res.redirect('/');
-//   } else {
-//     res.render('index', { title: 'Express', correct_submission: 'false' });
-//   }
-// });
 
 router.post('/add-plant', async function(req, res, next) {
   await create({
@@ -73,7 +66,9 @@ router.post('/add-plant', async function(req, res, next) {
 });
 
 router.get('/update-plant', function(req, res, next) {
-  res.render('update_plant');
+  let plant_id = req.query.id;
+  //plant_id.then(plantID => {
+  res.render('update_plant', { plantID: plant_id });
 });
 
 router.post('/update-plant', function(req, res, next) {
@@ -83,7 +78,13 @@ router.post('/update-plant', function(req, res, next) {
   let plant_status = req.body.plant_status;
   console.log("Plant status -", plant_status)
 
+  let plant_id = req.body.plant_id;
+
   // do something with the new values - update the DB record
+
+  updatePlantIdentification(req, res) // pass arguments
+
+  res.redirect(`/plant?id=${plant_id}`);
 });
 
 

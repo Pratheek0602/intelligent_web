@@ -13,7 +13,7 @@
     <div class="heading">
       <h1>Sighting details for <%= data.identification.name %>
       </h1>
-      <button class="edit-button" onclick="location.href='/update-plant'">Update Sighting</button>
+      <button class="edit-button" onclick="location.href='/update-plant?id=<%= data._id %>'">Update Sighting</button>
     </div>
     <div class="details-container">
       <img src=<%= data.photo %> class="sighting-image">
