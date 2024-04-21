@@ -2,21 +2,16 @@ function openChatIDB() {
   console.log("OPEN IDB")
     return new Promise((resolve, reject) => {
         const request = indexedDB.open('chat-messages', 1);
-
         request.onupgradeneeded = function(event) {
             const db = event.target.result;
             if (!db.objectStoreNames.contains('messages')) {
-                const objectStore = db.createObjectStore('messages', { keyPath: 'id', autoIncrement: true });
-                objectStore.createIndex('name', 'name', { unique: false });
-                objectStore.createIndex('plantId', 'plantId', { unique: false });
+                db.createObjectStore('messages', { keyPath: 'id', autoIncrement: true });
             }
         };
-
         request.onerror = function(event) {
             console.error('Database error:', event.target.errorCode);
             reject(event.target.errorCode);
         };
-
         request.onsuccess = function(event) {
             resolve(event.target.result);
         };
@@ -46,21 +41,21 @@ export function addMessageToSync (messageData){
 export function getAllMessagesToSync(){
   console.log("Gettingg all messages");
     return new Promise((resolve, reject) => {
-      openChatIDB().then((db) => {
-        const transaction = db.transaction(['messages'], 'readonly');
-        const store = transaction.objectStore('messages');
-        const getAllRequest = store.getAll(); // This method is not supported in IE/Edge
-  
-        getAllRequest.onsuccess = function(event) {
-          resolve(event.target.result);
-        };
-  
-        getAllRequest.onerror = function(event) {
-          reject(event.target.error);
-        };
-      }).catch((error) => {
-        reject(error);
-      });
+        openChatIDB().then(db => {
+            const transaction = db.transaction(['messages'], 'readonly');
+            const store = transaction.objectStore('messages');
+            const request = store.getAll();
+            request.onsuccess = () => {
+                resolve(request.result);
+            };
+            request.onerror = (event) => {
+                console.error('Failed to retrieve messages:', event.target.error);
+                reject(event.target.error);
+            };
+        }).catch(error => {
+            console.error('Failed to open IndexedDB:', error);
+            reject(error);
+        });
     });
 };
 
