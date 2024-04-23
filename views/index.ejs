@@ -50,20 +50,8 @@
       </div>
 
       <!-- Container for plant sighting cards  -->
-      <div class="plant-cards-container">
+      <div class="plant-cards-container" id="plant-cards-container">
         <!-- Placeholder content -->
-        <% plants.forEach(plant=> { %>
-          <div class="plant-card" onclick="location.href='/plant?id=<%= plant._id %>'">
-            <% if(plant.photo) { %>
-              <img src=<%=plant.photo %>>
-              <% } else { %>
-                <img src="/images/default_image.jpg">
-                <% } %>
-                  <figcaption>
-                    <%= plant.identification.name %>
-                  </figcaption>
-          </div>
-          <% }); %>
       </div>
 
       <button id="add-plant-button" onclick="location.href='/add-plant'">+</button>
@@ -71,6 +59,7 @@
   </main>
 
   <script src="javascripts/username.js"></script>
+  <script src="javascripts/index.js"></script>
 
 </body>
 

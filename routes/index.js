@@ -15,16 +15,27 @@ router.get('/', async function(req, res, next) {
   }
 });
 
+router.get('/plants', async function(req, res, next) {
+  const plants = getAllPlants();
+
+  plants.then((data) => {
+    res.status(200).json(data);
+  });
+
+  plants.catch((err) => {
+    res.status(500).send(err);
+  });
+
+});
+
 router.get('/login', async function(req, res, next) {
   res.render('username')
 })
 
 // GET plant details page
 router.get('/plant', function(req, res, next) {
-  //let plant = plantController.getSelectedPlant
   let plant_id = req.query.id;
   let result = getSelectedPlant(plant_id);
-  // console.log(result[0])
 
   result.then(plant => {
     res.render('plant_details', { title: 'Plant Details', data: plant[0] });
