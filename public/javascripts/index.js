@@ -1,3 +1,5 @@
+import { openPlantsIDB, addNewPlantsToIDB, deleteAllExistingPlantsFromIDB, getAllPlants } from "./idb-utility.js";
+
 // Register service worker to control making site work offline
 window.onload = function() {
     if ('serviceWorker' in navigator) {
@@ -24,7 +26,7 @@ window.onload = function() {
                 if (permission === "granted") {
                     navigator.serviceWorker.ready
                         .then(function(serviceWorkerRegistration) {
-                            serviceWorkerRegistration.showNotification("Todo App",
+                            serviceWorkerRegistration.showNotification("Plant Identification App",
                                 { body: "Notifications are enabled!" })
                                 .then(r =>
                                     console.log(r)
@@ -35,15 +37,15 @@ window.onload = function() {
         }
     }
     if (navigator.onLine) {
-        fetch('http://localhost:3000/todos')
+        fetch('http://localhost:3000/plants')
             .then(function(res) {
                 return res.json();
-            }).then(function(newTodos) {
-                openTodosIDB().then((db) => {
-                    insertTodoInList(db, newTodos)
-                    deleteAllExistingTodosFromIDB(db).then(() => {
-                        addNewTodosToIDB(db, newTodos).then(() => {
-                            console.log("All new todos added to IDB")
+            }).then(function(plants) {
+                openPlantsIDB().then((db) => {
+                    addPlantListings(plants);
+                    deleteAllExistingPlantsFromIDB(db).then(() => {
+                        addNewPlantsToIDB(db, plants).then(() => {
+                            console.log("All new plants added to IDB")
                         })
                     });
                 });
@@ -51,43 +53,35 @@ window.onload = function() {
 
     } else {
         console.log("Offline mode")
-        openTodosIDB().then((db) => {
-            getAllTodos(db).then((todos) => {
-                for (const todo of todos) {
-                    insertTodoInList(todo)
-                }
+        openPlantsIDB().then((db) => {
+            getAllPlants(db).then((plants) => {
+                addPlantListings(plants);
             });
         });
 
     }
 }
 
-const addPlantListings = () => {
-    fetch("http://localhost:3000/plants")
-        .then(function(res) {
-            return res.json();
-        }).then(function(data) {
-            const plants = data;
-            const element = document.getElementxByClassName("plant-cards-container");
+const addPlantListings = (plants) => {
+    console.log(plants);
 
-            while (element.firstChild) {
-                element.removeChild(element.firstChild);
-            }
+    const element = document.getElementById("plant-cards-container");
 
-            for (const plant of plants) {
-                element.appendChild(createPlantCard(plant));
-            }
-        });
-}
+    while (element.firstChild) {
+        element.removeChild(element.firstChild);
+    }
+
+    for (const plant of plants) {
+        element.appendChild(createPlantCard(plant));
+    }
+};
 
 const createPlantCard = (plant) => {
     console.log(plant)
     const newDiv = document.createElement("div");
     newDiv.setAttribute("class", "plant-card");
 
-    newDiv.addEventListener("onclick", () => {
-        location.href = `plant?id=${plant._id}`;
-    });
+    newDiv.setAttribute("onclick", `location.href="/plant?id=${plant._id}"`);
 
     const img = document.createElement("img");
     img.setAttribute("src", plant.photo);
@@ -100,6 +94,4 @@ const createPlantCard = (plant) => {
 
     return newDiv;
 }
-
-addPlantListings();
 

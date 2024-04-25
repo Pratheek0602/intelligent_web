@@ -20,7 +20,7 @@ function openChatIDB() {
 }
 
 // Used to open indexedDB containing plant listings
-function openPlantsIDB() {
+export function openPlantsIDB() {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open("plants", 1);
 
@@ -34,14 +34,12 @@ function openPlantsIDB() {
         };
 
         request.onsuccess = function(event) {
-            const db = event.target.result;
-            resolve(db);
+            const db = event.target.result; resolve(db);
         };
     });
 }
 
-// Function to add new todos to IndexedDB and return a promise
-const addNewPlantsToIDB = (plantIDB, plants) => {
+export function addNewPlantsToIDB(plantIDB, plants) {
     return new Promise((resolve, reject) => {
         const transaction = plantIDB.transaction(["plants"], "readwrite");
         const plantStore = transaction.objectStore("plants");
@@ -54,8 +52,6 @@ const addNewPlantsToIDB = (plantIDB, plants) => {
                     const getRequest = plantStore.get(addRequest.result);
                     getRequest.addEventListener("success", () => {
                         console.log("Found " + JSON.stringify(getRequest.result));
-                        // Assume addPlantListing is defined elsewhere
-                        addPlantListing(getRequest.result);
                         resolveAdd(); // Resolve the add promise
                     });
                     getRequest.addEventListener("error", (event) => {
@@ -78,11 +74,10 @@ const addNewPlantsToIDB = (plantIDB, plants) => {
 };
 
 
-// Function to remove all todos from idb
-const deleteAllExistingPlantsFromIDB = (plantIDB) => {
+export function deleteAllExistingPlantsFromIDB(plantIDB) {
     const transaction = plantIDB.transaction(["plants"], "readwrite");
-    const todoStore = transaction.objectStore("plants");
-    const clearRequest = todoStore.clear();
+    const plantStore = transaction.objectStore("plants");
+    const clearRequest = plantStore.clear();
 
     return new Promise((resolve, reject) => {
         clearRequest.addEventListener("success", () => {
@@ -95,15 +90,11 @@ const deleteAllExistingPlantsFromIDB = (plantIDB) => {
     });
 };
 
-
-
-
-// Function to get the todo list from the IndexedDB
-const getAllPlants = (plantIDB) => {
+export function getAllPlants(plantIDB) {
     return new Promise((resolve, reject) => {
         const transaction = plantIDB.transaction(["plants"]);
         const plantStore = transaction.objectStore("plants");
-        const getAllRequest = todoStore.getAll();
+        const getAllRequest = plantStore.getAll();
 
         // Handle success event
         getAllRequest.addEventListener("success", (event) => {
