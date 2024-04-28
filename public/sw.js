@@ -1,4 +1,5 @@
 // sw.js
+// TODO: Can change this to import all idb functions instead of having in both files.
 function openChatIDB() {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open('chat-messages', 1);
