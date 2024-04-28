@@ -63,7 +63,6 @@ window.onload = function() {
 }
 
 const addPlantListings = (plants) => {
-    console.log(plants);
 
     const element = document.getElementById("plant-cards-container");
 
@@ -77,7 +76,6 @@ const addPlantListings = (plants) => {
 };
 
 const createPlantCard = (plant) => {
-    console.log(plant)
     const newDiv = document.createElement("div");
     newDiv.setAttribute("class", "plant-card");
 
@@ -94,4 +92,37 @@ const createPlantCard = (plant) => {
 
     return newDiv;
 }
+
+/*
+    <button id="sort-date-asc">Date/Time Ascending</button>
+    <button id="sort-date-desc">Date/Time Descending</button>
+    <button id="sort-distance">Distance (closest to furthest)</button>
+*/
+
+
+document.getElementById("sort-date-asc").addEventListener("click", () => {
+    openPlantsIDB().then((db) => {
+        getAllPlants(db).then((plants) => {
+            plants.sort((a, b) => {
+                const aDate = new Date(a.date);
+                const bDate = new Date(b.date);
+                return bDate - aDate
+            });
+            addPlantListings(plants);
+        });
+    });
+})
+
+document.getElementById("sort-date-desc").addEventListener("click", () => {
+    openPlantsIDB().then((db) => {
+        getAllPlants(db).then((plants) => {
+            plants.sort((a, b) => {
+                const aDate = new Date(a.date);
+                const bDate = new Date(b.date);
+                return aDate - bDate
+            });
+            addPlantListings(plants);
+        });
+    });
+})
 
