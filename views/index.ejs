@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Plant Sightings</title>
   <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel='manifest' href='/manifest.json' />
 </head>
 
 <body>
@@ -21,7 +22,7 @@
             voluptates sequi possimus nostrum ratione at nam, ad voluptatibus magnam quo sed.</p>
         </div>
         <div class="image">
-          <img src="/images/plant-image.jpg" alt="Plant Image">
+          <img src="/images/plant-image.png" alt="Plant Image">
         </div>
       </div>
 
@@ -50,27 +51,17 @@
       </div>
 
       <!-- Container for plant sighting cards  -->
-      <div class="plant-cards-container">
+      <div class="plant-cards-container" id="plant-cards-container">
         <!-- Placeholder content -->
-        <% plants.forEach(plant=> { %>
-          <div class="plant-card" onclick="location.href='/plant?id=<%= plant._id %>'">
-            <% if(plant.photo) { %>
-              <img src=<%=plant.photo %>>
-              <% } else { %>
-                <img src="/images/default_image.jpg">
-                <% } %>
-                  <figcaption>
-                    <%= plant.identification.name %>
-                  </figcaption>
-          </div>
-          <% }); %>
       </div>
 
       <button id="add-plant-button" onclick="location.href='/add-plant'">+</button>
     </section>
   </main>
 
+  <script type="module" src="javascripts/idb-utility.js"></script>
   <script src="javascripts/username.js"></script>
+  <script type="module" src="javascripts/index.js"></script>
 
 </body>
 
