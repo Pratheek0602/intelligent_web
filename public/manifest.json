@@ -1,0 +1,17 @@
+{
+    "lang": "en-uk",
+    "name": "Image of the plant sighting app",
+    "short_name": "My image of the plant sighting day",
+    "description": "A basic application that fecthes the image of the plant sighting from an API",
+    "start_url": "/",
+    "background_color": "#2f3d58",
+    "theme_color": "#2f3d58",
+    "orientation": "any",
+    "display": "standalone",
+    "icons": [
+      {
+        "src": "/images/plant-image.png",
+        "sizes": "512x512"
+      }
+    ]
+  }

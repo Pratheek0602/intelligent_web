@@ -28,6 +28,7 @@ exports.init = function(io) {
             });
   
             socket.on("chat:send", async (data) => {
+              // console.log("updating planr");
                 const { name, plantId, message } = data;
               
                 try {
@@ -58,6 +59,7 @@ exports.init = function(io) {
                 } catch (error) {
                   console.error('Error saving chat message:', error);
                 }
+                
               });
             
         } catch (e) {
