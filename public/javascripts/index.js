@@ -63,7 +63,6 @@ window.onload = function() {
 }
 
 const addPlantListings = (plants) => {
-    console.log(plants);
 
     const element = document.getElementById("plant-cards-container");
 
@@ -77,7 +76,6 @@ const addPlantListings = (plants) => {
 };
 
 const createPlantCard = (plant) => {
-    console.log(plant)
     const newDiv = document.createElement("div");
     newDiv.setAttribute("class", "plant-card");
 
@@ -95,3 +93,111 @@ const createPlantCard = (plant) => {
     return newDiv;
 }
 
+const createQuery = (items) => {
+    const query = {
+        characteristics: {}
+    };
+
+
+    // TODO:Change this to be a for loop that iterates throught the items
+    // and changes the strings to be the related key values in the plants object
+    //
+    if (items.includes("with_flower")) {
+        query.characteristics.flowers = true;
+    } else if (items.includes("without_flower")) {
+        query.characteristics.flowers = false;
+    };
+
+    if (items.includes("with_leaves")) {
+        query.characteristics.leaves = true;
+    } else if (items.includes("without_leaves")) {
+        query.characteristics.leaves = false;
+    };
+
+    if (items.includes("with_fruits")) {
+        query.characteristics.fruits = true;
+    } else if (items.includes("without_fruits")) {
+        query.characteristics.fruits = false;
+    };
+
+    if (items.includes("with_thorns")) {
+        query.characteristics.thorns = true;
+    } else if (items.includes("without_thorns")) {
+        query.characteristics.thorns = false;
+    };
+
+    if (items.includes("with_seeds")) {
+        query.characteristics.seeds = true;
+    } else if (items.includes("without_seeds")) {
+        query.characteristics.seeds = false;
+    };
+
+    if (items.includes("full_sun")) {
+        query.sunExposure = "full_sun";
+    } else if (items.includes("partial_shade")) {
+        query.sunExposure = "partial_shade";
+    } else if (items.includes("full_shade")) {
+        query.sunExposure = "full_shade";
+    };
+
+    return query;
+}
+
+document.getElementById("sort-date-asc").addEventListener("click", () => {
+    openPlantsIDB().then((db) => {
+        getAllPlants(db).then((plants) => {
+            plants.sort((a, b) => {
+                const aDate = new Date(a.date);
+                const bDate = new Date(b.date);
+                return bDate - aDate
+            });
+            addPlantListings(plants);
+        });
+    });
+})
+
+document.getElementById("sort-date-desc").addEventListener("click", () => {
+    openPlantsIDB().then((db) => {
+        getAllPlants(db).then((plants) => {
+            plants.sort((a, b) => {
+                const aDate = new Date(a.date);
+                const bDate = new Date(b.date);
+                return aDate - bDate
+            });
+            addPlantListings(plants);
+        });
+    });
+})
+
+document.getElementById("plant-features").addEventListener("change", () => {
+    const category = document.getElementById("plant-features").value;
+    console.log(category);
+
+    if (category !== "select") {
+        let items = [category]
+        const query = createQuery(items);
+
+        console.log(`Query: ${query}`);
+
+        openPlantsIDB().then((db) => {
+            getAllPlants(db).then((plants) => {
+                plants = plants.filter((plant) => {
+                    for (const obj in query.characteristics) {
+                        if (query.characteristics[obj] !== plant.characteristics[obj]) {
+                            return false;
+                        }
+                    }
+                    if (query.sunExposure !== plant.sunExposure && query.sunExposure !== undefined) {
+                        return false;
+                    }
+                    return true;
+                });
+
+                console.log(`Chosen plants: ${plants}`)
+
+                addPlantListings(plants);
+            });
+        });
+
+    }
+});
