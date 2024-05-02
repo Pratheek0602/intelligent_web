@@ -36,21 +36,12 @@ router.get('/login', async function(req, res, next) {
 router.get('/plant', function(req, res, next) {
   let plant_id = req.query.id;
   let result = getSelectedPlant(plant_id);
+  console.log(result)
 
-  let plant_author = result[0].user;
-  // use a form post action and a controller function?
-
-  // add a function to username.js to pass the value of username
-  // to an element on the plant details page (use setAttribute for the
-  // value attribute/innerHTML method + hide the element)
-  // and use get element by id to retrieve the session author inside
-  // the checkPermission function. Will need to add username.js script
-  // to plant_details.ejs so that the get element by id step works
-  let session_author = "test";
 
   result.then(plant => {
     res.render('plant_details', { title: 'Plant Details',
-      data: plant[0], plant_author: plant_author, session_author: session_author });
+      data: plant[0]});
   })
 });
 
