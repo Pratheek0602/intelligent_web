@@ -36,9 +36,12 @@ router.get('/login', async function(req, res, next) {
 router.get('/plant', function(req, res, next) {
   let plant_id = req.query.id;
   let result = getSelectedPlant(plant_id);
+  console.log(result)
+
 
   result.then(plant => {
-    res.render('plant_details', { title: 'Plant Details', data: plant[0] });
+    res.render('plant_details', { title: 'Plant Details',
+      data: plant[0]});
   })
 });
 

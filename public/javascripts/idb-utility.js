@@ -18,7 +18,6 @@ function openChatIDB() {
         };
     });
 }
-
 // Used to open indexedDB containing plant listings
 export function openPlantsIDB() {
     return new Promise((resolve, reject) => {
@@ -31,6 +30,25 @@ export function openPlantsIDB() {
         request.onupgradeneeded = function(event) {
             const db = event.target.result;
             db.createObjectStore('plants', { keyPath: '_id' });
+        };
+
+        request.onsuccess = function(event) {
+            const db = event.target.result; resolve(db);
+        };
+    });
+}
+
+export function openUsernameIDB() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open("plant", 1);
+
+        request.onerror = function(event) {
+            reject(new Error(`Database error: ${event.target}`));
+        };
+
+        request.onupgradeneeded = function(event) {
+            const db = event.target.result;
+            db.createObjectStore('user');
         };
 
         request.onsuccess = function(event) {
@@ -95,6 +113,24 @@ export function getAllPlants(plantIDB) {
         const transaction = plantIDB.transaction(["plants"]);
         const plantStore = transaction.objectStore("plants");
         const getAllRequest = plantStore.getAll();
+
+        // Handle success event
+        getAllRequest.addEventListener("success", (event) => {
+            resolve(event.target.result); // Use event.target.result to get the result
+        });
+
+        // Handle error event
+        getAllRequest.addEventListener("error", (event) => {
+            reject(event.target.error);
+        });
+    });
+}
+
+export function getUsername(usernameIDB) {
+    return new Promise((resolve, reject) => {
+        const transaction = usernameIDB.transaction(["user"]);
+        const userStore = transaction.objectStore("user");
+        const getAllRequest = userStore.get("username");
 
         // Handle success event
         getAllRequest.addEventListener("success", (event) => {

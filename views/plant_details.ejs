@@ -5,15 +5,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Plant Details</title>
-  <link rel="stylesheet" href="/stylesheets/plant-details.css">  
+  <link rel="stylesheet" href="/stylesheets/plant-details.css">
+  <script src="/javascripts/idb-utility" type="module"></script>
+  <script src="/javascripts/viewPlant.js" type="module"></script>
 </head>
 
 <body>
   <div class="container1">
-    <div class="heading">
+    <div class="heading" id="update_button_heading">
       <h1>Sighting details for <%= data.identification.name %>
       </h1>
-      <button class="edit-button" onclick="location.href='/update-plant?id=<%= data._id %>'">Update Sighting</button>
+      <button class="edit-button" id="update_button" disabled onclick="location.href='/update-plant?id=<%= data._id %>'">Update Sighting</button>
     </div>
     <div class="details-container">
       <img src=<%= data.photo %> class="sighting-image">
@@ -47,6 +49,7 @@
         <p>Identification Status: <%= data.identification.status %>
         </p>
       </div>
+      <p id="plant-user" hidden><%= data.user%></p>
     </div>
 
     <!-- <div class="chat-interface">
@@ -98,7 +101,8 @@
   </div>  
   <script src="/socket.io/socket.io.js"></script>
   <script src="/javascripts/chat.js" type="module"></script>
-
+    <script src="/javascripts/idb-utility" type="module"></script>
+    <script src="/javascripts/viewPlant.js" type="module"></script>
 </body>
 
 </html>
