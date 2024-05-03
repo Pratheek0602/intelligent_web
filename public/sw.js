@@ -56,6 +56,9 @@ self.addEventListener('install', event => {
         '/javascripts/chat.js',
         '/javascripts/index.js',
         '/javascripts/username.js',
+        '/javascripts/idb-utility.js',
+        '/javascripts/viewPlant.js',
+        '/javascripts/formSubmission.js',
       ]);
       console.log('Service Worker: App Shell Cached');
     } catch (error) {
