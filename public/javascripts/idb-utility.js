@@ -38,6 +38,30 @@ export function openPlantsIDB() {
     });
 }
 
+// Used to open indexedDB containing plant listings
+function openAddPlantsIDB() {
+    console.log("OPEN PLANT IDB")
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open("addPlants", 1);
+
+        request.onerror = function(event) {
+            reject(new Error(`Database error: ${event.target.errorCode}`));
+        };
+
+        request.onupgradeneeded = function(event) {
+            const db = event.target.result;
+            // Create an object store with autoIncrement set to true
+            if (!db.objectStoreNames.contains('addPlants')) {
+                db.createObjectStore('addPlants', {autoIncrement: true });
+            }
+        };
+
+        request.onsuccess = function(event) {
+            resolve(event.target.result);
+        };
+    });
+}
+
 export function openUsernameIDB() {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open("plant", 1);
@@ -209,3 +233,46 @@ export function deleteSyncedMessage() {
         })
     });
 };
+
+export function addPlantToSync(plantData) {
+    console.log("Attempting to add plant data:", plantData, JSON.stringify(plantData, null, 2));
+    openAddPlantsIDB().then(db => {
+        const transaction = db.transaction(['addPlants'], 'readwrite');
+        const store = transaction.objectStore('addPlants');
+        const request = store.add(plantData);
+
+        request.onsuccess = () => {
+            console.log('Plant data added to the sync store:', request.result);
+        };
+
+        request.onerror = (event) => {
+            console.error('Failed to add plant data to the sync store:', event.target.error);
+        };
+    }).catch(error => {
+        console.error('Failed to open IndexedDB:', error);
+    });
+}
+
+// Retrieve all plants to sync when coming back online
+export function getAllAddedPlantsToSync() {
+    console.log("Gettingg all plants");
+    return new Promise((resolve, reject) => {
+        openAddPlantsIDB().then(db => {
+            const transaction = db.transaction(['addPlants'], 'readonly');
+            const store = transaction.objectStore('addPlants');
+            const request = store.getAll();
+            request.onsuccess = () => {
+                resolve(request.result);
+            };
+            request.onerror = (event) => {
+                console.error('Failed to retrieve messages:', event.target.error);
+                reject(event.target.error);
+            };
+        }).catch(error => {
+            console.error('Failed to open IndexedDB:', error);
+            reject(error);
+        });
+    });
+};
+
+
