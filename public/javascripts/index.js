@@ -37,10 +37,13 @@ window.onload = function() {
         }
     }
     if (navigator.onLine) {
+        syncPlants(),
+
         fetch('http://localhost:3000/plants')
             .then(function(res) {
                 return res.json();
             }).then(function(plants) {
+                
                 openPlantsIDB().then((db) => {
                     addPlantListings(plants);
                     deleteAllExistingPlantsFromIDB(db).then(() => {
@@ -50,6 +53,7 @@ window.onload = function() {
                     });
                 });
             });
+            
             // syncPlants()
 
     } else {
