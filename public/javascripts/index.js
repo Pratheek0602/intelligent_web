@@ -37,7 +37,6 @@ window.onload = function() {
         }
     }
     if (navigator.onLine) {
-        syncPlants()
         fetch('http://localhost:3000/plants')
             .then(function(res) {
                 return res.json();
@@ -51,6 +50,7 @@ window.onload = function() {
                     });
                 });
             });
+            // syncPlants()
 
     } else {
         console.log("Offline mode")

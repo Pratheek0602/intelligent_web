@@ -333,6 +333,10 @@ export function syncPlants(){
         };
     },)
     deleteSyncedPlants()
+    self.registration.showNotification('Plant Synced!', {
+        body: 'Welcome back online, the plants you added have synced successfully!',
+    });
+    console.log('did notifs ');
 }
 
 
