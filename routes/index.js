@@ -67,7 +67,7 @@ router.post('/add-plant', async function(req, res, next) {
     },
     identification: {
       name: req.body.identification_name,
-      status: "lol"//req.body.identification_name,
+      status: "In Progress"//req.body.identification_name,
     },
     sunExposure: req.body.sun_exposure,
     // flowersColour: req.body.flowers_colour,
