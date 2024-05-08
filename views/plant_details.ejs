@@ -65,7 +65,10 @@
           <h2>Join Chatroom</h2>
           <div class="form-input">
             <label>Username</label>
-            <input type="text" id="username">
+            <!-- <input type="text" id="username"> -->
+            <input type="text" id="username" placeholder="<%= data.user%>" disabled
+            style="background-color: #cfcfcf; color: #000000;">
+            
           </div>
           <div class="form-input">
             <input type="hidden" id="plant_id" value="<%= data._id %>">

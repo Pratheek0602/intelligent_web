@@ -21,9 +21,7 @@ import { addMessageToSync, getAllMessagesToSync, deleteSyncedMessage } from './i
 
   chat.querySelector(".join-screen #join-user").addEventListener("click", function() {
       let username = chat.querySelector(".join-screen #username").value;
-      if (username.length == 0) {
-          return alert("Please enter your username!")
-      }
+
       socket.emit("joinPlantChat", plant_id);
       socket.emit("newuser", username, plant_id);
       uname = username;
