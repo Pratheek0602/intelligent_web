@@ -1,4 +1,4 @@
-import { addMessageToSync, getAllMessagesToSync, deleteSyncedMessage } from './idb-utility.js'; 
+import { addMessageToSync, getAllMessagesToSync, deleteSyncedMessage,openUsernameIDB, getUsername } from './idb-utility.js'; 
 
 (function() {
   // Check if service workers are supported
@@ -12,21 +12,26 @@ import { addMessageToSync, getAllMessagesToSync, deleteSyncedMessage } from './i
   const socket = io();
   let uname;
   var plant_id = document.getElementById('plant_id').value;
-
-  console.log(plant_id); // Now should output the plant_id or null
-
   const messages = document.getElementById("messages");
   const form = document.getElementById("form");
   const input = document.getElementById("input");
 
-  chat.querySelector(".join-screen #join-user").addEventListener("click", function() {
-      let username = chat.querySelector(".join-screen #username").value;
+  
 
-      socket.emit("joinPlantChat", plant_id);
-      socket.emit("newuser", username, plant_id);
-      uname = username;
-      chat.querySelector(".join-screen").classList.remove("active");
-      chat.querySelector(".chat-screen").classList.add("active");
+  chat.querySelector(".join-screen #join-user").addEventListener("click", function() {
+    openUsernameIDB().then((db) => {
+        getUsername(db).then((username) => {
+            uname = username.value; // Assume username is an object with a value property
+
+            socket.emit("joinPlantChat", plant_id);
+            socket.emit("newuser", uname, plant_id);
+
+            chat.querySelector(".join-screen").classList.remove("active");
+            chat.querySelector(".chat-screen").classList.add("active");
+        });
+    }).catch((err) => {
+        console.error("Failed to retrieve username:", err);
+    });
   });
 
   socket.on("global:message", (message) => {
@@ -48,7 +53,6 @@ import { addMessageToSync, getAllMessagesToSync, deleteSyncedMessage } from './i
 
       } 
       else {
-        // The   is online, emit the message via socket
         deleteSyncedMessage();
         socket.emit('chat:send', messageData);
       }
