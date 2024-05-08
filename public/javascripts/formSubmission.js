@@ -1,4 +1,4 @@
-import { addPlantToSync, getAllAddedPlantsToSync } from './idb-utility.js';
+import { addPlantToSync, getAllAddedPlantsToSync, deleteSyncedPlants } from './idb-utility.js';
 
 // document.getElementById("add_plant").addEventListener("submit", function(e) {
 //     e.preventDefault();
@@ -118,11 +118,14 @@ document.getElementById("add_plant").addEventListener("submit", function(e) {
                     };
 
                     console.log("submitted");
-                    // document.getElementById("add_plant").submit(); // Submit the form
+                    
 				
 
                     // deleteSyncedMessage();
-                }).catch((error) => {
+                },
+				document.getElementById("add_plant").submit(),
+				deleteSyncedPlants()
+				).catch((error) => {
                     console.error('Error ', error);
                 });
             } else {

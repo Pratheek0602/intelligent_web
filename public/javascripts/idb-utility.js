@@ -275,4 +275,28 @@ export function getAllAddedPlantsToSync() {
     });
 };
 
+export function deleteSyncedPlants() {
+    console.log("Clearing all messages from IndexedDB");
+    return new Promise((resolve, reject) => { // Return a new promise to handle success or error states
+        openAddPlantsIDB().then((db) => {
+            const transaction = db.transaction(['addPlants'], 'readwrite');
+            const store = transaction.objectStore('addPlants');
+            const clearRequest = store.clear();
+
+            clearRequest.onsuccess = () => {
+                console.log("All new plants have been successfully deleted.");
+                resolve(); // Resolve the promise when clearing is successful
+            };
+
+            clearRequest.onerror = (event) => {
+                console.error("Error clearing messages:", event.target.error);
+                reject(event.target.error); // Reject the promise when an error occurs
+            };
+        }).catch((error) => {
+            console.error('Error opening IndexedDB:', error);
+            reject(error); // Reject the promise when opening DB fails
+        })
+    });
+};
+
 
