@@ -1,4 +1,4 @@
-import { openPlantsIDB, addNewPlantsToIDB, deleteAllExistingPlantsFromIDB, getAllPlants } from "./idb-utility.js";
+import { openPlantsIDB, addNewPlantsToIDB, deleteAllExistingPlantsFromIDB, getAllPlants, syncPlants } from "./idb-utility.js";
 
 // Register service worker to control making site work offline
 window.onload = function() {
@@ -37,6 +37,7 @@ window.onload = function() {
         }
     }
     if (navigator.onLine) {
+        syncPlants()
         fetch('http://localhost:3000/plants')
             .then(function(res) {
                 return res.json();
