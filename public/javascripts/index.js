@@ -36,8 +36,21 @@ window.onload = function() {
             });
         }
     }
+    if (!navigator.onLine) {
+        console.log("Offline mode")
+        openPlantsIDB().then((db) => {
+            getAllPlants(db).then((plants) => {
+                addPlantListings(plants);
+            });
+        });
+
+    }
     if (navigator.onLine) {
-        syncPlants(),
+        console.log("Online mode")
+
+        syncPlants()
+        
+        // var addedPlant = syncPlants()
 
         fetch('http://localhost:3000/plants')
             .then(function(res) {
@@ -53,18 +66,13 @@ window.onload = function() {
                     });
                 });
             });
-            
-            // syncPlants()
 
-    } else {
-        console.log("Offline mode")
-        openPlantsIDB().then((db) => {
-            getAllPlants(db).then((plants) => {
-                addPlantListings(plants);
-            });
-        });
+            // console.log("added", addedPlant)
+            // if (addedPlant) {
+            //     location.reload();
+            // }
 
-    }
+    } 
 }
 
 const addPlantListings = (plants) => {

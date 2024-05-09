@@ -300,8 +300,10 @@ export function deleteSyncedPlants() {
 };
 
 export function syncPlants(){
+    // var addedPlant = false;
     getAllAddedPlantsToSync().then((plantsToSync) => {
         for (const plantData of plantsToSync) {
+            // addedPlant = true;
 
             const formData = new URLSearchParams();
             formData.append("date_time_seen", plantData.date);
@@ -336,7 +338,8 @@ export function syncPlants(){
     // showNotification('Plant Synced!', {
     //     body: 'Welcome back online, the plants you added have synced successfully!',
     // });
-    console.log('did notifs ');
+    // console.log('addedPlant', addedPlant);
+    // return addedPlant;
 }
 
 
