@@ -25,17 +25,15 @@ document.getElementById("add_plant").addEventListener("submit", function(e) {
 				document.getElementById("add_plant").submit()
             } else {
                 // If offline, store the data in IndexedDB
-                console.log("offline submit", document.getElementById("add_plant"))
                 storePlantInIDB();
 				
 				navigator.serviceWorker.ready
 				.then(function (serviceWorkerRegistration) {
 					serviceWorkerRegistration.showNotification("Plant added while offline!",
-						{body: "Waiting for the system to be back online..."})
-						.then(r =>
-							console.log(r)
-						);
+						{body: "Please refresh the page when back online..."})
 				});
+
+				window.location.href = '/';
             }
         };
         reader.onerror = () => {

@@ -66,12 +66,6 @@ window.onload = function() {
                     });
                 });
             });
-
-            // console.log("added", addedPlant)
-            // if (addedPlant) {
-            //     location.reload();
-            // }
-
     } 
 }
 

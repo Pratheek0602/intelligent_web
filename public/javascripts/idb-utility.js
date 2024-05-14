@@ -255,7 +255,6 @@ export function addPlantToSync(plantData) {
 
 // Retrieve all plants to sync when coming back online
 export function getAllAddedPlantsToSync() {
-    console.log("Gettingg all plants");
     return new Promise((resolve, reject) => {
         openAddPlantsIDB().then(db => {
             const transaction = db.transaction(['addPlants'], 'readonly');
@@ -300,11 +299,9 @@ export function deleteSyncedPlants() {
 };
 
 export function syncPlants(){
-    // var addedPlant = false;
+    
     getAllAddedPlantsToSync().then((plantsToSync) => {
         for (const plantData of plantsToSync) {
-            // addedPlant = true;
-
             const formData = new URLSearchParams();
             formData.append("date_time_seen", plantData.date);
             formData.append("location", plantData.location);
@@ -328,18 +325,14 @@ export function syncPlants(){
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
             }).then(() => {
-                console.log('Service Worker: Syncing new Todo: ', formData, ' done');
+                console.log('Service Worker: Syncing new Plant: ', formData, ' done');
             }).catch((err) => {
-                console.log('Service Worker: Syncing new Todo: ', formData, ' failed');
+                console.log('Service Worker: Syncing new Plant: ', formData, ' failed');
             });
         };
     },)
     deleteSyncedPlants()
-    // showNotification('Plant Synced!', {
-    //     body: 'Welcome back online, the plants you added have synced successfully!',
-    // });
-    // console.log('addedPlant', addedPlant);
-    // return addedPlant;
+    
 }
 
 
