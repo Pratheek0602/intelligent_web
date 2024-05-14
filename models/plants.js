@@ -31,7 +31,7 @@ let PlantSchema = new Schema({
   },
   sunExposure : { type: String, required: true },
   identification: {
-    name: { type: String, required: true },
+    name: { type: String, default: 'Unknown', required: true },
     status: { type: String, required: true },
   },
   photo: { type: String, required: true },
