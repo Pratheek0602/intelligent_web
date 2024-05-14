@@ -20,8 +20,7 @@
       <img src=<%=data.photo %> class="sighting-image">
 
       <div class="sighting-details">
-        <p>Added by: <%= data.user %>
-        </p>
+        <p>Added by: <span id="username-placeholder"></span></p>
         <p>Description: <%= data.description %>
         </p>
         <p>Date/Time Seen: <%= data.date %>
@@ -98,6 +97,7 @@
     <script src="/javascripts/chat.js" type="module"></script>
     <script src="/javascripts/idb-utility.js" type="module"></script>
     <script src="/javascripts/viewPlant.js" type="module"></script>
+    <script src="/javascripts/plant-details.js"></script>
 </body>
 
 </html>
