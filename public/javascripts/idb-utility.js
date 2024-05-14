@@ -304,7 +304,8 @@ export function syncPlants(){
         for (const plantData of plantsToSync) {
             const formData = new URLSearchParams();
             formData.append("date_time_seen", plantData.date);
-            formData.append("location", plantData.location);
+            formData.append("longitude", plantData.longitude);
+            formData.append("latitude", plantData.latitude);
             formData.append("description", plantData.description);
             formData.append("plant_height", plantData.size.height);
             formData.append("plant_spread", plantData.size.spread);

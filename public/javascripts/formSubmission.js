@@ -45,7 +45,8 @@ document.getElementById("add_plant").addEventListener("submit", function(e) {
 function storePlantInIDB() {
     let plantData = {
         date: document.getElementById('date_time_seen').value,
-        location:  document.getElementById('location').value,
+		longitude:  document.getElementById('longitude').value,
+		latitude:  document.getElementById('latitude').value,
         description: document.getElementById('description').value,
         size: {
             height: document.getElementById('plant_height').value,
