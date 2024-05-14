@@ -1,4 +1,4 @@
-import { addPlantToSync, openUsernameIDB, getUsername, getAllAddedPlantsToSync, deleteSyncedPlants, syncPlants } from './idb-utility.js';
+import { addPlantToSync, openUsernameIDB, getUsername} from './idb-utility.js';
 
 document.getElementById("add_plant").addEventListener("submit", function(e) {
     e.preventDefault();
