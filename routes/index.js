@@ -46,7 +46,7 @@ router.get('/plant', function(req, res, next) {
 });
 
 router.get('/add-plant', function(req, res, next) {
-  res.render('form', { title: 'Plant Details', correct_submission: 'true' });
+  res.render('form', { title: 'Add Plant' });
 });
 
 router.post('/add-plant', async function(req, res, next) {
