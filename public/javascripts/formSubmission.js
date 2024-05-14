@@ -18,6 +18,10 @@ document.getElementById("add_plant").addEventListener("submit", function(e) {
             base64Input.setAttribute("value", base64);
             document.getElementById("add_plant").appendChild(base64Input);
 
+            if (document.getElementById('identification_name').value === "") {
+                document.getElementById('identification_name').value = " "
+            };
+
             openUsernameIDB().then((db) => {
                 getUsername(db).then((res) => {
                     const sessionAuthor = res.value;
