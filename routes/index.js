@@ -5,6 +5,22 @@ var router = express.Router();
 const { create, getAllPlants, getSelectedPlant, getSortedPlants, updatePlantIdentification } = require('../controllers/plantController');
 
 
+var multer = require('multer');
+
+var storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, 'public/images/uploads/');
+  },
+  filename: function(req, file, cb) {
+    var original = file.originalname;
+    var file_extension = original.split(".");
+    var filename = Date.now() + '.' + file_extension[file_extension.length - 1];
+    cb(null, filename);
+  }
+});
+
+let upload = multer({ storage: storage });
+
 /* GET home page. */
 router.get('/', async function(req, res, next) {
   try {
@@ -40,8 +56,10 @@ router.get('/plant', function(req, res, next) {
 
 
   result.then(plant => {
-    res.render('plant_details', { title: 'Plant Details',
-      data: plant[0]});
+    res.render('plant_details', {
+      title: 'Plant Details',
+      data: plant[0]
+    });
   })
 });
 
@@ -49,7 +67,9 @@ router.get('/add-plant', function(req, res, next) {
   res.render('form', { title: 'Plant Details', correct_submission: 'true' });
 });
 
-router.post('/add-plant', async function(req, res, next) {
+router.post('/add-plant', upload.single('upload_photo'), async function(req, res, next) {
+  console.log(req);
+  let filePath = req.file.path;
   await create({
     date: req.body.date_time_seen,
     location: req.body.location,
@@ -71,10 +91,9 @@ router.post('/add-plant', async function(req, res, next) {
     },
     sunExposure: req.body.sun_exposure,
     // flowersColour: req.body.flowers_colour,
-    photo: req.body.base64Image,
     // Handling for file upload will be required here for `photo`
     user: req.body.user_nickname
-  });
+  }, filePath);
 
   res.redirect('/');
 });

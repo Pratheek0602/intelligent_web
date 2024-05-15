@@ -1,7 +1,7 @@
 const plantModel = require('../models/plants');
 
 //CREATE PLANT SIGHTING
-exports.create = function(userData) {
+exports.create = function(userData, filePath) {
   let plant = new plantModel({
     date: userData.date,
     location: userData.location,
@@ -22,7 +22,7 @@ exports.create = function(userData) {
       status: userData.identification.status,
     },
     sunExposure: userData.sunExposure,
-    photo: userData.photo, // TODO: Will need function to convert image file to base64 string
+    photo: filePath,
     user: userData.user,
   });
 
