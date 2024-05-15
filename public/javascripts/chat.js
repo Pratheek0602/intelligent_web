@@ -48,39 +48,68 @@ import { addMessageToSync, getAllMessagesToSync, deleteSyncedMessage,openUsernam
 
       if (!navigator.onLine) {
         // The browser is offline, store the message in IndexedDB
-        console.log("GOING HERE", messageData);
-        addMessageToSync(messageData)
-
+        // console.log("GOING HERE", messageData);
+        addMessageToSync(messageData),
+        navigator.serviceWorker.ready
+            .then(function (serviceWorkerRegistration) {
+                serviceWorkerRegistration.showNotification("System is offline!", {
+                    body: "Your messages will appear when back online..."
+                });
+            });
       } 
       else {
         deleteSyncedMessage();
         socket.emit('chat:send', messageData);
+        // self.registration.showNotification('Plant Synced!', {
+        //     body: 'Welcome back online, the plants you added have synced successfully!',
+        // });
+
       }
       input.value = "";
       messages.scrollTop = messages.scrollHeight - messages.clientHeight;
   });
 
   function syncMessages() {
-    console.log("suncing");
+    // console.log("suncing");
     
     getAllMessagesToSync().then((messagesToSync) => {
         messagesToSync.forEach((messageData) => {
             socket.emit('chat:send', messageData);
         });
         deleteSyncedMessage();
+        self.registration.showNotification('Messages Synced!', {
+            body: 'Welcome back online, your chats have synced successfully!',
+        });
     }).catch((error) => {
         console.error('Error getting messages to sync:', error);
     });
   }
   window.addEventListener('online', syncMessages);
 
-  socket.on("chat:receiver", (data) => {
-      if (data && data.name && data.message) {
-          appendMessages(data.name, data.message);
-      } else {
-          console.error('Received data is not in the expected format:', data);
-      }
-  });
+//   socket.on("chat:receiver", (data) => {
+//       if (data && data.name && data.message) {
+//           appendMessages(data.name, data.message);
+//       } else {
+//           console.error('Received data is not in the expected format:', data);
+//       }
+//   });
+
+socket.on("chat:receiver", (data) => {
+    if (data && data.name && data.message) {
+        appendMessages(data.name, data.message);
+        
+        // Check if the current user is the one who uploaded the plant
+        const plantUser = document.getElementById("plant-user").textContent.trim();
+        if (plantUser === uname) {
+            // If the current user uploaded the plant, trigger a notification
+            self.registration.showNotification('You got a message!', {
+                body: 'Check your chat!',
+            });
+        }
+    } else {
+        console.error('Received data is not in the expected format:', data);
+    }
+});
 
   socket.on("output-messages", (data) => {
       console.log(data);

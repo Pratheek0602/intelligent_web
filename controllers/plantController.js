@@ -1,11 +1,12 @@
 const plantModel = require('../models/plants');
 
 //CREATE PLANT SIGHTING
-exports.create = function(userData) {
+exports.create = function(userData, filePath) {
   let plant = new plantModel({
     date: userData.date,
-    location: userData.location,
     description: userData.description,
+    longitude: userData.longitude,
+    latitude: userData.latitude,
     size: {
       height: userData.size.height,
       spread: userData.size.spread,
@@ -22,7 +23,7 @@ exports.create = function(userData) {
       status: userData.identification.status,
     },
     sunExposure: userData.sunExposure,
-    photo: userData.photo, // TODO: Will need function to convert image file to base64 string
+    photo: filePath,
     user: userData.user,
   });
 
@@ -53,8 +54,6 @@ exports.getAllPlants = function() {
 exports.getSelectedPlant = function(plantID) {
   // Execute query to find the plant record matching the plantID
   return plantModel.find({ _id: plantID }).then(plant => {
-    console.log(plant);
-
     //return plant;
     return plant;
   }).catch(err => {

@@ -5,6 +5,22 @@ var router = express.Router();
 const { create, getAllPlants, getSelectedPlant, getSortedPlants, updatePlantIdentification } = require('../controllers/plantController');
 
 
+var multer = require('multer');
+
+var storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, 'public/images/uploads/');
+  },
+  filename: function(req, file, cb) {
+    var original = file.originalname;
+    var file_extension = original.split(".");
+    var filename = Date.now() + '.' + file_extension[file_extension.length - 1];
+    cb(null, filename);
+  }
+});
+
+let upload = multer({ storage: storage });
+
 /* GET home page. */
 router.get('/', async function(req, res, next) {
   try {
@@ -36,23 +52,84 @@ router.get('/login', async function(req, res, next) {
 router.get('/plant', function(req, res, next) {
   let plant_id = req.query.id;
   let result = getSelectedPlant(plant_id);
-  console.log(result)
 
 
   result.then(plant => {
-    res.render('plant_details', { title: 'Plant Details',
-      data: plant[0]});
+    const plantResource = plant[0].identification.name.replaceAll(" ", "_");
+    const resourceURL = `http://dbpedia.org/resource/${plantResource}`
+
+    console.log(resourceURL)
+    const endpointUrl = 'http://dbpedia.org/sparql'
+
+    const sparqlQuery = `
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX dbo: <http://dbpedia.org/ontology/>
+    PREFIX dbp: <http://dbpedia.org/property/>
+  
+    SELECT ?comment ?genus ?species
+    WHERE {
+    <${resourceURL}> dbp:genus ?genus .
+    <${resourceURL}> dbp:species ?species .
+    <${resourceURL}> rdfs:comment ?comment .
+    FILTER(langMatches(lang(?comment), "en")) .
+    }`;
+
+    const encodedQuery = encodeURIComponent(sparqlQuery);
+
+    const fetchURL = `${endpointUrl}?query=${encodedQuery}&format=json`;
+
+    let fetchPromise = fetch(fetchURL);
+
+    let dbpediaResponse = {
+      comment: "",
+      genus: "",
+      species: ""
+    };
+
+    fetchPromise.catch((e) => {
+      console.log(`Couldnt fetch, failed with error ${e}`)
+      res.render('plant_details', {
+        title: 'Plant Details',
+        data: plant[0],
+        found: false,
+        dbpedia: dbpediaResponse
+      });
+    })
+
+
+
+    fetchPromise.then(fetchRes => fetchRes.json()).then(data => {
+      bindings = data.results.bindings;
+      let plantFound = false;
+      if (!bindings || bindings.length != 0) {
+        plantFound = true;
+        dbpediaResponse.comment = bindings[0].comment.value;
+        dbpediaResponse.genus = bindings[0].genus.value;
+        dbpediaResponse.species = bindings[0].species.value;
+      }
+
+      res.render('plant_details', {
+        title: 'Plant Details',
+        data: plant[0],
+        found: plantFound,
+        dbpedia: dbpediaResponse
+      })
+    })
+
   })
 });
 
 router.get('/add-plant', function(req, res, next) {
-  res.render('form', { title: 'Plant Details', correct_submission: 'true' });
+  res.render('form', { title: 'Add Plant' });
 });
 
-router.post('/add-plant', async function(req, res, next) {
+router.post('/add-plant', upload.single('upload_photo'), async function(req, res, next) {
+  console.log(req);
+  let filePath = req.file.path;
   await create({
     date: req.body.date_time_seen,
-    location: req.body.location,
+    longitude: req.body.longitude,
+    latitude: req.body.latitude,
     description: req.body.description,
     size: {
       height: req.body.plant_height,
@@ -67,14 +144,13 @@ router.post('/add-plant', async function(req, res, next) {
     },
     identification: {
       name: req.body.identification_name,
-      status: "lol"//req.body.identification_name,
+      status: "In Progress"//req.body.identification_name,
     },
     sunExposure: req.body.sun_exposure,
     // flowersColour: req.body.flowers_colour,
-    photo: req.body.base64Image,
     // Handling for file upload will be required here for `photo`
     user: req.body.user_nickname
-  });
+  }, filePath);
 
   res.redirect('/');
 });
