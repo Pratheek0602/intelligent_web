@@ -23,8 +23,7 @@
       <img src=<%=data.photo %> class="sighting-image">
 
       <div class="sighting-details">
-        <p>Added by: <%= data.user %>
-        </p>
+        <p>Added by: <span id="username-placeholder"></span></p>
         <p>Description: <%= data.description %>
         </p>
         <p>Date/Time Seen: <%= data.date %>
@@ -53,10 +52,6 @@
         <%= data.user%>
       </p>
     </div>
-
-    <!-- <div class="chat-interface">
-        <h2>Chat for [Plant Name]</h2>
-    </div> -->
   </div>
 
   <div class="container1">
@@ -84,10 +79,7 @@
       <div class="screen join-screen active">
         <div class="form">
           <h2>Join Chatroom</h2>
-          <div class="form-input">
-            <label>Username</label>
-            <input type="text" id="username">
-          </div>
+
           <div class="form-input">
             <input type="hidden" id="plant_id" value="<%= data._id %>">
           </div>

@@ -127,6 +127,12 @@ h3 {
   border-color: #4CAF50; /* Highlight with a green border on focus */
 }
 
+.description {
+  margin: auto;
+  width: 80%;
+  padding: 10px;
+}
+
 /* Style for the option */
 .filter-dropdown select option {
   padding: 10px; /* Padding inside dropdown options for better readability */
