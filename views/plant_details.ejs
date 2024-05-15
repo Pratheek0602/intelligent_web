@@ -59,6 +59,26 @@
     </div> -->
   </div>
 
+  <div>
+    <h1>DBPedia</h1>
+    <% if (found) { %>
+      <h2>Description</h2>
+      <p>
+        <%=dbpedia.comment%>
+      </p>
+      <h2>Genus</h2>
+      <p>
+        <%=dbpedia.genus%>
+      </p>
+      <h2>Species</h2>
+      <p>
+        <%=dbpedia.species%>
+      </p>
+      <% } else { %>
+        <p> Could not find information on dbpedia, ensure name given is scientific name.</p>
+        <% } %>
+  </div>
+
   <div class="container2">
     <div class="chat-box">
       <div class="screen join-screen active">
@@ -102,6 +122,8 @@
         </div>
       </div>
     </div>
+
+
     <script src="/socket.io/socket.io.js"></script>
     <script src="/javascripts/chat.js" type="module"></script>
     <script src="/javascripts/idb-utility.js" type="module"></script>

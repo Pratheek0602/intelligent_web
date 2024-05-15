@@ -54,8 +54,6 @@ exports.getAllPlants = function() {
 exports.getSelectedPlant = function(plantID) {
   // Execute query to find the plant record matching the plantID
   return plantModel.find({ _id: plantID }).then(plant => {
-    console.log(plant);
-
     //return plant;
     return plant;
   }).catch(err => {
