@@ -1,4 +1,4 @@
-import { addPlantToSync, openUsernameIDB, getUsername} from './idb-utility.js';
+import { addPlantToSync, openUsernameIDB, getUsername } from './idb-utility.js';
 
 document.getElementById("add_plant").addEventListener("submit", function(e) {
     e.preventDefault();
@@ -38,16 +38,16 @@ document.getElementById("add_plant").addEventListener("submit", function(e) {
                         document.getElementById("add_plant").submit();
                     } else {
                         // If offline, store the data in IndexedDB
-                        storePlantInIDB(sessionAuthor, base64);
+                        storePlantInIDB();
 
                         navigator.serviceWorker.ready
-                            .then(function (serviceWorkerRegistration) {
+                            .then(function(serviceWorkerRegistration) {
                                 serviceWorkerRegistration.showNotification("Plant added while offline!", {
                                     body: "Please refresh the page when back online..."
                                 });
                             });
 
-                        window.location.href = '/';
+                        // window.location.href = '/';
                     }
                 });
             });
@@ -59,36 +59,37 @@ document.getElementById("add_plant").addEventListener("submit", function(e) {
 });
 
 function storePlantInIDB() {
-            
-            
-            // Construct plantData inside the promise
-            let plantData = {
-                date: document.getElementById('date_time_seen').value,
-                longitude: document.getElementById('longitude').value,
-                latitude: document.getElementById('latitude').value,
-                description: document.getElementById('description').value,
-                size: {
-                    height: document.getElementById('plant_height').value,
-                    spread: document.getElementById('plant_spread').value
-                },
-                characteristics: {
-                    flowers: document.querySelector('[name="flowers"]').checked,
-                    leaves: document.querySelector('[name="leaves"]').checked,
-                    fruits: document.querySelector('[name="fruits"]').checked,
-                    thorns: document.querySelector('[name="thorns"]').checked,
-                    seeds: document.querySelector('[name="seeds"]').checked
-                },
-                sunExposure: document.getElementById('sun_exposure').value,
-                identification: {
-                    name: document.getElementById('identification_name').value,
-                    status: "In Progress",
-                },
-                photo: document.getElementById('base64Image').value,
-                user: document.getElementById('user_nickname').value,
-                chatMessages: [] 
-            };
+    console.log("STORING PLANTS")
 
-            // Use the IndexedDB utility to store the plant
-            addPlantToSync(plantData);
+
+    // Construct plantData inside the promise
+    let plantData = {
+        date: document.getElementById('date_time_seen').value,
+        longitude: document.getElementById('longitude').value,
+        latitude: document.getElementById('latitude').value,
+        description: document.getElementById('description').value,
+        size: {
+            height: document.getElementById('plant_height').value,
+            spread: document.getElementById('plant_spread').value
+        },
+        characteristics: {
+            flowers: document.querySelector('[name="flowers"]').checked,
+            leaves: document.querySelector('[name="leaves"]').checked,
+            fruits: document.querySelector('[name="fruits"]').checked,
+            thorns: document.querySelector('[name="thorns"]').checked,
+            seeds: document.querySelector('[name="seeds"]').checked
+        },
+        sunExposure: document.getElementById('sun_exposure').value,
+        identification: {
+            name: document.getElementById('identification_name').value,
+            status: "In Progress",
+        },
+        photo: document.getElementById('base64Image').value,
+        user: document.getElementById('user_nickname').value,
+        chatMessages: []
+    };
+
+    // Use the IndexedDB utility to store the plant
+    addPlantToSync(plantData);
 
 }
