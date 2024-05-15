@@ -13,11 +13,11 @@
     <div class="heading" id="update_button_heading">
       <h1>Sighting details: <%= data.identification.name %>
       </h1>
-      <% if (data.identification.status !== 'completed' ) { %>
-      <button class="edit-button" id="update_button" hidden
-        onclick="location.href='/update-plant?id=<%= data._id %>'">Update Sighting</button>
-      <% } else { %>
-      <% } %>
+      <% if (data.identification.status !=='completed' ) { %>
+        <button class="edit-button" id="update_button" hidden
+          onclick="location.href='/update-plant?id=<%= data._id %>'">Update Sighting</button>
+        <% } else { %>
+          <% } %>
     </div>
     <div class="details-container">
       <img src=<%=data.photo %> class="sighting-image">
@@ -59,7 +59,7 @@
     </div> -->
   </div>
 
-  <div>
+  <div class="container1">
     <h1>DBPedia</h1>
     <% if (found) { %>
       <h2>Description</h2>
