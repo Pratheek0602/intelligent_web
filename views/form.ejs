@@ -8,14 +8,13 @@
     <link rel='stylesheet' href='/stylesheets/form.css' />
 </head>
 
-<body onload="checkCredentials(correct_submission)">
+<body>
     <h2> Add plant </h2>
     <div class="container">
         <form action="/add-plant" id="add_plant" method="POST">
             <label for="date_time_seen">Date/Time Seen:</label>
             <input type="datetime-local" id="date_time_seen" name="date_time_seen" required>
             <br> <br>
-            
             <label for="description">Description:</label>
             <textarea name="description" id="description" rows="5" cols="20" required>
             </textarea>
@@ -28,10 +27,10 @@
 
             <label for="plant_size"><b>Plant Size:</b></label>
             <label for="plant_height">Height (cm):</label>
-            <input type="number" id="plant_height" name="plant_height" required>
+            <input type="number" step="0.01" id="plant_height" name="plant_height" required>
 
             <label for="plant_spread">Spread (cm):</label>
-            <input type="number" id="plant_spread" name="plant_spread" required>
+            <input type="number" step="0.01" id="plant_spread" name="plant_spread" required>
 
 
             <label for="plant_characteristics"><b>Plant Characteristics:</b></label>
@@ -57,7 +56,7 @@
             </select>
             <br><br>
             <label for="identification_name">Identification Name:</label>
-            <input type="text" id="identification_name" name="identification_name">
+            <input type="text" id="identification_name" name="identification_name" value="Unknown">
             <br><br>
             <label for="upload_photo">Upload Photo:</label>
             <input type="file" id="upload_photo" name="upload_photo" required>
@@ -72,11 +71,6 @@
         </form>
     </div>
 </body>
-<script>
-    function checkCredentials(isSubmissionValid) {
-        if (!isSubmissionValid) {alert('Invalid Submission! Please check your submission.')}
-    }
-</script>
 
 <script type="module" src="javascripts/formSubmission.js"></script>
 
