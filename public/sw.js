@@ -47,7 +47,7 @@ self.addEventListener('install', event => {
     console.log('Service Worker: Caching App Shell at the moment......');
 
     try {
-      const cache = await caches.open("chat-app-shell");
+      const cache = await caches.open("app-shell-cache");
       await cache.addAll([
         '/',
         '/stylesheets/form.css',
@@ -59,6 +59,7 @@ self.addEventListener('install', event => {
         '/javascripts/idb-utility.js',
         '/javascripts/viewPlant.js',
         '/javascripts/formSubmission.js',
+        '/images/plant-image.png',
       ]);
       console.log('Service Worker: App Shell Cached');
     } catch (error) {
@@ -78,14 +79,28 @@ self.addEventListener('activate', event => {
   );
 });
 
-// self.addEventListener('fetch', event => {
-//   event.respondWith(
-//     caches.match(event.request).then(cachedResponse => {
-//       return cachedResponse || fetch(event.request);
-//     })
-//   );
-// });
+/*
+self.addEventListener('fetch', event => {
+  console.log('Service Worker: Fetch', event.request.url);
+  console.log("Url", event.request.url);
 
+  event.respondWith(
+    caches.match(event.request).then(cachedResponse => {
+      return cachedResponse || fetch(event.request);
+    })
+  );
+});
+*/
+/*
+self.addEventListener('fetch', function(event) {
+  event.respondWith(
+    fetch(event.request).catch(function() {
+      return caches.match(event.request);
+    }),
+  );
+});
+
+/*
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request).then(cachedResponse => {
@@ -100,7 +115,35 @@ self.addEventListener('fetch', event => {
   );
 });
 
+*/
+self.addEventListener('fetch', function(event) {
+  event.respondWith(
+    // Try the network
+    fetch(event.request)
+      .then(function(res) {
+        return caches.open("dynamic-cache")
+          .then(function(cache) {
+            // Put in cache if succeeds
+            cache.put(event.request.url, res.clone());
+            return res;
+          })
+      })
+      .catch(function() {
+        // Fallback to cache
+        return caches.match(event.request)
+          .then(function(res) {
+            if (res === undefined) {
+              return caches.match('/');
+            }
+            return res;
+          }
+          );
+      })
+  );
+})
 
+
+/*
 self.addEventListener('sync', event => {
   if (event.tag === 'messages') {
     event.waitUntil(syncChatMessages());
@@ -109,6 +152,7 @@ self.addEventListener('sync', event => {
     // sync chat listings
   }
 });
+*/
 
 async function syncChatMessages() {
   console.log("Starting message synchronization...");

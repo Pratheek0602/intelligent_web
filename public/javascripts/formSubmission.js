@@ -47,7 +47,7 @@ document.getElementById("add_plant").addEventListener("submit", function(e) {
                                 });
                             });
 
-                        // window.location.href = '/';
+                        window.location.href = '/';
                     }
                 });
             });

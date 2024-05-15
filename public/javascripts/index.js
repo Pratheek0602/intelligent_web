@@ -6,7 +6,7 @@ let currentQuery;
 // Register service worker to control making site work offline
 window.onload = function() {
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js', { scope: '/' })
+        navigator.serviceWorker.register('/sw.js', { scope: './' })
             .then(function(reg) {
                 console.log('Service Worker Registered!', reg);
             })
@@ -52,14 +52,14 @@ window.onload = function() {
         console.log("Online mode")
 
         syncPlants()
-        
+
         // var addedPlant = syncPlants()
 
         fetch('http://localhost:3000/plants')
             .then(function(res) {
                 return res.json();
             }).then(function(plants) {
-                
+
                 openPlantsIDB().then((db) => {
                     addPlantListings(plants);
                     deleteAllExistingPlantsFromIDB(db).then(() => {
@@ -69,7 +69,7 @@ window.onload = function() {
                     });
                 });
             });
-    } 
+    }
 }
 
 const addPlantListings = (plants) => {
