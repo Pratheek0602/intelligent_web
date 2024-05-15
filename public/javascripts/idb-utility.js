@@ -38,6 +38,30 @@ export function openPlantsIDB() {
     });
 }
 
+// Used to open indexedDB containing plant listings
+function openAddPlantsIDB() {
+    console.log("OPEN PLANT IDB")
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open("addPlants", 1);
+
+        request.onerror = function(event) {
+            reject(new Error(`Database error: ${event.target.errorCode}`));
+        };
+
+        request.onupgradeneeded = function(event) {
+            const db = event.target.result;
+            // Create an object store with autoIncrement set to true
+            if (!db.objectStoreNames.contains('addPlants')) {
+                db.createObjectStore('addPlants', {autoIncrement: true });
+            }
+        };
+
+        request.onsuccess = function(event) {
+            resolve(event.target.result);
+        };
+    });
+}
+
 export function openUsernameIDB() {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open("plant", 1);
@@ -209,3 +233,107 @@ export function deleteSyncedMessage() {
         })
     });
 };
+
+export function addPlantToSync(plantData) {
+    console.log("Attempting to add plant data:", plantData, JSON.stringify(plantData, null, 2));
+    openAddPlantsIDB().then(db => {
+        const transaction = db.transaction(['addPlants'], 'readwrite');
+        const store = transaction.objectStore('addPlants');
+        const request = store.add(plantData);
+
+        request.onsuccess = () => {
+            console.log('Plant data added to the sync store:', request.result);
+        };
+
+        request.onerror = (event) => {
+            console.error('Failed to add plant data to the sync store:', event.target.error);
+        };
+    }).catch(error => {
+        console.error('Failed to open IndexedDB:', error);
+    });
+}
+
+// Retrieve all plants to sync when coming back online
+export function getAllAddedPlantsToSync() {
+    return new Promise((resolve, reject) => {
+        openAddPlantsIDB().then(db => {
+            const transaction = db.transaction(['addPlants'], 'readonly');
+            const store = transaction.objectStore('addPlants');
+            const request = store.getAll();
+            request.onsuccess = () => {
+                resolve(request.result);
+            };
+            request.onerror = (event) => {
+                console.error('Failed to retrieve messages:', event.target.error);
+                reject(event.target.error);
+            };
+        }).catch(error => {
+            console.error('Failed to open IndexedDB:', error);
+            reject(error);
+        });
+    });
+};
+
+export function deleteSyncedPlants() {
+    console.log("Clearing all messages from IndexedDB");
+    return new Promise((resolve, reject) => { // Return a new promise to handle success or error states
+        openAddPlantsIDB().then((db) => {
+            const transaction = db.transaction(['addPlants'], 'readwrite');
+            const store = transaction.objectStore('addPlants');
+            const clearRequest = store.clear();
+
+            clearRequest.onsuccess = () => {
+                console.log("All new plants have been successfully deleted.");
+                resolve(); // Resolve the promise when clearing is successful
+            };
+
+            clearRequest.onerror = (event) => {
+                console.error("Error clearing messages:", event.target.error);
+                reject(event.target.error); // Reject the promise when an error occurs
+            };
+        }).catch((error) => {
+            console.error('Error opening IndexedDB:', error);
+            reject(error); // Reject the promise when opening DB fails
+        })
+    });
+};
+
+export function syncPlants(){
+    
+    getAllAddedPlantsToSync().then((plantsToSync) => {
+        for (const plantData of plantsToSync) {
+            const formData = new URLSearchParams();
+            formData.append("date_time_seen", plantData.date);
+            formData.append("longitude", plantData.longitude);
+            formData.append("latitude", plantData.latitude);
+            formData.append("description", plantData.description);
+            formData.append("plant_height", plantData.size.height);
+            formData.append("plant_spread", plantData.size.spread);
+            formData.append("checkbox1", plantData.characteristics.flowers);
+            formData.append("checkbox2", plantData.characteristics.leaves);
+            formData.append("checkbox3", plantData.characteristics.fruits);
+            formData.append("checkbox4", plantData.characteristics.thorns);
+            formData.append("checkbox5", plantData.characteristics.seeds);
+            formData.append("sun_exposure", plantData.sunExposure);
+            formData.append("identification_name", plantData.identification.name);
+            formData.append("base64Image", plantData.photo);
+            formData.append("user_nickname", plantData.user);
+
+            fetch('http://localhost:3000/add-plant', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+            }).then(() => {
+                console.log('Service Worker: Syncing new Plant: ', formData, ' done');
+            }).catch((err) => {
+                console.log('Service Worker: Syncing new Plant: ', formData, ' failed');
+            });
+        };
+    },)
+    deleteSyncedPlants()
+    
+}
+
+
