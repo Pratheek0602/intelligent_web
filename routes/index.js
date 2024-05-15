@@ -52,7 +52,8 @@ router.get('/add-plant', function(req, res, next) {
 router.post('/add-plant', async function(req, res, next) {
   await create({
     date: req.body.date_time_seen,
-    location: req.body.location,
+    longitude: req.body.longitude,
+    latitude: req.body.latitude,
     description: req.body.description,
     size: {
       height: req.body.plant_height,
@@ -67,7 +68,7 @@ router.post('/add-plant', async function(req, res, next) {
     },
     identification: {
       name: req.body.identification_name,
-      status: "lol"//req.body.identification_name,
+      status: "In Progress"//req.body.identification_name,
     },
     sunExposure: req.body.sun_exposure,
     // flowersColour: req.body.flowers_colour,

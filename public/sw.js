@@ -78,13 +78,28 @@ self.addEventListener('activate', event => {
   );
 });
 
+// self.addEventListener('fetch', event => {
+//   event.respondWith(
+//     caches.match(event.request).then(cachedResponse => {
+//       return cachedResponse || fetch(event.request);
+//     })
+//   );
+// });
+
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request).then(cachedResponse => {
-      return cachedResponse || fetch(event.request);
+      if (cachedResponse) {
+        return cachedResponse;  // Serve from cache
+      }
+      return fetch(event.request).catch(() => {
+        // Redirect to offline page when the request fails
+        return caches.match('/');
+      });
     })
   );
 });
+
 
 self.addEventListener('sync', event => {
   if (event.tag === 'messages') {

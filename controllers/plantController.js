@@ -4,8 +4,9 @@ const plantModel = require('../models/plants');
 exports.create = function(userData) {
   let plant = new plantModel({
     date: userData.date,
-    location: userData.location,
     description: userData.description,
+    longitude: userData.longitude,
+    latitude: userData.latitude,
     size: {
       height: userData.size.height,
       spread: userData.size.spread,
