@@ -1,4 +1,7 @@
-import { openPlantsIDB, addNewPlantsToIDB, deleteAllExistingPlantsFromIDB, getAllPlants } from "./idb-utility.js";
+import { openPlantsIDB, addNewPlantsToIDB, deleteAllExistingPlantsFromIDB, getAllPlants, syncPlants } from "./idb-utility.js";
+
+let currentSort = "date-asc";
+let currentQuery;
 
 // Register service worker to control making site work offline
 window.onload = function() {
@@ -36,11 +39,27 @@ window.onload = function() {
             });
         }
     }
+    if (!navigator.onLine) {
+        console.log("Offline mode")
+        openPlantsIDB().then((db) => {
+            getAllPlants(db).then((plants) => {
+                addPlantListings(plants);
+            });
+        });
+
+    }
     if (navigator.onLine) {
+        console.log("Online mode")
+
+        syncPlants()
+        
+        // var addedPlant = syncPlants()
+
         fetch('http://localhost:3000/plants')
             .then(function(res) {
                 return res.json();
             }).then(function(plants) {
+                
                 openPlantsIDB().then((db) => {
                     addPlantListings(plants);
                     deleteAllExistingPlantsFromIDB(db).then(() => {
@@ -50,21 +69,41 @@ window.onload = function() {
                     });
                 });
             });
-
-    } else {
-        console.log("Offline mode")
-        openPlantsIDB().then((db) => {
-            getAllPlants(db).then((plants) => {
-                addPlantListings(plants);
-            });
-        });
-
-    }
+    } 
 }
 
 const addPlantListings = (plants) => {
 
     const element = document.getElementById("plant-cards-container");
+
+    if (currentQuery != undefined) {
+        plants = plants.filter((plant) => {
+            for (const obj in currentQuery.characteristics) {
+                if (currentQuery.characteristics[obj] !== plant.characteristics[obj]) {
+                    return false;
+                }
+            }
+            if (currentQuery.sunExposure !== plant.sunExposure && currentQuery.sunExposure !== undefined) {
+                return false;
+            }
+            return true;
+        });
+    }
+
+
+    if (currentSort === "date-desc") {
+        plants.sort((a, b) => {
+            const aDate = new Date(a.date);
+            const bDate = new Date(b.date);
+            return aDate - bDate
+        });
+    } else if (currentSort === "date-asc") {
+        plants.sort((b, a) => {
+            const aDate = new Date(a.date);
+            const bDate = new Date(b.date);
+            return aDate - bDate
+        });
+    }
 
     while (element.firstChild) {
         element.removeChild(element.firstChild);
@@ -73,6 +112,7 @@ const addPlantListings = (plants) => {
     for (const plant of plants) {
         element.appendChild(createPlantCard(plant));
     }
+
 };
 
 const createPlantCard = (plant) => {
@@ -99,9 +139,6 @@ const createQuery = (items) => {
     };
 
 
-    // TODO:Change this to be a for loop that iterates throught the items
-    // and changes the strings to be the related key values in the plants object
-    //
     if (items.includes("with_flower")) {
         query.characteristics.flowers = true;
     } else if (items.includes("without_flower")) {
@@ -144,26 +181,18 @@ const createQuery = (items) => {
 }
 
 document.getElementById("sort-date-asc").addEventListener("click", () => {
+    currentSort = "date-asc";
     openPlantsIDB().then((db) => {
         getAllPlants(db).then((plants) => {
-            plants.sort((a, b) => {
-                const aDate = new Date(a.date);
-                const bDate = new Date(b.date);
-                return bDate - aDate
-            });
             addPlantListings(plants);
         });
     });
 })
 
 document.getElementById("sort-date-desc").addEventListener("click", () => {
+    currentSort = "date-desc";
     openPlantsIDB().then((db) => {
         getAllPlants(db).then((plants) => {
-            plants.sort((a, b) => {
-                const aDate = new Date(a.date);
-                const bDate = new Date(b.date);
-                return aDate - bDate
-            });
             addPlantListings(plants);
         });
     });
@@ -175,26 +204,10 @@ document.getElementById("plant-features").addEventListener("change", () => {
 
     if (category !== "select") {
         let items = [category]
-        const query = createQuery(items);
-
-        console.log(`Query: ${query}`);
+        currentQuery = createQuery(items);
 
         openPlantsIDB().then((db) => {
             getAllPlants(db).then((plants) => {
-                plants = plants.filter((plant) => {
-                    for (const obj in query.characteristics) {
-                        if (query.characteristics[obj] !== plant.characteristics[obj]) {
-                            return false;
-                        }
-                    }
-                    if (query.sunExposure !== plant.sunExposure && query.sunExposure !== undefined) {
-                        return false;
-                    }
-                    return true;
-                });
-
-                console.log(`Chosen plants: ${plants}`)
-
                 addPlantListings(plants);
             });
         });

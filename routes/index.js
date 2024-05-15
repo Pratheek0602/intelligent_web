@@ -52,19 +52,75 @@ router.get('/login', async function(req, res, next) {
 router.get('/plant', function(req, res, next) {
   let plant_id = req.query.id;
   let result = getSelectedPlant(plant_id);
-  console.log(result)
 
 
   result.then(plant => {
-    res.render('plant_details', {
-      title: 'Plant Details',
-      data: plant[0]
-    });
+    const plantResource = plant[0].identification.name.replaceAll(" ", "_");
+    const resourceURL = `http://dbpedia.org/resource/${plantResource}`
+
+    console.log(resourceURL)
+    const endpointUrl = 'http://dbpedia.org/sparql'
+
+    const sparqlQuery = `
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX dbo: <http://dbpedia.org/ontology/>
+    PREFIX dbp: <http://dbpedia.org/property/>
+  
+    SELECT ?comment ?genus ?species
+    WHERE {
+    <${resourceURL}> dbp:genus ?genus .
+    <${resourceURL}> dbp:species ?species .
+    <${resourceURL}> rdfs:comment ?comment .
+    FILTER(langMatches(lang(?comment), "en")) .
+    }`;
+
+    const encodedQuery = encodeURIComponent(sparqlQuery);
+
+    const fetchURL = `${endpointUrl}?query=${encodedQuery}&format=json`;
+
+    let fetchPromise = fetch(fetchURL);
+
+    let dbpediaResponse = {
+      comment: "",
+      genus: "",
+      species: ""
+    };
+
+    fetchPromise.catch((e) => {
+      console.log(`Couldnt fetch, failed with error ${e}`)
+      res.render('plant_details', {
+        title: 'Plant Details',
+        data: plant[0],
+        found: false,
+        dbpedia: dbpediaResponse
+      });
+    })
+
+
+
+    fetchPromise.then(fetchRes => fetchRes.json()).then(data => {
+      bindings = data.results.bindings;
+      let plantFound = false;
+      if (!bindings || bindings.length != 0) {
+        plantFound = true;
+        dbpediaResponse.comment = bindings[0].comment.value;
+        dbpediaResponse.genus = bindings[0].genus.value;
+        dbpediaResponse.species = bindings[0].species.value;
+      }
+
+      res.render('plant_details', {
+        title: 'Plant Details',
+        data: plant[0],
+        found: plantFound,
+        dbpedia: dbpediaResponse
+      })
+    })
+
   })
 });
 
 router.get('/add-plant', function(req, res, next) {
-  res.render('form', { title: 'Plant Details', correct_submission: 'true' });
+  res.render('form', { title: 'Add Plant' });
 });
 
 router.post('/add-plant', upload.single('upload_photo'), async function(req, res, next) {
@@ -72,7 +128,8 @@ router.post('/add-plant', upload.single('upload_photo'), async function(req, res
   let filePath = req.file.path;
   await create({
     date: req.body.date_time_seen,
-    location: req.body.location,
+    longitude: req.body.longitude,
+    latitude: req.body.latitude,
     description: req.body.description,
     size: {
       height: req.body.plant_height,

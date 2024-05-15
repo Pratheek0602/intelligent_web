@@ -4,8 +4,9 @@ const plantModel = require('../models/plants');
 exports.create = function(userData, filePath) {
   let plant = new plantModel({
     date: userData.date,
-    location: userData.location,
     description: userData.description,
+    longitude: userData.longitude,
+    latitude: userData.latitude,
     size: {
       height: userData.size.height,
       spread: userData.size.spread,
@@ -53,8 +54,6 @@ exports.getAllPlants = function() {
 exports.getSelectedPlant = function(plantID) {
   // Execute query to find the plant record matching the plantID
   return plantModel.find({ _id: plantID }).then(plant => {
-    console.log(plant);
-
     //return plant;
     return plant;
   }).catch(err => {
