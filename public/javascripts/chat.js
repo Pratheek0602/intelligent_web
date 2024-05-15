@@ -46,8 +46,13 @@ import { addMessageToSync, getAllMessagesToSync, deleteSyncedMessage } from './i
       if (!navigator.onLine) {
         // The browser is offline, store the message in IndexedDB
         // console.log("GOING HERE", messageData);
-        addMessageToSync(messageData)
-
+        addMessageToSync(messageData),
+        navigator.serviceWorker.ready
+            .then(function (serviceWorkerRegistration) {
+                serviceWorkerRegistration.showNotification("System is offline!", {
+                    body: "Your messages will appear when back online..."
+                });
+            });
       } 
       else {
         // The   is online, emit the message via socket
