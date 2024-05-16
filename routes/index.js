@@ -175,17 +175,17 @@ router.get('/update-plant', function(req, res, next) {
   res.render('update_plant', { plantID: plant_id });
 });
 
-router.post('/update-plant', upload.single('upload_photo'),function(req, res, next) {
+router.post('/update-plant', upload.single('upload_photo'), async function(req, res, next) {
   let plant_id = req.body.plant_id;
   let filePath;
+
   if (req.file) {
     filePath = req.file.path;
   }
-  console.log("butter", filePath)
-  // else {
-  //   filePath = req.body.base64Image;
-  // }
-  updatePlantIdentification(req, res, filePath) // pass arguments
+
+  console.log("butter", filePath, req.file);
+
+  await updatePlantIdentification(req, res, filePath); // await the async function
 
   res.redirect(`/plant?id=${plant_id}`);
 });

@@ -11,10 +11,9 @@
 <body>
     <h2> Update Plant </h2>
     <div class="container">
-        <form action="/update-plant" method="POST">
+        <form action="/update-plant" method="POST" enctype="multipart/form-data">
 
             <label for="plant_name">Identification name:</label>
-            <input type="text" id="plant_name" name="plant_name" >
             <input type="text" id="plant_name" name="plant_name" >
             <br>
 
@@ -70,7 +69,7 @@
             <br><br>
             
             <label for="upload_photo">Upload Photo:</label>
-            <input type="file" id="upload_photo" name="upload_photo" accept="image/*" required>
+            <input type="file" id="upload_photo" name="upload_photo" accept="image/*">
             <br><br>
             
             <label for="plant_id" style="display: none;">Plant ID:</label>
