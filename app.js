@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var plantsRouter = require('./routes/plantRoutes');
 var plantsRouter = require('./routes/plants');
+const bodyParser = require('body-parser');
 
 var app = express();
 
@@ -41,6 +42,9 @@ app.use('/chat.js', (req, res) => {
   res.sendFile(__dirname + '/chat.js');
 });
 
+
+app.use(bodyParser.json({ limit: '10mb' }));  // Increase JSON body limit
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));  // Increase URL-encoded body limit
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
