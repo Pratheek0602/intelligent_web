@@ -5,6 +5,35 @@ let currentQuery;
 
 // Register service worker to control making site work offline
 window.onload = function() {
+    if (navigator.onLine) {
+        console.log("Online mode")
+
+         syncPlants()
+
+        fetch('http://localhost:3000/plants')
+            .then(function(res) {
+                return res.json();
+            }).then(function(plants) {
+                openPlantsIDB().then((db) => {
+                    addPlantListings(plants);
+                    deleteAllExistingPlantsFromIDB(db).then(() => {
+                        addNewPlantsToIDB(db, plants).then(() => {
+                            console.log("All new plants added to IDB")
+                        })
+                    });
+                });
+            });
+    } 
+    else {
+        console.log("Offline mode")
+        openPlantsIDB().then((db) => {
+            getAllPlants(db).then((plants) => {
+                addPlantListings(plants);
+            });
+        });
+
+    }
+
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js', { scope: '/' })
             .then(function(reg) {
@@ -39,37 +68,11 @@ window.onload = function() {
             });
         }
     }
-    if (!navigator.onLine) {
-        console.log("Offline mode")
-        openPlantsIDB().then((db) => {
-            getAllPlants(db).then((plants) => {
-                addPlantListings(plants);
-            });
-        });
-
-    }
-    if (navigator.onLine) {
-        console.log("Online mode")
-
-        syncPlants()
-        
-        // var addedPlant = syncPlants()
-
-        fetch('http://localhost:3000/plants')
-            .then(function(res) {
-                return res.json();
-            }).then(function(plants) {
-                openPlantsIDB().then((db) => {
-                    addPlantListings(plants);
-                    deleteAllExistingPlantsFromIDB(db).then(() => {
-                        addNewPlantsToIDB(db, plants).then(() => {
-                            console.log("All new plants added to IDB")
-                        })
-                    });
-                });
-            });
-    } 
 }
+
+window.addEventListener('load', () => {
+    syncPlants();
+});
 
 const addPlantListings = (plants) => {
 

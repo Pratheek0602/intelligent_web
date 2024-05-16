@@ -48,7 +48,7 @@ document.getElementById("add_plant").addEventListener("submit", function(e) {
                                 });
                             });
 
-                        // window.location.href = '/';
+                        window.location.href = '/';
                     }
                 });
             });
@@ -61,8 +61,6 @@ document.getElementById("add_plant").addEventListener("submit", function(e) {
 
 function storePlantInIDB(simulatedFilePath) {
     console.log("STORING PLANTS", document.getElementById('base64Image').value)
-
-
 
     // Construct plantData inside the promise
     let plantData = {
