@@ -123,37 +123,69 @@ router.get('/add-plant', function(req, res, next) {
   res.render('form', { title: 'Add Plant' });
 });
 
-router.post('/add-plant', upload.single('upload_photo'), async function(req, res, next) {
-  console.log(req);
-  let filePath = req.file.path;
-  await create({
-    date: req.body.date_time_seen,
-    longitude: req.body.longitude,
-    latitude: req.body.latitude,
-    description: req.body.description,
-    size: {
-      height: req.body.plant_height,
-      spread: req.body.plant_spread
-    },
-    characteristics: {
-      flowers: req.body.flowers === "Flowers",
-      leaves: req.body.leaves === "Leaves",
-      fruits: req.body.fruits === "Fruits",
-      thorns: req.body.thorns === "Thorns",
-      seeds: req.body.seeds === "Seeds",
-    },
-    identification: {
-      name: req.body.identification_name,
-      status: "In Progress"//req.body.identification_name,
-    },
-    sunExposure: req.body.sun_exposure,
-    // flowersColour: req.body.flowers_colour,
-    // Handling for file upload will be required here for `photo`
-    user: req.body.user_nickname
-  }, filePath);
+router.post('/add-plant', async function(req, res, next) {
+    await create({
+      date: req.body.date_time_seen,
+      longitude: req.body.longitude,
+      latitude: req.body.latitude,
+      description: req.body.description,
+      size: {
+        height: req.body.plant_height,
+        spread: req.body.plant_spread
+      },
+      characteristics: {
+        flowers: req.body.flowers === "Flowers",
+        leaves: req.body.leaves === "Leaves",
+        fruits: req.body.fruits === "Fruits",
+        thorns: req.body.thorns === "Thorns",
+        seeds: req.body.seeds === "Seeds",
+      },
+      identification: {
+        name: req.body.identification_name,
+        status: "In Progress"//req.body.identification_name,
+      },
+      sunExposure: req.body.sun_exposure,
+      // flowersColour: req.body.flowers_colour,
+      photo: req.body.base64Image,
+      // Handling for file upload will be required here for `photo`
+      user: req.body.user_nickname
+    });
+  
+    res.redirect('/');
+  });
+  
 
-  res.redirect('/');
-});
+// router.post('/add-plant', upload.single('upload_photo'), async function(req, res, next) {
+//   console.log(req);
+//   // let filePath = req.file.path;
+//   await create({
+//     date: req.body.date_time_seen,
+//     longitude: req.body.longitude,
+//     latitude: req.body.latitude,
+//     description: req.body.description,
+//     size: {
+//       height: req.body.plant_height,
+//       spread: req.body.plant_spread
+//     },
+//     characteristics: {
+//       flowers: req.body.flowers === "Flowers",
+//       leaves: req.body.leaves === "Leaves",
+//       fruits: req.body.fruits === "Fruits",
+//       thorns: req.body.thorns === "Thorns",
+//       seeds: req.body.seeds === "Seeds",
+//     },
+//     identification: {
+//       name: req.body.identification_name,
+//       status: "In Progress"//req.body.identification_name,
+//     },
+//     sunExposure: req.body.sun_exposure,
+//     // flowersColour: req.body.flowers_colour,
+//     // Handling for file upload will be required here for `photo`
+//     user: req.body.user_nickname
+//   }, filePath);
+
+//   res.redirect('/');
+// });
 
 router.get('/update-plant', function(req, res, next) {
   let plant_id = req.query.id;
