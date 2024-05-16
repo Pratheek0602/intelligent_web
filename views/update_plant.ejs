@@ -67,10 +67,13 @@
                 <option value="full_shade">Full Shade</option>
             </select>
             <br><br>
-
-            // hide
-            <label for="plant_id"> Plant ID: </label>
-            <input type="text" id="plant_id" name="plant_id" value="<%= plantID %>">
+            
+            <!-- <label for="plant_id"> Plant ID: </label>
+            <input type="text" id="plant_id" name="plant_id" value="<%= plantID %>" disabled>
+            <br> -->
+            
+            <label for="plant_id" style="display: none;">Plant ID:</label>
+            <input type="text" id="plant_id" name="plant_id" value="<%= plantID %>" readonly style="display: none;">
             <br>
 
             <div style="text-align: center;">

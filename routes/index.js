@@ -176,33 +176,8 @@ router.get('/update-plant', function(req, res, next) {
 });
 
 router.post('/update-plant', function(req, res, next) {
-  // let plant_name = req.body.plant_name;
-  // console.log("Plant name - ", plant_name);
-
-  // let plant_status = req.body.plant_status;
-  // console.log("Plant status -", plant_status)
 
   let plant_id = req.body.plant_id;
-
-  // let date = req.body.date_time_seen;
-  // let desc = req.body.description;
-
-  // console.log("Plant desc -", desc)
-  // let lat = req.body.latitude;
-  // let long = req.body.longitude;
-  // let height = req.body.plant_height;
-  // let spread = req.body.plant_spread;
-  // let flowers = req.body.flowers;
-  // let leaves = req.body.leaves;
-  // let fruits = req.body.fruits;
-  // let thorns = req.body.thorns;
-  // let seeds = req.body.seeds;
-  // let sunExposure = req.body.sun_exposure;
-
-  // console.log("hERERERERER")
-
-  // do something with the new values - update the DB record
-
   updatePlantIdentification(req, res) // pass arguments
 
   res.redirect(`/plant?id=${plant_id}`);
