@@ -95,27 +95,74 @@ async function getSortedPlants(req, res) {
 
 // UPDATE DATA
 exports.updatePlantIdentification = async (req, res) => {
+  console.log("hERERERERER")
   try {
-    // Extract the plant ID from the route parameter
     const plantId = req.body.plant_id;
     console.log(plantId)
 
     const plant_name = req.body.plant_name;
-
     const plant_status = req.body.plant_status;
-
-    // First, find the plant record to ensure it exists and to check the user's permission
     const plant = await plantModel.find({ _id: plantId });
+
     console.log(plant)
 
     if (!plant) {
       return res.status(404).json({ message: "Plant record not found." });
     }
-
-    // Update the identification section of the plant record
+    if (req.body.date_time_seen) {
+      plant[0].date = req.body.date_time_seen;
+    }
+    if (req.body.description) {
+      plant[0].description = req.body.description;
+    }
+    if (req.body.latitude) {
+      plant[0].latitude= req.body.latitude
+    }
+    if (req.body.longitude) {
+      plant[0].longitude= req.body.longitude
+    }
+    if (req.body.plant_height) {
+      plant[0].size.height = req.body.plant_height
+    
+    }
+    if (req.body.plant_spread) {
+      plant[0].size.spread = req.body.plant_spread
+      
+    }
+    if (req.body.flowers) { 
+      plant[0].characteristics.flowers = true;
+    }
+    else {
+      plant[0].characteristics.flowers = false;
+    }
+    if (req.body.leaves) {
+      plant[0].characteristics.leaves = true;
+    }
+    else {
+      plant[0].characteristics.leaves = false;
+    }
+    if (req.body.fruits) {
+      plant[0].characteristics.fruits = true;
+    }
+    else {
+      plant[0].characteristics.fruits = false;
+    }
+    if (req.body.thorns) {
+      plant[0].characteristics.thorns = true;
+    }
+    else {
+      plant[0].characteristics.thorns = false;
+    }
+    if (req.body.seeds) {
+      plant[0].characteristics.seeds = true;
+    }
+    else {
+      plant[0].characteristics.seeds = false;
+    }
+    if (req.body.sun_exposure) {
+      plant[0].sunExposure = req.body.sun_exposure;
+    }
     plant[0].identification.name = plant_name;
-    // console.log("hi");
-    // console.log(plant.identification);
     plant[0].identification.status = plant_status;
 
     await plant[0].save();

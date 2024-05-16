@@ -59,11 +59,9 @@ document.getElementById("add_plant").addEventListener("submit", function(e) {
 });
 
 function storePlantInIDB() {
-            
-            
-            // Construct plantData inside the promise
-            let plantData = {
-                date: document.getElementById('date_time_seen').value,
+    // Construct plantData inside the promise
+    let plantData = {
+        date: document.getElementById('date_time_seen').value,
                 longitude: document.getElementById('longitude').value,
                 latitude: document.getElementById('latitude').value,
                 description: document.getElementById('description').value,
@@ -83,7 +81,7 @@ function storePlantInIDB() {
                     name: document.getElementById('identification_name').value,
                     status: "In Progress",
                 },
-                photo: document.getElementById('base64Image').value,
+                photo: document.getElementById('upload_photo').value,
                 user: document.getElementById('user_nickname').value,
                 chatMessages: [] 
             };

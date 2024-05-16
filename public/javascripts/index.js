@@ -59,7 +59,6 @@ window.onload = function() {
             .then(function(res) {
                 return res.json();
             }).then(function(plants) {
-                
                 openPlantsIDB().then((db) => {
                     addPlantListings(plants);
                     deleteAllExistingPlantsFromIDB(db).then(() => {
