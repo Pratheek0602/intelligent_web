@@ -11,7 +11,7 @@
 <body>
   <div class="container1">
     <div class="heading" id="update_button_heading">
-      <h1>Sighting details for <%= data.identification.name %>
+      <h1>Sighting details: <%= data.identification.name %>
       </h1>
       <% if (data.identification.status !== 'completed' ) { %>
       <button class="edit-button" id="update_button" hidden
@@ -29,7 +29,7 @@
         </p>
         <p>Date/Time Seen: <%= data.date %>
         </p>
-        <p>Location: <%= data.location %>
+        <p>Location: (<%= data.longitude %>, <%= data.latitude %>)
         </p>
         <h4>Plant Size</h4>
         <p>Height:<%= data.size.height %>, Spread:<%= data.size.spread %>
@@ -44,8 +44,6 @@
         <p>Does the plant have seeds? <%= data.characteristics.seeds %>
         </p>
         <p>What is the sun exposure in that area? <%= data.sunExposure %>
-        </p>
-        <p>what is the colour of the flowers? <%= data.characteristics.flowers %>
         </p>
         <h4>Status</h4>
         <p>Identification Status: <%= data.identification.status %>

@@ -1,4 +1,4 @@
-import { openPlantsIDB, addNewPlantsToIDB, deleteAllExistingPlantsFromIDB, getAllPlants } from "./idb-utility.js";
+import { openPlantsIDB, addNewPlantsToIDB, deleteAllExistingPlantsFromIDB, getAllPlants, syncPlants } from "./idb-utility.js";
 
 // Register service worker to control making site work offline
 window.onload = function() {
@@ -36,11 +36,27 @@ window.onload = function() {
             });
         }
     }
+    if (!navigator.onLine) {
+        console.log("Offline mode")
+        openPlantsIDB().then((db) => {
+            getAllPlants(db).then((plants) => {
+                addPlantListings(plants);
+            });
+        });
+
+    }
     if (navigator.onLine) {
+        console.log("Online mode")
+
+        syncPlants()
+        
+        // var addedPlant = syncPlants()
+
         fetch('http://localhost:3000/plants')
             .then(function(res) {
                 return res.json();
             }).then(function(plants) {
+                
                 openPlantsIDB().then((db) => {
                     addPlantListings(plants);
                     deleteAllExistingPlantsFromIDB(db).then(() => {
@@ -50,16 +66,7 @@ window.onload = function() {
                     });
                 });
             });
-
-    } else {
-        console.log("Offline mode")
-        openPlantsIDB().then((db) => {
-            getAllPlants(db).then((plants) => {
-                addPlantListings(plants);
-            });
-        });
-
-    }
+    } 
 }
 
 const addPlantListings = (plants) => {
