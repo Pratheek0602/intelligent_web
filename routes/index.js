@@ -125,7 +125,12 @@ router.get('/add-plant', function(req, res, next) {
 
 router.post('/add-plant', upload.single('upload_photo'), async function(req, res, next) {
   console.log(req);
-  let filePath = req.file.path;
+  let filePath;
+  if (req.file) {
+    filePath = req.file.path;
+  } else {
+    filePath = req.body.base64Image;
+  }
   await create({
     date: req.body.date_time_seen,
     longitude: req.body.longitude,
