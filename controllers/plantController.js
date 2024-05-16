@@ -94,20 +94,19 @@ async function getSortedPlants(req, res) {
 }
 
 // UPDATE DATA
-exports.updatePlantIdentification = async (req, res) => {
-  console.log("hERERERERER")
+exports.updatePlantIdentification = async (req, res, filePath) => {
   try {
     const plantId = req.body.plant_id;
-    console.log(plantId)
-
-    const plant_name = req.body.plant_name;
     const plant_status = req.body.plant_status;
     const plant = await plantModel.find({ _id: plantId });
 
-    console.log(plant)
+    console.log("herererer", filePath)
 
     if (!plant) {
       return res.status(404).json({ message: "Plant record not found." });
+    }
+    if (req.body.plant_name) {
+      plant[0].identification.name = req.body.plant_name;
     }
     if (req.body.date_time_seen) {
       plant[0].date = req.body.date_time_seen;
@@ -123,7 +122,6 @@ exports.updatePlantIdentification = async (req, res) => {
     }
     if (req.body.plant_height) {
       plant[0].size.height = req.body.plant_height
-    
     }
     if (req.body.plant_spread) {
       plant[0].size.spread = req.body.plant_spread
@@ -162,7 +160,9 @@ exports.updatePlantIdentification = async (req, res) => {
     if (req.body.sun_exposure) {
       plant[0].sunExposure = req.body.sun_exposure;
     }
-    plant[0].identification.name = plant_name;
+    if (filePath) {
+      plant[0].photo = filePath;
+    }
     plant[0].identification.status = plant_status;
 
     await plant[0].save();

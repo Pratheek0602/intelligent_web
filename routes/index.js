@@ -23,7 +23,7 @@ var storage = multer.diskStorage({
 const upload = multer({
   limits: {
     fieldNameSize: 100,        // Max field name size
-    fieldSize: 1024 * 1024 * 2, // 2 MB (max field value size)
+    fieldSize: 1024 * 1024 * 10, // 10 MB (max field value size)
     fileSize: 1024 * 1024 * 10, // 10 MB (for files)
     
   },
@@ -105,8 +105,6 @@ router.get('/plant', function(req, res, next) {
       });
     })
 
-
-
     fetchPromise.then(fetchRes => fetchRes.json()).then(data => {
       bindings = data.results.bindings;
       let plantFound = false;
@@ -137,9 +135,11 @@ router.post('/add-plant', upload.single('upload_photo'), async function(req, res
   let filePath;
   if (req.file) {
     filePath = req.file.path;
-  } else {
-    filePath = req.body.base64Image;
-  }
+  } 
+  // else {
+  //   filePath = req.body.base64Image;
+  // }
+  console("filepath", filePath)
   await create({
     date: req.body.date_time_seen,
     longitude: req.body.longitude,
@@ -175,10 +175,17 @@ router.get('/update-plant', function(req, res, next) {
   res.render('update_plant', { plantID: plant_id });
 });
 
-router.post('/update-plant', function(req, res, next) {
-
+router.post('/update-plant', upload.single('upload_photo'),function(req, res, next) {
   let plant_id = req.body.plant_id;
-  updatePlantIdentification(req, res) // pass arguments
+  let filePath;
+  if (req.file) {
+    filePath = req.file.path;
+  }
+  console.log("butter", filePath)
+  // else {
+  //   filePath = req.body.base64Image;
+  // }
+  updatePlantIdentification(req, res, filePath) // pass arguments
 
   res.redirect(`/plant?id=${plant_id}`);
 });
