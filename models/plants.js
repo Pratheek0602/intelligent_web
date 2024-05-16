@@ -16,7 +16,8 @@ const messageSchema = new Schema({
 
 let PlantSchema = new Schema({
   date: { type: Date, required: true },
-  location: { type: String, required: true },
+  longitude: { type: Number, required: true },
+  latitude: { type: Number, required: true },
   description: { type: String, max: 300, required: true },
   size: {
     height: { type: Number, required: true },
@@ -31,7 +32,7 @@ let PlantSchema = new Schema({
   },
   sunExposure : { type: String, required: true },
   identification: {
-    name: { type: String, required: true },
+    name: { type: String, default: 'Unknown', required: true },
     status: { type: String, required: true },
   },
   photo: { type: String, required: true },

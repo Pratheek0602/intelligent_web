@@ -8,26 +8,27 @@
     <link rel='stylesheet' href='/stylesheets/form.css' />
 </head>
 
-<body onload="checkCredentials(correct_submission)">
+<body>
     <h2> Add plant </h2>
     <div class="container">
         <form action="/add-plant" id="add_plant" method="POST">
             <label for="date_time_seen">Date/Time Seen:</label>
             <input type="datetime-local" id="date_time_seen" name="date_time_seen" required>
             <br> <br>
-            <label for="location">Location:</label>
-            <input type="text" id="location" name="location" required>
-
-            <label for="description">Description:</label>
-            <textarea name="description" rows="5" cols="20">
             </textarea>
+
+            <label for="location"><b>Geolocation:</b></label>
+            <label for="longitude">Longitude:</label>
+            <input type="number" step="0.01" id="longitude" name="longitude" required>
+            <label for="latitude">Latitude:</label>
+            <input type="number" step="0.01" id="latitude" name="latitude" required>
 
             <label for="plant_size"><b>Plant Size:</b></label>
             <label for="plant_height">Height (cm):</label>
-            <input type="number" id="plant_height" name="plant_height" required>
+            <input type="number" step="0.01" id="plant_height" name="plant_height" required>
 
             <label for="plant_spread">Spread (cm):</label>
-            <input type="number" id="plant_spread" name="plant_spread" required>
+            <input type="number" step="0.01" id="plant_spread" name="plant_spread" required>
 
 
             <label for="plant_characteristics"><b>Plant Characteristics:</b></label>
@@ -52,23 +53,14 @@
                 <option value="full_shade">Full Shade</option>
             </select>
             <br><br>
-
-            <div>
-                <label id="flowers_colour_label" for="flowers_colour">Flowers Colour:</label>
-                <input type="color" id="flowers_colour" name="flowers_colour" required>
-                <label id="flowers_colour_label" for="flowers_colour">(choose the color)</label>
-            </div>
-
-            <br><br>
-
             <label for="identification_name">Identification Name:</label>
-            <input type="text" id="identification_name" name="identification_name">
+            <input type="text" id="identification_name" name="identification_name" value="Unknown">
             <br><br>
             <label for="upload_photo">Upload Photo:</label>
             <input type="file" id="upload_photo" name="upload_photo" required>
             <br><br>
-            <label for="user_nickname">User Nickname:</label>
-            <input type="text" id="user_nickname" name="user_nickname" required>
+            <!-- <label for="user_nickname">User Nickname:</label>
+            <input type="text" id="user_nickname" name="user_nickname" required> -->
             <br><br>
             <div style="text-align: center;">
                 <input type="submit" value="Submit">
@@ -77,12 +69,10 @@
         </form>
     </div>
 </body>
-<script>
-    function checkCredentials(isSubmissionValid) {
-        if (!isSubmissionValid) {alert('Invalid Submission! Please check your submission.')}
-    }
-</script>
 
-<script src="javascripts/formSubmission.js"></script>
+<script type="module" src="javascripts/formSubmission.js"></script>
+
+<!-- <script src="javascripts/formSubmission.js"></script> -->
+
 
 </html>

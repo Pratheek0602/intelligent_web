@@ -5,6 +5,22 @@ var router = express.Router();
 const { create, getAllPlants, getSelectedPlant, getSortedPlants, updatePlantIdentification } = require('../controllers/plantController');
 
 
+var multer = require('multer');
+
+var storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, 'public/images/uploads/');
+  },
+  filename: function(req, file, cb) {
+    var original = file.originalname;
+    var file_extension = original.split(".");
+    var filename = Date.now() + '.' + file_extension[file_extension.length - 1];
+    cb(null, filename);
+  }
+});
+
+let upload = multer({ storage: storage });
+
 /* GET home page. */
 router.get('/', async function(req, res, next) {
   try {
@@ -104,38 +120,72 @@ router.get('/plant', function(req, res, next) {
 });
 
 router.get('/add-plant', function(req, res, next) {
-  res.render('form', { title: 'Plant Details', correct_submission: 'true' });
+  res.render('form', { title: 'Add Plant' });
 });
 
 router.post('/add-plant', async function(req, res, next) {
-  await create({
-    date: req.body.date_time_seen,
-    location: req.body.location,
-    description: req.body.description,
-    size: {
-      height: req.body.plant_height,
-      spread: req.body.plant_spread
-    },
-    characteristics: {
-      flowers: req.body.flowers === "Flowers",
-      leaves: req.body.leaves === "Leaves",
-      fruits: req.body.fruits === "Fruits",
-      thorns: req.body.thorns === "Thorns",
-      seeds: req.body.seeds === "Seeds",
-    },
-    identification: {
-      name: req.body.identification_name,
-      status: "lol"//req.body.identification_name,
-    },
-    sunExposure: req.body.sun_exposure,
-    // flowersColour: req.body.flowers_colour,
-    photo: req.body.base64Image,
-    // Handling for file upload will be required here for `photo`
-    user: req.body.user_nickname
+    await create({
+      date: req.body.date_time_seen,
+      longitude: req.body.longitude,
+      latitude: req.body.latitude,
+      description: req.body.description,
+      size: {
+        height: req.body.plant_height,
+        spread: req.body.plant_spread
+      },
+      characteristics: {
+        flowers: req.body.flowers === "Flowers",
+        leaves: req.body.leaves === "Leaves",
+        fruits: req.body.fruits === "Fruits",
+        thorns: req.body.thorns === "Thorns",
+        seeds: req.body.seeds === "Seeds",
+      },
+      identification: {
+        name: req.body.identification_name,
+        status: "In Progress"//req.body.identification_name,
+      },
+      sunExposure: req.body.sun_exposure,
+      // flowersColour: req.body.flowers_colour,
+      photo: req.body.base64Image,
+      // Handling for file upload will be required here for `photo`
+      user: req.body.user_nickname
+    });
+  
+    res.redirect('/');
   });
+  
 
-  res.redirect('/');
-});
+// router.post('/add-plant', upload.single('upload_photo'), async function(req, res, next) {
+//   console.log(req);
+//   // let filePath = req.file.path;
+//   await create({
+//     date: req.body.date_time_seen,
+//     longitude: req.body.longitude,
+//     latitude: req.body.latitude,
+//     description: req.body.description,
+//     size: {
+//       height: req.body.plant_height,
+//       spread: req.body.plant_spread
+//     },
+//     characteristics: {
+//       flowers: req.body.flowers === "Flowers",
+//       leaves: req.body.leaves === "Leaves",
+//       fruits: req.body.fruits === "Fruits",
+//       thorns: req.body.thorns === "Thorns",
+//       seeds: req.body.seeds === "Seeds",
+//     },
+//     identification: {
+//       name: req.body.identification_name,
+//       status: "In Progress"//req.body.identification_name,
+//     },
+//     sunExposure: req.body.sun_exposure,
+//     // flowersColour: req.body.flowers_colour,
+//     // Handling for file upload will be required here for `photo`
+//     user: req.body.user_nickname
+//   }, filePath);
+
+//   res.redirect('/');
+// });
 
 router.get('/update-plant', function(req, res, next) {
   let plant_id = req.query.id;
@@ -148,6 +198,19 @@ router.post('/update-plant', function(req, res, next) {
   console.log("Plant name - ", plant_name);
 
   let plant_status = req.body.plant_status;
+  let date = req.body.date_time_seen;
+  let desc = req.body.description;
+  let lat = req.body.latitude;
+  let long = req.body.longitude;
+  let height = req.body.plant_height;
+  let spread = req.body.plant_spread;
+  let flowers = req.body.flowers;
+  let leaves = req.body.leaves;
+  let fruits = req.body.fruits;
+  let thorns = req.body.thorns;
+  let seeds = req.body.seeds;
+  let sunExposure = req.body.sun_exposure;
+
   console.log("Plant status -", plant_status)
 
   let plant_id = req.body.plant_id;
@@ -161,3 +224,5 @@ router.post('/update-plant', function(req, res, next) {
 
 
 module.exports = router;
+
+// 
