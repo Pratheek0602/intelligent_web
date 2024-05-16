@@ -19,7 +19,16 @@ var storage = multer.diskStorage({
   }
 });
 
-let upload = multer({ storage: storage });
+// let upload = multer({ storage: storage });
+const upload = multer({
+  limits: {
+    fieldNameSize: 100,        // Max field name size
+    fieldSize: 1024 * 1024 * 2, // 2 MB (max field value size)
+    fileSize: 1024 * 1024 * 10, // 10 MB (for files)
+    
+  },
+  storage: storage
+});
 
 /* GET home page. */
 router.get('/', async function(req, res, next) {
