@@ -1,4 +1,8 @@
 var express = require('express');
+const path = require('path');
+const fs = require('fs');
+
+
 var router = express.Router();
 
 // Import the controller functions
@@ -131,15 +135,16 @@ router.get('/add-plant', function(req, res, next) {
 });
 
 router.post('/add-plant', upload.single('upload_photo'), async function(req, res, next) {
-  console.log(req);
+  console.log("saw", req.body);
   let filePath;
   if (req.file) {
     filePath = req.file.path;
   } 
-  // else {
-  //   filePath = req.body.base64Image;
-  // }
-  console("filepath", filePath)
+  else {
+    filePath = await saveBase64Image(req.body.base64Image);
+    // filePath = req.body.base64Image;
+  }
+  // console("filepath", filePath)
   await create({
     date: req.body.date_time_seen,
     longitude: req.body.longitude,
@@ -168,6 +173,48 @@ router.post('/add-plant', upload.single('upload_photo'), async function(req, res
 
   res.redirect('/');
 });
+
+// async function saveBase64Image(base64String) {
+//   // Remove the data:image/jpeg;base64, prefix from the base64 string
+//   const base64Data = base64String.replace(/^data:image\/jpeg;base64,/, '');
+
+//   // // Generate a unique filename for the image
+//   const fileName = Date.now() + '.jpg';
+//   // const filePath = path.join('localhost:3000', 'public', 'images', 'uploads', fileName);
+//   const filePath = path.join(__dirname, '..', 'public', 'images', 'uploads', fileName);
+
+//   // Decode the base64 string to binary data
+//   const decodedData = Buffer.from(base64Data, 'base64');
+
+//   // Write the binary data to a file on the server's file system
+//   await fs.promises.writeFile(filePath, decodedData);
+
+//   return "public/images/uploads/"+fileName;
+// }
+
+async function saveBase64Image(base64String) {
+  // Extract the image format (e.g., jpeg, png) from the base64 string
+  const matches = base64String.match(/^data:image\/([a-zA-Z+]+);base64,/);
+  if (!matches) {
+      throw new Error('Invalid base64 string: missing image format');
+  }
+  const imageFormat = matches[1];
+
+  // Remove the data:image/jpeg;base64, prefix from the base64 string
+  const base64Data = base64String.replace(/^data:image\/[a-zA-Z+]+;base64,/, '');
+
+  // Generate a unique filename for the image
+  const fileName = Date.now() + '.' + imageFormat;
+  const filePath = path.join(__dirname, '..', 'public', 'images', 'uploads', fileName);
+
+  // Decode the base64 string to binary data
+  const decodedData = Buffer.from(base64Data, 'base64');
+
+  // Write the binary data to a file on the server's file system
+  await fs.promises.writeFile(filePath, decodedData);
+
+  return "public/images/uploads/" + fileName;
+}
 
 router.get('/update-plant', function(req, res, next) {
   let plant_id = req.query.id;

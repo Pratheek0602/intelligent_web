@@ -299,10 +299,17 @@ export function deleteSyncedPlants() {
 };
 
 export function syncPlants(){
-    
     getAllAddedPlantsToSync().then((plantsToSync) => {
         for (const plantData of plantsToSync) {
             const formData = new URLSearchParams();
+            
+            // let photoUrl;
+            // console.log()
+            // if (plantData.photo.files.length > 0) {
+            //     const filename = plantData.photo.files[0].name;
+            //     photoUrl = `/uploads/${filename}`; // Assuming '/uploads' is the URL where images are served
+            // }
+
             formData.append("date_time_seen", plantData.date);
             formData.append("longitude", plantData.longitude);
             formData.append("latitude", plantData.latitude);
@@ -335,5 +342,4 @@ export function syncPlants(){
     deleteSyncedPlants()
     
 }
-
 

@@ -10,20 +10,14 @@ document.getElementById("add_plant").addEventListener("submit", function(e) {
         reader.readAsDataURL(image);
         reader.onload = () => {
             let base64 = reader.result;
-            console.log(base64);
+            
             let base64Input = document.createElement("input");
             base64Input.setAttribute("type", "hidden");
             base64Input.setAttribute("name", "base64Image");
             base64Input.setAttribute("id", "base64Image");
             base64Input.setAttribute("value", base64);
             document.getElementById("add_plant").appendChild(base64Input);
-
-            let filePath;
-            if (req.file) {
-                filePath = req.file.path;
-                document.getElementById('upload_photo').value = filePath
-            }
-            console("filepath", filePath)
+            const simulatedFilePath= `/public/images/uploads/${image.name}`;
 
             if (document.getElementById('identification_name').value === "") {
                 document.getElementById('identification_name').value = " "
@@ -45,7 +39,7 @@ document.getElementById("add_plant").addEventListener("submit", function(e) {
                         document.getElementById("add_plant").submit();
                     } else {
                         // If offline, store the data in IndexedDB
-                        storePlantInIDB();
+                        storePlantInIDB(simulatedFilePath);
 
                         navigator.serviceWorker.ready
                             .then(function(serviceWorkerRegistration) {
@@ -54,7 +48,7 @@ document.getElementById("add_plant").addEventListener("submit", function(e) {
                                 });
                             });
 
-                        window.location.href = '/';
+                        // window.location.href = '/';
                     }
                 });
             });
@@ -65,8 +59,9 @@ document.getElementById("add_plant").addEventListener("submit", function(e) {
     }
 });
 
-function storePlantInIDB() {
-    console.log("STORING PLANTS")
+function storePlantInIDB(simulatedFilePath) {
+    console.log("STORING PLANTS", document.getElementById('base64Image').value)
+
 
 
     // Construct plantData inside the promise
@@ -91,8 +86,9 @@ function storePlantInIDB() {
             name: document.getElementById('identification_name').value,
             status: "In Progress",
         },
-        photo: document.getElementById('base64Image').value, //
-        // photo: document.getElementById('upload_photo').value,
+        // photo: document.getElementById('base64Image').value, //
+        path: simulatedFilePath,
+        photo: document.getElementById('base64Image').value,
         user: document.getElementById('user_nickname').value,
         chatMessages: []
     };
