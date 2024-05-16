@@ -13,7 +13,7 @@
     <div class="heading" id="update_button_heading">
       <h1>Sighting details: <%= data.identification.name %>
       </h1>
-      <% if (data.identification.status !=='completed' ) { %>
+      <% if (data.identification.status !=='Completed' ) { %>
         <button class="edit-button" id="update_button" hidden
           onclick="location.href='/update-plant?id=<%= data._id %>'">Update Sighting</button>
         <% } else { %>
