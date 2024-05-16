@@ -9,14 +9,14 @@ document.getElementById("add_plant").addEventListener("submit", function(e) {
         let reader = new FileReader();
         reader.readAsDataURL(image);
         reader.onload = () => {
-            // let base64 = reader.result;
-            // console.log(base64);
-            // let base64Input = document.createElement("input");
-            // base64Input.setAttribute("type", "hidden");
-            // base64Input.setAttribute("name", "base64Image");
-            // base64Input.setAttribute("id", "base64Image");
-            // base64Input.setAttribute("value", base64);
-            // document.getElementById("add_plant").appendChild(base64Input);
+            let base64 = reader.result;
+            console.log(base64);
+            let base64Input = document.createElement("input");
+            base64Input.setAttribute("type", "hidden");
+            base64Input.setAttribute("name", "base64Image");
+            base64Input.setAttribute("id", "base64Image");
+            base64Input.setAttribute("value", base64);
+            document.getElementById("add_plant").appendChild(base64Input);
 
             let filePath;
             if (req.file) {
@@ -91,8 +91,8 @@ function storePlantInIDB() {
             name: document.getElementById('identification_name').value,
             status: "In Progress",
         },
-        //photo: document.getElementById('base64Image').value, //
-        photo: document.getElementById('upload_photo').value,
+        photo: document.getElementById('base64Image').value, //
+        // photo: document.getElementById('upload_photo').value,
         user: document.getElementById('user_nickname').value,
         chatMessages: []
     };
