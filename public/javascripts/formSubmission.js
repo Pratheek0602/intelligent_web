@@ -84,7 +84,7 @@ function storePlantInIDB() {
             name: document.getElementById('identification_name').value,
             status: "In Progress",
         },
-        photo: document.getElementById('base64Image').value,
+        photo: document.getElementById('base64Image').value, //photo: document.getElementById('upload_photo').value,
         user: document.getElementById('user_nickname').value,
         chatMessages: []
     };
