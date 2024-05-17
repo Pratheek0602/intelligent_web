@@ -26,30 +26,30 @@
       <img src=<%=data.photo %> class="sighting-image">
 
       <div class="sighting-details">
-        <p>Added by:  <%= data.user %>
-        <p>Description: <%= data.description %>
-        </p>
-        <p>Date/Time Seen: <%= data.date %>
-        </p>
-        <p>Location: (<%= data.longitude %>, <%= data.latitude %>)
-        </p>
-        <h4>Plant Size</h4>
-        <p>Height:<%= data.size.height %>, Spread:<%= data.size.spread %>
-        </p>
-        <h4>Plant Characteristics</h4>
-        <p>Does the plant have flowers? <%= data.characteristics.flowers %>
-        </p>
-        <p>Does the plant have leaves? <%= data.characteristics.leaves %>
-        </p>
-        <p>Does the plant have fruits? <%= data.characteristics.fruits %>
-        </p>
-        <p>Does the plant have seeds? <%= data.characteristics.seeds %>
-        </p>
-        <p>What is the sun exposure in that area? <%= data.sunExposure %>
-        </p>
-        <h4>Status</h4>
-        <p>Identification Status: <%= data.identification.status %>
-        </p>
+        <p>Added by: <%= data.user %>
+            <p>Description: <%= data.description %>
+            </p>
+            <p>Date/Time Seen: <%= data.date %>
+            </p>
+            <p>Location: (<%= data.longitude %>, <%= data.latitude %>)
+            </p>
+            <h4>Plant Size</h4>
+            <p>Height:<%= data.size.height %>, Spread:<%= data.size.spread %>
+            </p>
+            <h4>Plant Characteristics</h4>
+            <p>Does the plant have flowers? <%= data.characteristics.flowers %>
+            </p>
+            <p>Does the plant have leaves? <%= data.characteristics.leaves %>
+            </p>
+            <p>Does the plant have fruits? <%= data.characteristics.fruits %>
+            </p>
+            <p>Does the plant have seeds? <%= data.characteristics.seeds %>
+            </p>
+            <p>What is the sun exposure in that area? <%= data.sunExposure %>
+            </p>
+            <h4>Status</h4>
+            <p>Identification Status: <%= data.identification.status %>
+            </p>
       </div>
       <p id="plant-user" hidden>
         <%= data.user%>
@@ -71,6 +71,10 @@
       <h2>Species</h2>
       <p>
         <%=dbpedia.species%>
+      </p>
+      <h2> DBPedia Resource </h2>
+      <p>
+        <a href="<%=dbpedia.url%>">Link</a>
       </p>
       <% } else { %>
         <p> Could not find information on dbpedia, ensure name given is scientific name.</p>
