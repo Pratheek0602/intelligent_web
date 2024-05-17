@@ -364,46 +364,6 @@ export function deleteSyncedPlants() {
     });
 };
 
-// /**
-//  * Syncs all added plants with the server.
-//  * @function
-//  */
-// export function syncPlants(){
-//     getAllAddedPlantsToSync().then((plantsToSync) => {
-//         for (const plantData of plantsToSync) {
-//             const formData = new URLSearchParams();
-//             formData.append("date_time_seen", plantData.date);
-//             formData.append("longitude", plantData.longitude);
-//             formData.append("latitude", plantData.latitude);
-//             formData.append("description", plantData.description);
-//             formData.append("plant_height", plantData.size.height);
-//             formData.append("plant_spread", plantData.size.spread);
-//             formData.append("checkbox1", plantData.characteristics.flowers);
-//             formData.append("checkbox2", plantData.characteristics.leaves);
-//             formData.append("checkbox3", plantData.characteristics.fruits);
-//             formData.append("checkbox4", plantData.characteristics.thorns);
-//             formData.append("checkbox5", plantData.characteristics.seeds);
-//             formData.append("sun_exposure", plantData.sunExposure);
-//             formData.append("identification_name", plantData.identification.name);
-//             formData.append("base64Image", plantData.photo);
-//             formData.append("user_nickname", plantData.user);
-
-//             fetch('http://localhost:3000/add-plant', {
-//                 method: 'POST',
-//                 body: formData,
-//                 headers: {
-//                     'Content-Type': 'application/x-www-form-urlencoded'
-//                 },
-//             }).then(() => {
-//                 console.log('Service Worker: Syncing new Plant: ', formData, ' done');
-//             }).catch((err) => {
-//                 console.log('Service Worker: Syncing new Plant: ', formData, ' failed');
-//             });
-//         };
-//     },)
-    
-// }
-
 /**
  * Syncs all added plants with the server.
  * @function
