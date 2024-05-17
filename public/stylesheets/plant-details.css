@@ -56,13 +56,13 @@ body, html {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(217, 254, 255, 0.749);
+    background-color: rgba(219, 240, 240, 0.749);
     transition: background-color 0.3s;
     z-index: 1;
   }
   
   .home-icon:hover::before {
-    background-color: rgb(168, 226, 244);
+    background-color: rgb(179, 204, 212);
   }
 
   .edit-button:hover{
