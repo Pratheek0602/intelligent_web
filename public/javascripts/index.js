@@ -1,4 +1,4 @@
-import { openPlantsIDB, addNewPlantsToIDB, deleteAllExistingPlantsFromIDB, getAllPlants, syncPlants } from "./idb-utility.js";
+import { openPlantsIDB, deleteSyncedPlants, addNewPlantsToIDB, deleteAllExistingPlantsFromIDB, getAllPlants, syncPlants } from "./idb-utility.js";
 
 let currentSort = "date-asc";
 /**
@@ -10,22 +10,40 @@ let currentQuery;
 // Register service worker to control making site work offline
 window.onload = function() {
     if (navigator.onLine) {
-        syncPlants()
+        // syncPlants()
+        
 
-        // Fetch plant data from server when online
-        fetch('http://localhost:3000/plants')
-            .then(function(res) {
-                return res.json();
-            }).then(function(plants) {
-                openPlantsIDB().then((db) => {
-                    addPlantListings(plants);
-                    deleteAllExistingPlantsFromIDB(db).then(() => {
-                        addNewPlantsToIDB(db, plants).then(() => {
-                            console.log("All new plants added to IDB")
-                        })
+        // // Fetch plant data from server when online
+        // fetch('http://localhost:3000/plants')
+        //     .then(function(res) {
+        //         return res.json();
+        //     }).then(function(plants) {
+        //         openPlantsIDB().then((db) => {
+        //             addPlantListings(plants);
+        //             deleteAllExistingPlantsFromIDB(db).then(() => {
+        //                 addNewPlantsToIDB(db, plants).then(() => {
+        //                     console.log("All new plants added to IDB")
+        //                 })
+        //             });
+        //         });
+        //     });
+        //     deleteSyncedPlants()
+        syncPlants().then(() => {
+            fetch('http://localhost:3000/plants')
+                .then(function(res) {
+                    return res.json();
+                }).then(function(plants) {
+                    openPlantsIDB().then((db) => {
+                        addPlantListings(plants);
+                        deleteAllExistingPlantsFromIDB(db).then(() => {
+                            addNewPlantsToIDB(db, plants).then(() => {
+                                console.log("All new plants added to IDB")
+                            })
+                        });
                     });
                 });
-            });
+                deleteSyncedPlants()
+        });
     } 
     else {
         // Retrieve plant data from IndexedDB when offline
@@ -74,9 +92,11 @@ window.onload = function() {
     }
 }
 
-window.addEventListener('load', () => {
-    syncPlants();
-});
+// window.addEventListener('load', () => {
+//     if (navigator.onLine) {
+//         syncPlants()
+//     }
+// });
 
 /**
  * Adds plant listings to the DOM based on provided plant data.
