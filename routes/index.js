@@ -1,16 +1,12 @@
 var express = require('express');
 const path = require('path');
 const fs = require('fs');
-
-
 var router = express.Router();
 
-// Import the controller functions
-const { create, getAllPlants, getSelectedPlant, getSortedPlants, updatePlantIdentification } = require('../controllers/plantController');
-
+const { create, getAllPlants, getSelectedPlant, updatePlantIdentification } = require('../controllers/plantController');
 
 var multer = require('multer');
-
+// Configure multer disk storage for file uploads.
 var storage = multer.diskStorage({
   destination: function(req, file, cb) {
     cb(null, 'public/images/uploads/');
@@ -23,7 +19,7 @@ var storage = multer.diskStorage({
   }
 });
 
-// let upload = multer({ storage: storage });
+// Configure multer upload settings.
 const upload = multer({
   limits: {
     fieldNameSize: 100,        // Max field name size
@@ -34,7 +30,13 @@ const upload = multer({
   storage: storage
 });
 
-/* GET home page. */
+/**
+ * Route for rendering the home page.
+ * Fetches all plants and renders the 'index' view with plants data.
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object.
+ * @param {NextFunction} next - The next middleware function.
+ */
 router.get('/', async function(req, res, next) {
   try {
     const plants = await getAllPlants(); // Fetch all plants
@@ -44,6 +46,12 @@ router.get('/', async function(req, res, next) {
   }
 });
 
+/**
+ * Route for fetching all plants.
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object.
+ * @param {NextFunction} next - The next middleware function.
+ */
 router.get('/plants', async function(req, res, next) {
   const plants = getAllPlants();
 
@@ -54,18 +62,27 @@ router.get('/plants', async function(req, res, next) {
   plants.catch((err) => {
     res.status(500).send(err);
   });
-
 });
 
+/**
+ * Route for rendering the login page.
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object.
+ * @param {NextFunction} next - The next middleware function.
+ */
 router.get('/login', async function(req, res, next) {
   res.render('username')
 })
 
-// GET plant details page
+/**
+ * GET plant details page.
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ */
 router.get('/plant', function(req, res, next) {
   let plant_id = req.query.id;
   let result = getSelectedPlant(plant_id);
-
 
   result.then(plant => {
     const plantResource = plant[0].identification.name.replaceAll(" ", "_");
@@ -130,10 +147,23 @@ router.get('/plant', function(req, res, next) {
   })
 });
 
+
+/**
+ * GET add plant page.
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ */
 router.get('/add-plant', function(req, res, next) {
   res.render('form', { title: 'Add Plant' });
 });
 
+/**
+ * POST request to add a new plant.
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ */
 router.post('/add-plant', upload.single('upload_photo'), async function(req, res, next) {
   console.log("saw", req.body);
   let filePath;
@@ -142,9 +172,7 @@ router.post('/add-plant', upload.single('upload_photo'), async function(req, res
   } 
   else {
     filePath = await saveBase64Image(req.body.base64Image);
-    // filePath = req.body.base64Image;
   }
-  // console("filepath", filePath)
   await create({
     date: req.body.date_time_seen,
     longitude: req.body.longitude,
@@ -163,35 +191,21 @@ router.post('/add-plant', upload.single('upload_photo'), async function(req, res
     },
     identification: {
       name: req.body.identification_name,
-      status: "In Progress"//req.body.identification_name,
+      status: "In Progress"
     },
     sunExposure: req.body.sun_exposure,
-    // flowersColour: req.body.flowers_colour,
-    // Handling for file upload will be required here for `photo`
     user: req.body.user_nickname
   }, filePath);
 
   res.redirect('/');
 });
 
-// async function saveBase64Image(base64String) {
-//   // Remove the data:image/jpeg;base64, prefix from the base64 string
-//   const base64Data = base64String.replace(/^data:image\/jpeg;base64,/, '');
-
-//   // // Generate a unique filename for the image
-//   const fileName = Date.now() + '.jpg';
-//   // const filePath = path.join('localhost:3000', 'public', 'images', 'uploads', fileName);
-//   const filePath = path.join(__dirname, '..', 'public', 'images', 'uploads', fileName);
-
-//   // Decode the base64 string to binary data
-//   const decodedData = Buffer.from(base64Data, 'base64');
-
-//   // Write the binary data to a file on the server's file system
-//   await fs.promises.writeFile(filePath, decodedData);
-
-//   return "public/images/uploads/"+fileName;
-// }
-
+/**
+ * Saves a base64 encoded image to the server's file system.
+ * @param {string} base64String - Base64 encoded image string.
+ * @returns {string} - File path where the image is saved.
+ * @throws {Error} - If the base64 string is invalid or missing image format.
+ */
 async function saveBase64Image(base64String) {
   // Extract the image format (e.g., jpeg, png) from the base64 string
   const matches = base64String.match(/^data:image\/([a-zA-Z+]+);base64,/);
@@ -216,24 +230,32 @@ async function saveBase64Image(base64String) {
   return "public/images/uploads/" + fileName;
 }
 
+/**
+ * GET route to render the update plant page.
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ */
 router.get('/update-plant', function(req, res, next) {
   let plant_id = req.query.id;
   //plant_id.then(plantID => {
   res.render('update_plant', { plantID: plant_id });
 });
 
+/**
+ * POST route to update plant identification details.
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ */
 router.post('/update-plant', upload.single('upload_photo'), async function(req, res, next) {
   let plant_id = req.body.plant_id;
   let filePath;
-
   if (req.file) {
     filePath = req.file.path;
   }
 
-  console.log("butter", filePath, req.file);
-
-  await updatePlantIdentification(req, res, filePath); // await the async function
-
+  updatePlantIdentification(req, res, filePath); // await the async function
   res.redirect(`/plant?id=${plant_id}`);
 });
 

@@ -1,15 +1,18 @@
 import { openPlantsIDB, addNewPlantsToIDB, deleteAllExistingPlantsFromIDB, getAllPlants, syncPlants } from "./idb-utility.js";
 
 let currentSort = "date-asc";
+/**
+ * Variable to store the current query for filtering plants.
+ * @type {Object}
+ */
 let currentQuery;
 
 // Register service worker to control making site work offline
 window.onload = function() {
     if (navigator.onLine) {
-        console.log("Online mode")
+        syncPlants()
 
-         syncPlants()
-
+        // Fetch plant data from server when online
         fetch('http://localhost:3000/plants')
             .then(function(res) {
                 return res.json();
@@ -25,7 +28,7 @@ window.onload = function() {
             });
     } 
     else {
-        console.log("Offline mode")
+        // Retrieve plant data from IndexedDB when offline
         openPlantsIDB().then((db) => {
             getAllPlants(db).then((plants) => {
                 addPlantListings(plants);
@@ -34,6 +37,7 @@ window.onload = function() {
 
     }
 
+    // Register service worker
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js', { scope: '/' })
             .then(function(reg) {
@@ -74,10 +78,12 @@ window.addEventListener('load', () => {
     syncPlants();
 });
 
+/**
+ * Adds plant listings to the DOM based on provided plant data.
+ * @param {Array<Object>} plants - An array of plant objects.
+ */
 const addPlantListings = (plants) => {
-
     const element = document.getElementById("plant-cards-container");
-
     if (currentQuery != undefined) {
         plants = plants.filter((plant) => {
             for (const obj in currentQuery.characteristics) {
@@ -91,7 +97,6 @@ const addPlantListings = (plants) => {
             return true;
         });
     }
-
 
     if (currentSort === "date-desc") {
         plants.sort((a, b) => {
@@ -117,6 +122,11 @@ const addPlantListings = (plants) => {
 
 };
 
+/**
+ * Creates a plant card element based on plant data.
+ * @param {Object} plant - Plant data object.
+ * @returns {HTMLElement} The plant card element.
+ */
 const createPlantCard = (plant) => {
     const newDiv = document.createElement("div");
     newDiv.setAttribute("class", "plant-card");
@@ -135,12 +145,16 @@ const createPlantCard = (plant) => {
     return newDiv;
 }
 
+/**
+ * Creates a query object based on selected plant features.
+ * @param {Array<string>} items - An array of selected plant features.
+ * @returns {Object} The query object.
+ */
 const createQuery = (items) => {
     const query = {
         characteristics: {}
     };
-
-
+    // Set characteristics based on selected items
     if (items.includes("with_flower")) {
         query.characteristics.flowers = true;
     } else if (items.includes("without_flower")) {
@@ -182,6 +196,7 @@ const createQuery = (items) => {
     return query;
 }
 
+// Event listener for sorting by date ascending
 document.getElementById("sort-date-asc").addEventListener("click", () => {
     currentSort = "date-asc";
     openPlantsIDB().then((db) => {
@@ -191,6 +206,7 @@ document.getElementById("sort-date-asc").addEventListener("click", () => {
     });
 })
 
+// Event listener for sorting by date descending
 document.getElementById("sort-date-desc").addEventListener("click", () => {
     currentSort = "date-desc";
     openPlantsIDB().then((db) => {
@@ -200,6 +216,7 @@ document.getElementById("sort-date-desc").addEventListener("click", () => {
     });
 })
 
+// Event listener for filtering by plant features
 document.getElementById("plant-features").addEventListener("change", () => {
     const category = document.getElementById("plant-features").value;
     console.log(category);

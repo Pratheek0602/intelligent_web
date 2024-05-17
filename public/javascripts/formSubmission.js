@@ -1,3 +1,11 @@
+/**
+ * Handles form submission for adding a new plant.
+ * - Retrieves image data and base64 encodes it
+ * - Stores plant data in IndexedDB if offline
+ * - Submits form if online
+ * @module AddPlant
+*/
+
 import { addPlantToSync, openUsernameIDB, getUsername } from './idb-utility.js';
 
 document.getElementById("add_plant").addEventListener("submit", function(e) {
@@ -59,8 +67,12 @@ document.getElementById("add_plant").addEventListener("submit", function(e) {
     }
 });
 
+/**
+ * Stores plant data in IndexedDB when offline.
+ * @function
+ * @param {string} simulatedFilePath - The simulated file path for the image.
+ */
 function storePlantInIDB(simulatedFilePath) {
-    console.log("STORING PLANTS", document.getElementById('base64Image').value)
 
     // Construct plantData inside the promise
     let plantData = {
@@ -84,8 +96,6 @@ function storePlantInIDB(simulatedFilePath) {
             name: document.getElementById('identification_name').value,
             status: "In Progress",
         },
-        // photo: document.getElementById('base64Image').value, //
-        path: simulatedFilePath,
         photo: document.getElementById('base64Image').value,
         user: document.getElementById('user_nickname').value,
         chatMessages: []

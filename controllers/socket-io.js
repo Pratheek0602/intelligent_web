@@ -1,10 +1,18 @@
-const users = [];
+const Plant = require('../models/plants');
 const rooms = {};
-const Plant = require('../models/plants'); 
 
+/**
+ * Initialize socket.io functionality.
+ * @param {SocketIO.Server} io - Socket.io server instance.
+ * @returns {void}
+ */
 exports.init = function(io) {
     io.on('connection', function (socket) {      
         try {
+            /**
+             * Event handler for joining a plant chat room.
+             * @param {string} plantId - ID of the plant to join chat room.
+             */
             socket.on("joinPlantChat", async (plantId) => {
                 const plant = await Plant.findById(plantId);
                 if (plant && plant.chatMessages) {
@@ -19,6 +27,12 @@ exports.init = function(io) {
                 }
             });
 
+            /**
+             * Event handler for a new user joining a plant chat room.
+             * @param {string} name - Name of the user.
+             * @param {string} plantId - ID of the plant chat room.
+             * @returns {void}
+             */
             socket.on("newuser", (name, plantId) => {
               // Add the socket to the plant room
               socket.join(plantId);
@@ -28,7 +42,6 @@ exports.init = function(io) {
             });
   
             socket.on("chat:send", async (data) => {
-              // console.log("updating planr");
                 const { name, plantId, message } = data;
               
                 try {

@@ -1,5 +1,8 @@
-// sw.js
-// TODO: Can change this to import all idb functions instead of having in both files.
+/**
+ * Opens the IndexedDB for chat messages.
+ * Creates the necessary object store if it doesn't exist.
+ * @returns {Promise<IDBDatabase>} A promise that resolves with the IndexedDB database.
+ */
 function openChatIDB() {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open('chat-messages', 1);
@@ -22,6 +25,12 @@ function openChatIDB() {
   });
 }
 
+/**
+ * Deletes a synced message from the IndexedDB.
+ * @param {IDBDatabase} db - The IndexedDB database.
+ * @param {number} messageId - The ID of the message to delete.
+ * @returns {Promise<void>} A promise that resolves when the message is deleted successfully.
+ */
 function deleteSyncedMessage(db, messageId) {
   return new Promise((resolve, reject) => {
     const transaction = db.transaction(['messages'], 'readwrite');
@@ -78,14 +87,6 @@ self.addEventListener('activate', event => {
   );
 });
 
-// self.addEventListener('fetch', event => {
-//   event.respondWith(
-//     caches.match(event.request).then(cachedResponse => {
-//       return cachedResponse || fetch(event.request);
-//     })
-//   );
-// });
-
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request).then(cachedResponse => {
@@ -110,9 +111,12 @@ self.addEventListener('sync', event => {
   }
 });
 
+/**
+ * Syncs chat messages by sending them to the main application and deleting them from IndexedDB.
+ * @returns {Promise<void>} A promise that resolves when all pending messages are processed.
+ */
 async function syncChatMessages() {
   console.log("Starting message synchronization...");
-
   try {
     const db = await openChatIDB();
     const transaction = db.transaction('messages', 'readwrite');
@@ -158,6 +162,3 @@ async function syncChatMessages() {
     console.error('Failed to open IndexedDB or sync messages:', error);
   }
 }
-
-
-//Create function to sync plant listings

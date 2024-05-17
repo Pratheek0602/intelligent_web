@@ -1,7 +1,13 @@
 const plantModel = require('../models/plants');
 
-//CREATE PLANT SIGHTING
+/**
+ * Create a new plant sighting record in the database.
+ * @param {Object} userData - User input data for the new plant sighting.
+ * @param {string} filePath - File path to the photo of the plant.
+ * @returns {Promise<string|null>} - Promise resolving to JSON string of the created plant record or null if failed.
+ */
 exports.create = function(userData, filePath) {
+  // Create a new plant object using the provided user data
   let plant = new plantModel({
     date: userData.date,
     description: userData.description,
@@ -27,6 +33,7 @@ exports.create = function(userData, filePath) {
     user: userData.user,
   });
 
+  // Save the new plant record to the database
   return plant.save().then(plant => {
     console.log(plant);
 
@@ -39,7 +46,10 @@ exports.create = function(userData, filePath) {
 };
 
 
-// READ DATA
+/**
+ * Retrieve all plant records from the database.
+ * @returns {Promise<Array>} - Promise resolving to an array of plant records.
+ */
 exports.getAllPlants = function() {
   // Execute query to find all plant records without any sorting or filtering
   return plantModel.find({}).then(plants => {
@@ -50,11 +60,14 @@ exports.getAllPlants = function() {
   });
 };
 
-
+/**
+ * Retrieve a specific plant record from the database based on its ID.
+ * @param {string} plantID - ID of the plant record to retrieve.
+ * @returns {Promise<Array>} - Promise resolving to an array containing the requested plant record.
+ */
 exports.getSelectedPlant = function(plantID) {
   // Execute query to find the plant record matching the plantID
   return plantModel.find({ _id: plantID }).then(plant => {
-    //return plant;
     return plant;
   }).catch(err => {
     console.error(err);
@@ -63,7 +76,12 @@ exports.getSelectedPlant = function(plantID) {
 };
 
 
-// READ AND SORT BY DATA
+/**
+ * Retrieve and sort plant records from the database based on sorting preferences.
+ * @param {Request} req - Express request object.
+ * @param {Response} res - Express response object.
+ * @returns {void}
+ */
 async function getSortedPlants(req, res) {
   try {
     // Read sorting preferences from query parameters
@@ -93,7 +111,13 @@ async function getSortedPlants(req, res) {
   }
 }
 
-// UPDATE DATA
+/**
+ * Update an existing plant record in the database with new information.
+ * @param {Request} req - Express request object.
+ * @param {Response} res - Express response object.
+ * @param {string} filePath - File path to the updated photo of the plant.
+ * @returns {void}
+ */
 exports.updatePlantIdentification = async (req, res, filePath) => {
   try {
     const plantId = req.body.plant_id;
@@ -168,7 +192,6 @@ exports.updatePlantIdentification = async (req, res, filePath) => {
     await plant[0].save();
 
   } catch (error) {
-    //res.status(500).json({ message: error.message });
     console.log(error)
   }
 }

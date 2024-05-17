@@ -1,5 +1,9 @@
+/**
+ * Opens the IndexedDB for storing chat messages.
+ * @function
+ * @returns {Promise<IDBDatabase>} Promise that resolves with the IndexedDB database.
+ */
 function openChatIDB() {
-    console.log("OPEN IDB")
     return new Promise((resolve, reject) => {
         const request = indexedDB.open('chat-messages', 1);
 
@@ -18,7 +22,11 @@ function openChatIDB() {
         };
     });
 }
-// Used to open indexedDB containing plant listings
+/**
+ * Opens the IndexedDB containing existing plant listings.
+ * @function
+ * @returns {Promise<IDBDatabase>} Promise that resolves with the IndexedDB database.
+ */
 export function openPlantsIDB() {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open("plants", 1);
@@ -37,8 +45,11 @@ export function openPlantsIDB() {
         };
     });
 }
-
-// Used to open indexedDB containing plant listings
+/**
+ * Opens the IndexedDB for adding new plants.
+ * @function
+ * @returns {Promise<IDBDatabase>} Promise that resolves with the IndexedDB database.
+ */
 function openAddPlantsIDB() {
     console.log("OPEN PLANT IDB")
     return new Promise((resolve, reject) => {
@@ -62,6 +73,11 @@ function openAddPlantsIDB() {
     });
 }
 
+/**
+ * Opens the IndexedDB for storing user data.
+ * @function
+ * @returns {Promise<IDBDatabase>} Promise that resolves with the IndexedDB database.
+ */
 export function openUsernameIDB() {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open("plant", 1);
@@ -81,6 +97,13 @@ export function openUsernameIDB() {
     });
 }
 
+/**
+ * Adds new plants to the IndexedDB for synchronization.
+ * @function
+ * @param {IDBDatabase} plantIDB - The IndexedDB database for plants.
+ * @param {Array<Object>} plants - Array of plant data objects to add.
+ * @returns {Promise} Promise that resolves when the plants are added.
+ */
 export function addNewPlantsToIDB(plantIDB, plants) {
     return new Promise((resolve, reject) => {
         const transaction = plantIDB.transaction(["plants"], "readwrite");
@@ -115,7 +138,12 @@ export function addNewPlantsToIDB(plantIDB, plants) {
     });
 };
 
-
+/**
+ * Deletes all existing plants from the IndexedDB.
+ * @function
+ * @param {IDBDatabase} plantIDB - The IndexedDB database for plants.
+ * @returns {Promise} Promise that resolves when the plants are deleted.
+ */
 export function deleteAllExistingPlantsFromIDB(plantIDB) {
     const transaction = plantIDB.transaction(["plants"], "readwrite");
     const plantStore = transaction.objectStore("plants");
@@ -132,6 +160,12 @@ export function deleteAllExistingPlantsFromIDB(plantIDB) {
     });
 };
 
+/**
+ * Retrieves all plants from the IndexedDB.
+ * @function
+ * @param {IDBDatabase} plantIDB - The IndexedDB database for plants.
+ * @returns {Promise<Array<Object>>} Promise that resolves with an array of plants.
+ */
 export function getAllPlants(plantIDB) {
     return new Promise((resolve, reject) => {
         const transaction = plantIDB.transaction(["plants"]);
@@ -150,6 +184,12 @@ export function getAllPlants(plantIDB) {
     });
 }
 
+/**
+ * Retrieves the username from the IndexedDB.
+ * @function
+ * @param {IDBDatabase} usernameIDB - The IndexedDB database for usernames.
+ * @returns {Promise<Object>} Promise that resolves with the username object.
+ */
 export function getUsername(usernameIDB) {
     return new Promise((resolve, reject) => {
         const transaction = usernameIDB.transaction(["user"]);
@@ -168,7 +208,11 @@ export function getUsername(usernameIDB) {
     });
 }
 
-// This function would be called to save messages when offline
+/**
+ * Saves a message to IndexedDB for syncing when offline.
+ * @function
+ * @param {Object} messageData - The message data to be saved.
+ */
 export function addMessageToSync(messageData) {
     openChatIDB().then((db) => {
         const transaction = db.transaction(['messages'], 'readwrite');
@@ -187,7 +231,11 @@ export function addMessageToSync(messageData) {
     });
 };
 
-// Retrieve all messages to sync when coming back online
+/**
+ * Retrieves all messages to be synced when coming back online.
+ * @function
+ * @returns {Promise<Array<Object>>} Promise that resolves with an array of messages to sync.
+ */
 export function getAllMessagesToSync() {
     console.log("Gettingg all messages");
     return new Promise((resolve, reject) => {
@@ -209,7 +257,11 @@ export function getAllMessagesToSync() {
     });
 };
 
-
+/**
+ * Deletes all synced messages from IndexedDB.
+ * @function
+ * @returns {Promise} Promise that resolves when all synced messages are deleted.
+ */
 export function deleteSyncedMessage() {
     console.log("Clearing all messages from IndexedDB");
     return new Promise((resolve, reject) => { // Return a new promise to handle success or error states
@@ -234,6 +286,11 @@ export function deleteSyncedMessage() {
     });
 };
 
+/**
+ * Adds plant data to IndexedDB for syncing when offline.
+ * @function
+ * @param {Object} plantData - The plant data to be added for syncing.
+ */
 export function addPlantToSync(plantData) {
     console.log("Attempting to add plant data:", plantData, JSON.stringify(plantData, null, 2));
     openAddPlantsIDB().then(db => {
@@ -253,7 +310,11 @@ export function addPlantToSync(plantData) {
     });
 }
 
-// Retrieve all plants to sync when coming back online
+/**
+ * Retrieves all added plants to sync when coming back online.
+ * @function
+ * @returns {Promise<Array<Object>>} Promise that resolves with an array of plants to sync.
+ */
 export function getAllAddedPlantsToSync() {
     return new Promise((resolve, reject) => {
         openAddPlantsIDB().then(db => {
@@ -274,6 +335,11 @@ export function getAllAddedPlantsToSync() {
     });
 };
 
+/**
+ * Deletes all synced plants from IndexedDB.
+ * @function
+ * @returns {Promise} Promise that resolves when all synced plants are deleted.
+ */
 export function deleteSyncedPlants() {
     console.log("Clearing all messages from IndexedDB");
     return new Promise((resolve, reject) => { // Return a new promise to handle success or error states
@@ -298,11 +364,14 @@ export function deleteSyncedPlants() {
     });
 };
 
+/**
+ * Syncs all added plants with the server.
+ * @function
+ */
 export function syncPlants(){
     getAllAddedPlantsToSync().then((plantsToSync) => {
         for (const plantData of plantsToSync) {
             const formData = new URLSearchParams();
-
             formData.append("date_time_seen", plantData.date);
             formData.append("longitude", plantData.longitude);
             formData.append("latitude", plantData.latitude);
@@ -333,6 +402,4 @@ export function syncPlants(){
         };
     },)
     deleteSyncedPlants()
-    
 }
-

@@ -1,9 +1,16 @@
+/**
+ * Handles the database upgrade event by creating an object store for user data.
+ * @param {Event} ev - The upgrade event.
+ */
 const handleUpgrade = (ev) => {
     const db = ev.target.result;
     db.createObjectStore("user");
     console.log("Upgraded object store");
 };
 
+/**
+ * Handles the success event of opening the IndexedDB and retrieves the username if it exists.
+ */
 const handleSuccess = () => {
     const usernameIDB = requestIDB.result;
     const transaction = usernameIDB.transaction(["user"], "readwrite");
@@ -25,6 +32,9 @@ const handleSuccess = () => {
     )
 }
 
+/**
+ * Handles the submission of the username form and adds the username to the IndexedDB.
+ */
 const handleUsernameEntered = () => {
     const username = document.getElementById("username").value;
     if (username != "") {
@@ -39,7 +49,10 @@ const handleUsernameEntered = () => {
     }
 };
 
+// Open the IndexedDB
 const requestIDB = indexedDB.open("plant");
+
+// Event listeners for handling different IndexedDB events
 requestIDB.addEventListener("upgradeneeded", handleUpgrade);
 requestIDB.addEventListener("success", handleSuccess);
 requestIDB.addEventListener("error", (err) => {

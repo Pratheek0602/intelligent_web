@@ -1,5 +1,14 @@
+/**
+ * Module representing a mongoose model for chat messages.
+ * @module chatMsg
+ */
+
 const mongoose = require('mongoose');
 
+/**
+ * Mongoose schema for chat messages.
+ * @type {mongoose.Schema<MessageSchema>}
+ */
 const msgSchema = new mongoose.Schema({
     sender: {
         type: String, 

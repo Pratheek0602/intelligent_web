@@ -1,7 +1,15 @@
+/**
+ * Module representing a mongoose model for plant data.
+ * @module Plant
+ */
+
 let mongoose = require('mongoose');
 
+/**
+ * Mongoose schema for chat messages.
+ * @type {mongoose.Schema<MessageSchema>}
+ */
 let Schema = mongoose.Schema;
-
 const messageSchema = new Schema({
   sender: {
       type: String,
@@ -13,7 +21,10 @@ const messageSchema = new Schema({
   }
 }, { timestamps: true });
 
-
+/**
+ * Mongoose schema for plant data.
+ * @type {mongoose.Schema<PlantSchema>}
+ */
 let PlantSchema = new Schema({
   date: { type: Date, required: true },
   longitude: { type: Number, required: true },
@@ -41,8 +52,6 @@ let PlantSchema = new Schema({
 });
 
 PlantSchema.set('toObject', { getters: true, virtuals: true });
-
-// let Plant = mongoose.model('plants', PlantSchema);
 module.exports = mongoose.model('plants', PlantSchema);
 
 

@@ -4,13 +4,20 @@ var router = express.Router();
 // Import the controller functions
 const {create, getAllPlants, getSortedPlants, updatePlantIdentification } = require('../controllers/plantController');
 
-// Route for getting all plants (just an example)
+/**
+ * GET route to retrieve all plants.
+ */
 router.get('/', getAllPlants);
 
-// Route for creating a new plant
+/**
+ * POST route to create a new plant.
+ */
 router.post('/', create);
 
-// Route for updating the identification section of a plant record
+/**
+ * PATCH route to update the identification section of a plant record.
+ * @param {string} id - The ID of the plant to update.
+ */
 router.patch('/:id/updateIdentification', updatePlantIdentification);
 
 // Export the router so it can be mounted in the main application file
