@@ -3,6 +3,7 @@
 To install the application clone from the github repository and install with node.
 
     git clone git@github.com:Pratheek0602/intelligent_web.git
+    cd intelligent_web/
     npm install
 
 To run the application start your mongodb server based on your operating system then
