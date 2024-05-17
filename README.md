@@ -21,6 +21,11 @@ To install the application, follow these steps:
 ```
 To view the website visit http://localhost:3000/ in your browser
 
+## Video Demo
+
+View the Demo at: https://drive.google.com/file/d/15q-cPO4yfD5b5-jEcPD0Nci4pks6_guS/view?usp=drive_link
+    
+
 ## Github history and source
 
 Source: https://github.com/Pratheek0602/intelligent_web

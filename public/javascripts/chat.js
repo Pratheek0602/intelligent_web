@@ -93,9 +93,6 @@ import { addMessageToSync, getAllMessagesToSync, deleteSyncedMessage,openUsernam
                 socket.emit('chat:send', messageData);
             });
             deleteSyncedMessage();
-            self.registration.showNotification('Messages Synced!', {
-                body: 'Welcome back online, your chats have synced successfully!',
-            });
         }).catch((error) => {
             console.error('Error getting messages to sync:', error);
         });
