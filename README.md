@@ -9,6 +9,7 @@ To install the application, follow these steps:
 2. Navigate into the project directory:
 ```
     cd intelligent_web
+    cd solution
 ```
 
 4. Install the required dependencies using npm:
