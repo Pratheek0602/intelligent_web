@@ -85,7 +85,8 @@ router.get('/plant', function(req, res, next) {
   let result = getSelectedPlant(plant_id);
 
   result.then(plant => {
-    const plantResource = plant[0].identification.name.trim().replaceAll(" ", "_");
+    // const plantResource = plant[0].identification.name.trim().replaceAll(" ", "_");
+    const plantResource = plant && plant[0] && plant[0].identification && plant[0].identification.name ? plant[0].identification.name.trim().replaceAll(" ", "_") : "";
     const resourceURL = `http://dbpedia.org/resource/${plantResource}`
 
     console.log(resourceURL)
