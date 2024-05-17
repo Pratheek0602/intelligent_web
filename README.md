@@ -4,17 +4,12 @@ To install the application, follow these steps:
 
 1. Clone the repository from GitHub:
     git clone git@github.com:Pratheek0602/intelligent_web.git
-
-2. Navigate into the project directory:
-    cd intelligent_web
-
-3. Install the required dependencies using npm:
+    cd intelligent_web/
     npm install
 
-## Starting the Application
-Once the installation is complete, you can start the application using the following command:
-npm start
+To run the application start your mongodb server based on your operating system then
 
-<img width="910" alt="github-contributions" src="public/images/github-contributions.png">
-
-
+    npm start
+    
+To view the website visit http://localhost:3000/ in your browser
+    

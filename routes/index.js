@@ -25,7 +25,7 @@ const upload = multer({
     fieldNameSize: 100,        // Max field name size
     fieldSize: 1024 * 1024 * 10, // 10 MB (max field value size)
     fileSize: 1024 * 1024 * 10, // 10 MB (for files)
-    
+
   },
   storage: storage
 });
@@ -85,7 +85,7 @@ router.get('/plant', function(req, res, next) {
   let result = getSelectedPlant(plant_id);
 
   result.then(plant => {
-    const plantResource = plant[0].identification.name.replaceAll(" ", "_");
+    const plantResource = plant[0].identification.name.trim().replaceAll(" ", "_");
     const resourceURL = `http://dbpedia.org/resource/${plantResource}`
 
     console.log(resourceURL)
@@ -113,7 +113,8 @@ router.get('/plant', function(req, res, next) {
     let dbpediaResponse = {
       comment: "",
       genus: "",
-      species: ""
+      species: "",
+      url: resourceURL
     };
 
     fetchPromise.catch((e) => {
@@ -169,7 +170,7 @@ router.post('/add-plant', upload.single('upload_photo'), async function(req, res
   let filePath;
   if (req.file) {
     filePath = req.file.path;
-  } 
+  }
   else {
     filePath = await saveBase64Image(req.body.base64Image);
   }
@@ -210,7 +211,7 @@ async function saveBase64Image(base64String) {
   // Extract the image format (e.g., jpeg, png) from the base64 string
   const matches = base64String.match(/^data:image\/([a-zA-Z+]+);base64,/);
   if (!matches) {
-      throw new Error('Invalid base64 string: missing image format');
+    throw new Error('Invalid base64 string: missing image format');
   }
   const imageFormat = matches[1];
 

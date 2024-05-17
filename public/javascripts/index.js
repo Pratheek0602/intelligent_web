@@ -11,7 +11,7 @@ let currentQuery;
 window.onload = function() {
     if (navigator.onLine) {
         // syncPlants()
-        
+
 
         // // Fetch plant data from server when online
         // fetch('http://localhost:3000/plants')
@@ -42,9 +42,9 @@ window.onload = function() {
                         });
                     });
                 });
-                deleteSyncedPlants()
+            deleteSyncedPlants()
         });
-    } 
+    }
     else {
         // Retrieve plant data from IndexedDB when offline
         openPlantsIDB().then((db) => {
@@ -57,7 +57,7 @@ window.onload = function() {
 
     // Register service worker
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js', { scope: '/' })
+        navigator.serviceWorker.register('/sw.js', { scope: './' })
             .then(function(reg) {
                 console.log('Service Worker Registered!', reg);
             })
